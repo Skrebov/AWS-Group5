@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import { Authenticator } from '@aws-amplify/ui-react'
+import { Authenticator, CheckboxField } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
 
 const client = generateClient<Schema>();
@@ -20,7 +20,25 @@ function App() {
   }
 
   return (
-    <Authenticator>
+    <Authenticator 
+    components={{
+      SignUp: {
+        FormFields() {
+          return (
+            <>
+              {/* Re-use default `Authenticator.SignUp.FormFields` */}
+              <Authenticator.SignUp.FormFields />
+              {/* Append & require Terms and Conditions field to sign up  */}
+              <CheckboxField
+                name="custom:owner"
+                value="true"
+                label="Owner"
+              />
+            </>
+          );
+        },
+      },
+    }}>
       {({ signOut, user }) => {      
         // print the user
         console.log(user)

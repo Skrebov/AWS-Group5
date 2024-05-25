@@ -21,10 +21,10 @@ export const data = defineData({
   authorizationModes: {
     // This tells the data client in your app (generateClient())
     // to sign API requests with the user authentication token.
-    defaultAuthorizationMode: 'userPool',
-    // apiKeyAuthorizationMode: {
-    //   expiresInDays: 30,
-    // },
+    //defaultAuthorizationMode: 'userPool',
+    apiKeyAuthorizationMode: {
+      expiresInDays: 30,
+    },
   },
 });
 

@@ -12,18 +12,17 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization(allow => [allow.owner()]),
-  // PERSON 
-  Person: a
+  // CUSTOMER 
+  Customer: a
     .model({
-      id_person: a.id().required(),
+      id_customer: a.id().required(),
       name: a.string().required(),
       phone_number: a.string(),
       email: a.string().required(),
       gender: a.string(),
       birthday_date: a.timestamp(),
-      is_owner: a.boolean().required(),
     })
-    .identifier(["id_person"])
+    .identifier(["id_customer"])
     .authorization(allow => [allow.owner()]),
 
   // ITEMS
@@ -55,7 +54,7 @@ const schema = a.schema({
   Receipt: a
     .model({
       id_receipt: a.id().required(),
-      id_person: a.id().required(),
+      id_customer: a.id().required(),
       date_of_purchase: a.timestamp().required(),
       total_price: a.float().required(),
     })

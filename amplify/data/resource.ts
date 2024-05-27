@@ -7,57 +7,52 @@ specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  TODO: a
+  // PERSON 
+  Person: a
     .model({
-      id: a.id(),
+      id_person: a.id().required(),
+      name: a.string().required(),
+      phone_number: a.string(),
+      email: a.string().required(),
+      gender: a.string(),
+      birthday_date: a.timestamp(),
+      is_owner: a.boolean().required(),
     })
-    .authorization(allow => [allow.owner()]),
-  // // PERSON 
-  // Person: a
-  //   .model({
-  //     id_person: a.id().required(),
-  //     name: a.string().required(),
-  //     phone_number: a.string(),
-  //     email: a.string().required(),
-  //     gender: a.string(),
-  //     birthday_date: a.timestamp(),
-  //     is_owner: a.boolean().required(),
-  //   })
-  //   .identifier(["id_person"]),
+    .identifier(["id_person"]),
 
-  // // ITEMS
-  // Item: a
-  //   .model({
-  //     id_item: a.id().required(),
-  //     name: a.string().required(),
-  //     quantity: a.integer().required(),
-  //     type: a.string().required(),
-  //     price: a.float().required(),
-  //     creation_date: a.timestamp(),
-  //   })
-  //   .identifier(["id_item"]),
+  // ITEMS
+  Item: a
+    .model({
+      id_item: a.id().required(),
+      name: a.string().required(),
+      quantity: a.integer().required(),
+      type: a.string().required(),
+      price: a.float().required(),
+      creation_date: a.timestamp(),
+    })
+    .identifier(["id_item"]),
 
-  // // TRANSACTION
-  // Transaction: a
-  //   .model({
-  //     id_transaction: a.id().required(),
-  //     id_receipt: a.id().required(),
-  //     id_item: a.id().required(),
-  //     quantity: a.integer().required(),
-  //     price_per_item: a.float().required(),
-  //   })
-  //   .identifier(["id_transaction"]),
+  // TRANSACTION
+  Transaction: a
+    .model({
+      id_transaction: a.id().required(),
+      id_receipt: a.id().required(),
+      id_item: a.id().required(),
+      quantity: a.integer().required(),
+      price_per_item: a.float().required(),
+    })
+    .identifier(["id_transaction"]),
   
-  // // RECEIPT
-  // Receipt: a
-  //   .model({
-  //     id_receipt: a.id().required(),
-  //     id_person: a.id().required(),
-  //     date_of_purchase: a.timestamp().required(),
-  //     total_price: a.float().required(),
-  //   })
-  //   .identifier(["id_receipt"]),
-});
+  // RECEIPT
+  Receipt: a
+    .model({
+      id_receipt: a.id().required(),
+      id_person: a.id().required(),
+      date_of_purchase: a.timestamp().required(),
+      total_price: a.float().required(),
+    })
+    .identifier(["id_receipt"]),
+}).authorization(allow => [allow.owner()]);
 
 export type Schema = ClientSchema<typeof schema>;
 

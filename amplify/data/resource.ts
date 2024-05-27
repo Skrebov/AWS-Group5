@@ -7,6 +7,11 @@ specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
+  Todo: a
+    .model({
+      content: a.string(),
+    })
+    .authorization(allow => [allow.owner()]),
   // PERSON 
   Person: a
     .model({
@@ -18,7 +23,8 @@ const schema = a.schema({
       birthday_date: a.timestamp(),
       is_owner: a.boolean().required(),
     })
-    .identifier(["id_person"]),
+    .identifier(["id_person"])
+    .authorization(allow => [allow.owner()]),
 
   // ITEMS
   Item: a
@@ -30,7 +36,8 @@ const schema = a.schema({
       price: a.float().required(),
       creation_date: a.timestamp(),
     })
-    .identifier(["id_item"]),
+    .identifier(["id_item"])
+    .authorization(allow => [allow.owner()]),
 
   // TRANSACTION
   Transaction: a
@@ -41,7 +48,8 @@ const schema = a.schema({
       quantity: a.integer().required(),
       price_per_item: a.float().required(),
     })
-    .identifier(["id_transaction"]),
+    .identifier(["id_transaction"])
+    .authorization(allow => [allow.owner()]),
   
   // RECEIPT
   Receipt: a
@@ -51,8 +59,9 @@ const schema = a.schema({
       date_of_purchase: a.timestamp().required(),
       total_price: a.float().required(),
     })
-    .identifier(["id_receipt"]),
-}).authorization(allow => [allow.owner()]);
+    .identifier(["id_receipt"])
+    .authorization(allow => [allow.owner()]),
+});
 
 export type Schema = ClientSchema<typeof schema>;
 

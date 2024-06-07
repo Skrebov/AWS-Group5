@@ -13,53 +13,57 @@ const schema = a.schema({
     })
     .authorization(allow => [allow.owner()]),
   // CUSTOMER 
-  Customer: a
-    .model({
-      id_customer: a.id().required(),
-      name: a.string().required(),
-      phone_number: a.string(),
-      email: a.string().required(),
-      gender: a.string(),
-      birthday_date: a.timestamp(),
-    })
-    .identifier(["id_customer"])
-    .authorization(allow => [allow.owner()]),
+  // Customer: a
+  //   .model({
+  //     id_customer: a.id().required(),
+  //     name: a.string().required(),
+  //     phone_number: a.string(),
+  //     email: a.string().required(),
+  //     gender: a.string(),
+  //     birthday_date: a.timestamp(),
+  //   })
+  //   .identifier(["id_customer"])
+  //   .authorization(allow => [allow.owner()]),
 
   // ITEMS
-  Item: a
-    .model({
-      id_item: a.id().required(),
-      name: a.string().required(),
-      quantity: a.integer().required(),
-      type: a.string().required(),
-      price: a.float().required(),
-      creation_date: a.timestamp(),
-    })
-    .identifier(["id_item"])
-    .authorization(allow => [allow.owner()]),
+  // Item: a
+  //   .model({
+  //     id_item: a.id().required(),
+  //     name: a.string().required(),
+  //     quantity: a.integer().required(),
+  //     type: a.string().required(),
+  //     price: a.float().required(),
+  //     creation_date: a.timestamp(),
+  //   })
+  //   .identifier(["id_item"])
+  //   .authorization(allow => [allow.owner()]),
 
   // TRANSACTION
-  Transaction: a
-    .model({
-      id_transaction: a.id().required(),
-      id_receipt: a.id().required(),
-      id_item: a.id().required(),
-      quantity: a.integer().required(),
-      price_per_item: a.float().required(),
-    })
-    .identifier(["id_transaction"])
-    .authorization(allow => [allow.owner()]),
+  // Transaction: a
+  //   .model({
+  //     id_transaction: a.id().required(),
+  //     id_receipt: a.id().required(),
+  //     id_item: a.id().required(),
+  //     quantity: a.integer().required(),
+  //     price_per_item: a.float().required(),
+  //   })
+  //   .identifier(["id_transaction"])
+  //   .authorization(allow => [allow.owner()]),
   
   // RECEIPT
-  Receipt: a
-    .model({
-      id_receipt: a.id().required(),
-      id_customer: a.id().required(),
-      date_of_purchase: a.timestamp().required(),
-      total_price: a.float().required(),
-    })
-    .identifier(["id_receipt"])
-    .authorization(allow => [allow.owner()]),
+  // Receipt: a
+  //   .model({
+  //     id_receipt: a.id().required(),
+  //     id_customer: a.id().required(),
+  //     date_of_purchase: a.timestamp().required(),
+  //     total_price: a.float().required(),
+  //   })
+  //   .identifier(["id_receipt"])
+  //   .authorization(allow => [allow.owner()]),
+
+  appdataLocal: a.customType({
+    
+  })
 });
 
 export type Schema = ClientSchema<typeof schema>;

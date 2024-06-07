@@ -7,11 +7,11 @@
     "config": "tailwind.config.js",
     "css": "src/index.css",
     "baseColor": "slate",
-    "cssVariables": true,
+    "cssVariables": false,
     "prefix": ""
   },
   "aliases": {
     "components": "src/shadcn/components",
-    "utils": "src/shadcn/lib/utils"
+    "utils": "@/shadcn/lib/utils"
   }
 }

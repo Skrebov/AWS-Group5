@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
 import { Authenticator, CheckboxField } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
 import { Button } from "./shadcn/components/ui/button";

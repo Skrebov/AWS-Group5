@@ -6,10 +6,13 @@ type Props = {};
 
 export const Routing: FunctionComponent<Props> = ({}) => {
     return (
-        <Routes>
-            <Route path='/' element={<Dashboard />}/>
-            <Route path='/products' element={<Dashboard />}/>
-            <Route path='customers'  element={<Dashboard />}/>
-        </Routes>
+        <div className='flex flex-col items-center justify-center'>
+            <Routes>
+                <Route path='/' element={<Dashboard />}/>
+                <Route path='/products' element={<Dashboard />}/>
+                <Route path='customers'  element={<Dashboard />}/>
+            </Routes>
+        </div>
+
     )
 }

@@ -1,6 +1,8 @@
 import { Authenticator, CheckboxField } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
 import { Button } from "./shadcn/components/ui/button";
+import {Routing} from "@/pages/Routing.tsx";
+import {BrowserRouter} from "react-router-dom";
 
 //const client = generateClient<Schema>();
 
@@ -33,9 +35,12 @@ function App() {
         console.log(user)
         // Return the JSX
         return (
-          <main>
-            <Button onClick={signOut}>Sign out</Button>
-          </main>
+            <>
+                <BrowserRouter>
+                    <Routing/>
+                </BrowserRouter>
+                <Button onClick={signOut}>Sign out</Button>
+            </>
         );
       }}
     </Authenticator>

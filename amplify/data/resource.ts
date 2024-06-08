@@ -1,4 +1,4 @@
-import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import {type ClientSchema, a, defineData} from "@aws-amplify/backend";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -7,73 +7,32 @@ specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
-    .model({
-      content: a.string(),
-    })
-    .authorization(allow => [allow.owner()]),
-  // CUSTOMER 
-  Customer: a
-    .model({
-      id_customer: a.id().required(),
-      name: a.string().required(),
-      phone_number: a.string(),
-      email: a.string().required(),
-      gender: a.string(),
-      birthday_date: a.timestamp(),
-    })
-    .identifier(["id_customer"])
-    .authorization(allow => [allow.owner()]),
-
-  // ITEMS
-  Item: a
-    .model({
-      id_item: a.id().required(),
-      name: a.string().required(),
-      quantity: a.integer().required(),
-      type: a.string().required(),
-      price: a.float().required(),
-      creation_date: a.timestamp(),
-    })
-    .identifier(["id_item"])
-    .authorization(allow => [allow.owner()]),
-
-  // TRANSACTION
-  Transaction: a
-    .model({
-      id_transaction: a.id().required(),
-      id_receipt: a.id().required(),
-      id_item: a.id().required(),
-      quantity: a.integer().required(),
-      price_per_item: a.float().required(),
-    })
-    .identifier(["id_transaction"])
-    .authorization(allow => [allow.owner()]),
-  
-  // RECEIPT
-  Receipt: a
-    .model({
-      id_receipt: a.id().required(),
-      id_customer: a.id().required(),
-      date_of_purchase: a.timestamp().required(),
-      total_price: a.float().required(),
-    })
-    .identifier(["id_receipt"])
-    .authorization(allow => [allow.owner()]),
-});
+    appdata: a.customType({
+        pk: a.string().required(),
+        sk: a.string().required(),
+        birthdate: a.string(),
+        date: a.string(),
+        email: a.string(),
+        gender: a.string(),
+        name: a.string(),
+        phone: a.string(),
+        quantity: a.string(),
+        type: a.string(),
+    }),
+})
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
-  schema,
-  authorizationModes: {
-    // This tells the data client in your app (generateClient())
-    // to sign API requests with the user authentication token.
-    defaultAuthorizationMode: 'userPool',
-    // apiKeyAuthorizationMode: {
-    //   expiresInDays: 30,
-    // },
-  },
+    schema,
+    authorizationModes: {
+        // This tells the data client in your app (generateClient())
+        // to sign API requests with the user authentication token.
+        defaultAuthorizationMode: 'userPool',
+        // apiKeyAuthorizationMode: {
+        //   expiresInDays: 30,
+        // },
+    },
 });
 
 /*== STEP 2 ===============================================================

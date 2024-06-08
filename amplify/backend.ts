@@ -1,11 +1,33 @@
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource'
 import { data } from './data/resource';
+import {aws_dynamodb, aws_iam} from "aws-cdk-lib";
 
 const backend = defineBackend({
   auth,
   data,
 });
+
+const externalDataSourcesStack = backend.createStack("TestExternalTableStack");
+
+
+// Create an IAM role
+const role = new aws_iam.Role(externalDataSourcesStack, "AmplifyDynamoDBAccessRole", {
+  assumedBy: new aws_iam.ServicePrincipal("amplify.amazonaws.com"),
+});
+
+const externalTable = aws_dynamodb.Table.fromTableArn(
+    externalDataSourcesStack,
+    "appdata",
+    "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata"
+)
+
+externalTable.grantReadWriteData(role);
+
+backend.data.addDynamoDbDataSource(
+    "appDataDataSource",
+    externalTable
+);
 
 
 //extract L1 CfnUserPool resources

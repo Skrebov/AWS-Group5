@@ -32,9 +32,16 @@ const schema = a.schema({
             })
         ),
 
-
-
-
+    getByType:  a.query()
+        .arguments({ type: a.string().required()})
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./getByType.js",
+            })
+        ),
 })
 
 export type Schema = ClientSchema<typeof schema>;

@@ -12,6 +12,7 @@ function App() {
 
   return (
     <Authenticator
+      className='mt-10'
       components={{
         SignUp: {
           FormFields() {

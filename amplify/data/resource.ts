@@ -29,7 +29,10 @@ const schema = a.schema({
     getByType: a
         .query()
         .arguments({ type: a.string().required()})
-        .returns(a.ref("appdata").array())
+        .returns(a.customType({
+            items: a.ref("appdata").array(),
+            nextToken: a.string(),
+        }))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(
             a.handler.custom({

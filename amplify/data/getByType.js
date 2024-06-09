@@ -1,5 +1,3 @@
-import { util } from '@aws-appsync/utils';
-
 /**
  * Request handler for the AppSync resolver.
  *
@@ -14,9 +12,11 @@ export function request(ctx) {
             expressionNames: {
                 '#type': 'type'
             },
-            expressionValues: util.dynamodb.toMapValues({
-                ':type': ctx.args.type
-            }),
+            expressionValues: {
+                ":type" : {
+                    "S" : ctx.args.type
+                }
+            }
         },
         index: 'type_index',
         select: 'ALL_PROJECTED_ATTRIBUTES'

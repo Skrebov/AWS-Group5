@@ -27,10 +27,14 @@ export async function getProducts(){
     return await client.queries.getByType({type : 'product'})
 }
 
-export async function getInvoices(){
-    return await client.queries.getByType({type : 'invoice'})
-}
-
 export async function getProductsByCategory(category: string){
     return await client.queries.getProductsByCategory({category : category})
+}
+
+export async function batchGetByPK(pk: string){
+    return await client.queries.batchGetByPK({pk : pk})
+}
+
+export async function getInvoices(pk: string){
+    return await client.queries.batchGetByPK({pk : pk})
 }

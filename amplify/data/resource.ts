@@ -56,6 +56,18 @@ const schema = a.schema({
                 entry: "./getProductsByCategory.js",
             })
         ),
+
+    batchGetByPK: a
+        .query()
+        .arguments({ pk: a.string().required()})
+        .returns(a.ref("listReturnType"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./batchGetByPK.js",
+            })
+        ),
 })
 
 export type Schema = ClientSchema<typeof schema>;
@@ -66,8 +78,5 @@ export const data = defineData({
         // This tells the data client in your app (generateClient())
         // to sign API requests with the user authentication token.
         defaultAuthorizationMode: 'userPool',
-        // apiKeyAuthorizationMode: {
-        //   expiresInDays: 30,
-        // },
     },
 });

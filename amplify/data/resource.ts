@@ -32,7 +32,7 @@ const schema = a.schema({
             })
         ),
 
-    getByType:  a.query()
+    getByType: a.query()
         .arguments({ type: a.string().required()})
         .returns(a.ref("appdata"))
         .authorization(allow => [allow.authenticated("userPools")])

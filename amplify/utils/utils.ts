@@ -26,3 +26,7 @@ export async function getCustomers(){
 export async function getProducts(){
     return await client.queries.getByType({type : 'product'})
 }
+
+export async function getInvoices(){
+    return await client.queries.getByType({type : 'invoice'})
+}

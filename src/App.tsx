@@ -3,7 +3,7 @@ import '@aws-amplify/ui-react/styles.css'
 import { Button } from "./shadcn/components/ui/button";
 import {Routing} from "@/pages/Routing.tsx";
 import {BrowserRouter} from "react-router-dom";
-import {getByPKandSK, getCustomers} from "../amplify/utils/utils.ts";
+import {getByPKandSK, getCustomers, getProductsByCategory} from "../amplify/utils/utils.ts";
 
 
 function App() {
@@ -42,6 +42,8 @@ function App() {
                 </BrowserRouter>
                 <Button onClick={async () => console.log(await getByPKandSK('i#11111132', 'p#11111129'))}>Get By PK and SK</Button>
                 <Button onClick={async () => console.log(await getCustomers())}>Get Customers</Button>
+                <Button onClick={async () => console.log(await getProductsByCategory('Category 1'))}>Get Products by Category</Button>
+
                 <Button onClick={signOut}>Log Out</Button>
             </>
         );

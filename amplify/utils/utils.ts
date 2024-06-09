@@ -30,3 +30,7 @@ export async function getProducts(){
 export async function getInvoices(){
     return await client.queries.getByType({type : 'invoice'})
 }
+
+export async function getProductsByCategory(category: string){
+    return await client.queries.getProductsByCategory({category : category})
+}

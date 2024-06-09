@@ -2,21 +2,28 @@ import {type ClientSchema, a, defineData} from "@aws-amplify/backend";
 
 const schema = a.schema({
     appdata: a.customType({
-        pk: a.id().required(),
-        sk: a.id().required(),
+        pk: a.string().required(),
+        sk: a.string().required(),
         birthdate: a.string(),
         date: a.string(),
         email: a.string(),
         gender: a.string(),
         name: a.string(),
         phone: a.string(),
-        quantity: a.integer(),
+        price: a.string(),
+        quantity: a.float(),
+        category: a.string(),
         type: a.string().required(),
+    }),
+
+    listReturnType: a.customType({
+        items: a.ref("appdata").array(),
+        nextToken: a.string()
     }),
 
     getByPKandSK: a
         .query()
-        .arguments({ pk: a.id().required(), sk: a.id().required() })
+        .arguments({ pk: a.string().required(), sk: a.string().required() })
         .returns(a.ref("appdata"))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(
@@ -29,15 +36,24 @@ const schema = a.schema({
     getByType: a
         .query()
         .arguments({ type: a.string().required()})
-        .returns(a.customType({
-            items: a.ref("appdata").array(),
-            nextToken: a.string(),
-        }))
+        .returns(a.ref("listReturnType"))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(
             a.handler.custom({
                 dataSource: "appDataDataSource",
                 entry: "./getByType.js",
+            })
+        ),
+
+    getProductsByCategory: a
+        .query()
+        .arguments({ category: a.string().required()})
+        .returns(a.ref("listReturnType"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./getProductsByCategory.js",
             })
         ),
 })

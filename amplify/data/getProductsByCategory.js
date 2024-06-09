@@ -8,15 +8,15 @@ export function request(ctx) {
     return {
         operation: 'Query',
         query: {
-            expression: '#type = :type',
+            expression: '#category = :category',
             expressionNames: {
-                '#type': 'type'
+                '#category': 'category'
             },
             expressionValues: {
-                ":type" : { "S" : ctx.args.type }
+                ":category" : { "S" : ctx.args.category }
             }
         },
-        index: 'type_index',
+        index: 'category_index',
         select: 'ALL_PROJECTED_ATTRIBUTES'
     };
 }

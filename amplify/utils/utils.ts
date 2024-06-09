@@ -38,3 +38,7 @@ export async function batchGetByPK(pk: string){
 export async function getInvoices(pk: string){
     return await client.queries.batchGetByPK({pk : pk})
 }
+
+export async function scan(){
+    return await client.queries.scan();
+}

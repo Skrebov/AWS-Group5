@@ -68,6 +68,17 @@ const schema = a.schema({
                 entry: "./batchGetByPK.js",
             })
         ),
+
+    scan: a
+        .query()
+        .returns(a.ref("listReturnType"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./scan.js",
+            })
+        ),
 })
 
 export type Schema = ClientSchema<typeof schema>;

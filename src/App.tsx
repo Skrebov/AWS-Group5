@@ -3,8 +3,8 @@ import '@aws-amplify/ui-react/styles.css'
 import { Button } from "./shadcn/components/ui/button";
 import {Routing} from "@/pages/Routing.tsx";
 import {BrowserRouter} from "react-router-dom";
+import {getByPKandSK} from "../amplify/utils/utils.ts";
 
-//const client = generateClient<Schema>();
 
 function App() {
  // const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
@@ -39,7 +39,8 @@ function App() {
                 <BrowserRouter>
                     <Routing/>
                 </BrowserRouter>
-                <Button onClick={signOut}>Sign out</Button>
+                <Button onClick={async () => console.log(await getByPKandSK('i#11111132', 'p#11111129'))}>Get Customers</Button>
+                <Button onClick={signOut}>Log Out</Button>
             </>
         );
       }}

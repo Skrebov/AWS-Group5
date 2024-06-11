@@ -15,7 +15,7 @@ const externalTable = aws_dynamodb.Table.fromTableAttributes(
     "appdata",
     {
       tableArn: "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata",
-      globalIndexes: ['type_index', 'category_index']
+      globalIndexes: ['type_index', 'category_index', 'inverse_index']
     }
 )
 

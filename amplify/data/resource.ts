@@ -57,6 +57,18 @@ const schema = a.schema({
             })
         ),
 
+    getBySKandType: a
+        .query()
+        .arguments({ sk: a.string().required(), type: a.string().required() })
+        .returns(a.ref("listReturnType"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./getBySKandType.js",
+            })
+        ),
+
     scan: a
         .query()
         .returns(a.ref("listReturnType"))

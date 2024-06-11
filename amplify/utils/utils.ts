@@ -38,3 +38,11 @@ export async function getProductsByCategory(category: string){
 export async function scan(){
     return await client.queries.scan();
 }
+
+export async function getBySKAndType(sk: string, type: string){
+    return await client.queries.getBySKandType({sk : sk, type: type})
+}
+
+export async function getInvoicesByCustomer(customer: string, type: string){
+    return await client.queries.getBySKandType({sk : customer, type: type})
+}

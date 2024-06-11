@@ -1,27 +1,37 @@
 import {Customer, Product} from "./model";
 
-//TODO change eslint rule(s) to warning level
-function mapToCustomer(queryObject: any): Customer{
+function mapToCustomer(obj: any): Customer{
     return {
-        birthdate: queryObject.birthdate,
-        email: queryObject.email,
-        gender: queryObject.gender,
-        name: queryObject.name,
-        phone: queryObject.phone,
-        pk: queryObject.pk,
-        sk: queryObject.sk,
+        birthdate: obj.birthdate,
+        email: obj.email,
+        gender: obj.gender,
+        name: obj.name,
+        phone: obj.phone,
+        pk: obj.pk,
+        sk: obj.sk,
     }
 }
 
-function mapToProduct(queryObject: any): Product{
+function mapToProduct(obj: any): Product{
     return {
-        category: queryObject.category,
-        name: queryObject.name,
-        pk: queryObject.pk,
-        sk: queryObject.sk,
-        price: queryObject.price,
-        quantity: queryObject.quantity,
+        category: obj.category,
+        name: obj.name,
+        pk: obj.pk,
+        sk: obj.sk,
+        price: obj.price,
+        quantity: obj.quantity,
     }
 }
 
-export {mapToCustomer, mapToProduct}
+//this is for a list of customers
+function mapCustomers(list: any): Customer[] {
+    return list.map(mapToCustomer);
+}
+
+//this is for a list of products
+function mapProducts(list: any): Product[] {
+    return list.map(mapToProduct);
+}
+
+
+export {mapToCustomer, mapToProduct, mapCustomers, mapProducts}

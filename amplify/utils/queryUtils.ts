@@ -1,5 +1,7 @@
 import {generateClient} from "aws-amplify/api";
 import {Schema} from "../data/resource";
+import {Customer} from "./model";
+import {mapToCustomer} from "./mapper";
 
 const client = generateClient<Schema>();
 
@@ -7,12 +9,12 @@ async function getByPKandSK (pk: string, sk: string ) {
     return await client.queries.getByPKandSK({pk : pk, sk: sk})
 }
 
-export async function getCustomer (customer: string){
-    return await getByPKandSK(customer, customer);
+export async function getCustomer (customer: string): Promise<Customer> {
+    return mapToCustomer(await getByPKandSK(customer, customer));
 }
 
 export async function getProduct (product: string) {
-    return await getByPKandSK(product, product);
+    return mapToCustomer(await getByPKandSK(product, product));
 }
 
 async function getByType(type: string){
@@ -55,3 +57,4 @@ export async function getByPK(pk: string){
 export async function getSingleInvoiceInfo(invoice: string){
   return await getByPK(invoice);
 }
+

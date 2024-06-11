@@ -9,7 +9,7 @@ import {
     getInvoicesByCustomer, getProduct,
     getProductsByCategory, getSingleInvoiceInfo,
     scan
-} from "../amplify/utils/utils.ts";
+} from "../amplify/utils/queryUtils.ts";
 
 
 function App() {

@@ -69,6 +69,19 @@ const schema = a.schema({
             })
         ),
 
+    getByPK: a
+        .query()
+        .arguments({ pk: a.string().required() })
+        .returns(a.ref("listReturnType"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./getByPK.js",
+            })
+        ),
+
+
     scan: a
         .query()
         .returns(a.ref("listReturnType"))

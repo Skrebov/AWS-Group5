@@ -8,7 +8,7 @@ import {
     getCustomers,
     getInvoices,
     getInvoicesByCustomer,
-    getProductsByCategory,
+    getProductsByCategory, getSingleInvoiceInfo,
     scan
 } from "../amplify/utils/utils.ts";
 
@@ -53,6 +53,7 @@ function App() {
                 <Button onClick={async () => console.log(await getInvoices())}>Get Invoices</Button>
                 <Button onClick={async () => console.log(await scan())}>Scen</Button>
                 <Button onClick={async () => console.log(await getInvoicesByCustomer('c#11111126', 'invoice'))}>Get Invoices by Customer</Button>
+                <Button onClick={async () => console.log(await getSingleInvoiceInfo('i#11111132'))}>Get Single Invoice Info</Button>
                 <Button onClick={signOut}>Log Out</Button>
             </>
         );

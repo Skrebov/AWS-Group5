@@ -46,3 +46,11 @@ export async function getBySKAndType(sk: string, type: string){
 export async function getInvoicesByCustomer(customer: string, type: string){
     return await client.queries.getBySKandType({sk : customer, type: type})
 }
+
+export async function getByPK(pk: string){
+    return await client.queries.getByPK({pk : pk})
+}
+
+export async function getSingleInvoiceInfo(invoice: string){
+  return await getByPK(invoice);
+}

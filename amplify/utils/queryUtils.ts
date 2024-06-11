@@ -1,7 +1,7 @@
 import {generateClient} from "aws-amplify/api";
 import {Schema} from "../data/resource";
 import {Customer, Product} from "./model";
-import {mapCustomers, mapProducts, mapToCustomer, mapToProduct} from "./mapper";
+import {mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct} from "./mapper";
 
 const client = generateClient<Schema>();
 
@@ -34,7 +34,8 @@ export async function getProducts(): Promise<Product[]> {
 }
 
 export async function getInvoices(){
-    return await getByType('invoice')
+    const queryResult = await getByType('invoice');
+    return mapInvoices(queryResult?.data?.items);
 }
 
 export async function getProductsByCategory(category: string){
@@ -46,19 +47,21 @@ export async function scan(){
     return await client.queries.scan();
 }
 
-export async function getBySKAndType(sk: string, type: string){
+async function getBySKAndType(sk: string, type: string){
     return await client.queries.getBySKandType({sk : sk, type: type})
 }
 
 export async function getInvoicesByCustomer(customer: string){
-    return getBySKAndType(customer, 'invoice')
+    const queryResult =  await getBySKAndType(customer, 'invoice')
+    return mapInvoices(queryResult?.data?.items);
 }
 
-export async function getByPK(pk: string){
+async function getByPK(pk: string){
     return await client.queries.getByPK({pk : pk})
 }
 
 //this returns all entries for a invoice with pk {invoice} regardless of type
+//TODO consider typing for composite
 export async function getSingleInvoiceInfo(invoice: string){
   return await getByPK(invoice);
 }

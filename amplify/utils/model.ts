@@ -18,3 +18,9 @@ export type Product  =  {
     price: string;
     quantity: number;
 };
+
+export type Invoice  =  {
+    date: string;
+    pk: string;
+    sk: string;
+};

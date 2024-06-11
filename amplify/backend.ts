@@ -10,10 +10,13 @@ const backend = defineBackend({
 
 const externalDataSourcesStack = backend.createStack("TestExternalTableStack");
 
-const externalTable = aws_dynamodb.Table.fromTableArn(
+const externalTable = aws_dynamodb.Table.fromTableAttributes(
     externalDataSourcesStack,
     "appdata",
-    "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata"
+    {
+      tableArn: "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata",
+      globalIndexes: ['type_index', 'category_index']
+    }
 )
 
 backend.data.addDynamoDbDataSource(

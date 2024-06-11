@@ -43,7 +43,7 @@ function App() {
                 <Button onClick={async () => console.log(await getByPKandSK('i#11111132', 'p#11111129'))}>Get By PK and SK</Button>
                 <Button onClick={async () => console.log(await getCustomers())}>Get Customers</Button>
                 <Button onClick={async () => console.log(await getProductsByCategory('Category 1'))}>Get Products by Category</Button>
-                <Button onClick={async () => console.log(await getInvoices('i#11111152'))}>Get Invoices</Button>
+                <Button onClick={async () => console.log(await getInvoices())}>Get Invoices</Button>
                 <Button onClick={async () => console.log(await scan())}>Scen</Button>
                 <Button onClick={signOut}>Log Out</Button>
             </>

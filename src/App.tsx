@@ -4,10 +4,9 @@ import { Button } from "./shadcn/components/ui/button";
 import {Routing} from "@/pages/Routing.tsx";
 import {BrowserRouter} from "react-router-dom";
 import {
-    getByPKandSK,
     getCustomers,
     getInvoices,
-    getInvoicesByCustomer,
+    getInvoicesByCustomer, getProduct,
     getProductsByCategory, getSingleInvoiceInfo,
     scan
 } from "../amplify/utils/utils.ts";
@@ -47,12 +46,12 @@ function App() {
                 <BrowserRouter>
                     <Routing/>
                 </BrowserRouter>
-                <Button onClick={async () => console.log(await getByPKandSK('i#11111132', 'p#11111129'))}>Get By PK and SK</Button>
+                <Button onClick={async () => console.log(await getProduct('p#11111129'))}>Get Product</Button>
                 <Button onClick={async () => console.log(await getCustomers())}>Get Customers</Button>
                 <Button onClick={async () => console.log(await getProductsByCategory('Category 1'))}>Get Products by Category</Button>
                 <Button onClick={async () => console.log(await getInvoices())}>Get Invoices</Button>
                 <Button onClick={async () => console.log(await scan())}>Scen</Button>
-                <Button onClick={async () => console.log(await getInvoicesByCustomer('c#11111126', 'invoice'))}>Get Invoices by Customer</Button>
+                <Button onClick={async () => console.log(await getInvoicesByCustomer('c#11111126'))}>Get Invoices by Customer</Button>
                 <Button onClick={async () => console.log(await getSingleInvoiceInfo('i#11111132'))}>Get Single Invoice Info</Button>
                 <Button onClick={signOut}>Log Out</Button>
             </>

@@ -3,32 +3,32 @@ import {Schema} from "../data/resource";
 
 const client = generateClient<Schema>();
 
-export async function getByPKandSK (pk: string, sk: string ) {
+async function getByPKandSK (pk: string, sk: string ) {
     return await client.queries.getByPKandSK({pk : pk, sk: sk})
 }
 
-export async function getCustomer (pk: string){
-    return await client.queries.getByPKandSK({pk : pk, sk: pk})
+export async function getCustomer (customer: string){
+    return await getByPKandSK(customer, customer);
 }
 
-export async function getProduct (pk: string) {
-    return await client.queries.getByPKandSK({pk : pk, sk: pk})
+export async function getProduct (product: string) {
+    return await getByPKandSK(product, product);
 }
 
-export async function getByType(type: string){
+async function getByType(type: string){
     return await client.queries.getByType({type : type})
 }
 
 export async function getCustomers(){
-    return await client.queries.getByType({type : 'customer'})
+    return await getByType('customer')
 }
 
 export async function getProducts(){
-    return await client.queries.getByType({type : 'product'})
+    return await getByType('product')
 }
 
 export async function getInvoices(){
-    return await client.queries.getByType({type : 'invoice'})
+    return await getByType('invoice')
 }
 
 export async function getProductsByCategory(category: string){
@@ -43,14 +43,15 @@ export async function getBySKAndType(sk: string, type: string){
     return await client.queries.getBySKandType({sk : sk, type: type})
 }
 
-export async function getInvoicesByCustomer(customer: string, type: string){
-    return await client.queries.getBySKandType({sk : customer, type: type})
+export async function getInvoicesByCustomer(customer: string){
+    return getBySKAndType(customer, 'invoice')
 }
 
 export async function getByPK(pk: string){
     return await client.queries.getByPK({pk : pk})
 }
 
+//this returns all entries for a invoice with pk {invoice} regardless of type
 export async function getSingleInvoiceInfo(invoice: string){
   return await getByPK(invoice);
 }

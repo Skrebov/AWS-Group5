@@ -66,3 +66,42 @@ export async function getSingleInvoiceInfo(invoice: string){
   return await getByPK(invoice);
 }
 
+export async function addCustomer(
+    pk: string, 
+    sk: string,
+    birthdate: string | null, 
+    email: string | null, 
+    gender: string | null,
+    name: string | null, 
+    phone: string | null, 
+): Promise<Customer> {
+    const response = await client.mutations.addCustomer({
+        pk: pk, 
+        sk: sk,
+        birthdate: birthdate, 
+        email: email, 
+        gender: gender, 
+        name: name, 
+        phone: phone, 
+    });
+    return mapToCustomer(response?.data);
+}
+
+export async function addProduct(
+    pk: string, 
+    sk: string,
+    category: string, 
+    name: string | null, 
+    price: string | null, 
+    quantity: number | null, 
+): Promise<Product> {
+    const response = await client.mutations.addProduct({
+        pk: pk, 
+        sk: sk,
+        category: category, 
+        name: name, 
+        price: price, 
+        quantity: quantity, 
+    });
+    return mapToProduct(response?.data);
+}

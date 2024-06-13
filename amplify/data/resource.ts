@@ -92,6 +92,45 @@ const schema = a.schema({
                 entry: "./scan.js",
             })
         ),
+
+    addCustomer: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            birthdate: a.string(), 
+            email: a.string(),
+            gender: a.string(),
+            name: a.string(),
+            phone: a.string(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./addCustomer.js",
+            })
+        ),
+
+    addProduct: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            category: a.string(),
+            name: a.string(),
+            price: a.string(),
+            quantity: a.float(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./addProduct.js",
+            })
+        )
 })
 
 export type Schema = ClientSchema<typeof schema>;

@@ -153,7 +153,7 @@ const schema = a.schema({
             pk: a.string().required(),
             type: a.string().required(),
         })
-        .returns(a.ref("appdata"))
+        .returns(a.ref("listReturnType"))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(
             a.handler.custom({

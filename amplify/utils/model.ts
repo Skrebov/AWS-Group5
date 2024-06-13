@@ -24,3 +24,9 @@ export type Invoice  =  {
     pk: string;
     sk: string;
 };
+
+export type InvoiceProduct  =  {
+    quantity: number;
+    pk: string;
+    sk: string;
+};

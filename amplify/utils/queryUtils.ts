@@ -1,7 +1,7 @@
 import {generateClient} from "aws-amplify/api";
 import {Schema} from "../data/resource";
-import {Customer, Product} from "./model";
-import {mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct} from "./mapper";
+import {Customer, Product, Invoice, InvoiceProduct} from "./model";
+import {mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct, mapToInvoice, mapInvoiceProducts} from "./mapper";
 
 const client = generateClient<Schema>();
 
@@ -122,4 +122,13 @@ export async function deleteCustomer (customer: string): Promise<Customer> {
 export async function deleteProduct (product: string): Promise<Product> {
     const queryResult = await deleteByPKandSK(product, product);
     return mapToProduct(queryResult?.data);
+}
+
+export async function deleteInvoice (invoice: string): Promise<{ invoice: Invoice, invoiceProducts: InvoiceProduct[] }>{
+    const invoiceResult = await deleteByPKandSK(invoice, invoice);
+    const invoiceProducts = await deleteByPKandType(invoice, 'invoice_product');
+    return {
+        invoice: mapToInvoice(invoiceResult?.data), 
+        invoiceProducts: mapInvoiceProducts(invoiceProducts?.data)
+    };
 }

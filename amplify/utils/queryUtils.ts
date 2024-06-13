@@ -69,11 +69,11 @@ export async function getSingleInvoiceInfo(invoice: string) {
 export async function addCustomer(
     pk: string,
     sk: string,
-    birthdate: string,
-    email: string | null,
-    gender: string | null,
-    name: string | null,
-    phone: string | null,
+    birthdate?: string,
+    email?: string,
+    gender?: string,
+    name?: string,
+    phone?: string,
 ): Promise<Customer> {
     const response = await client.mutations.addItem({
         pk: pk,
@@ -92,9 +92,9 @@ export async function addProduct(
     pk: string,
     sk: string,
     category: string,
-    name: string | null,
-    price: string | null,
-    quantity: number | null,
+    name?: string,
+    price?: string,
+    quantity?: number,
 ): Promise<Product> {
     const response = await client.mutations.addItem({
         pk: pk,
@@ -111,7 +111,7 @@ export async function addProduct(
 export async function addInvoice(
     pk: string,
     sk: string,
-    date: string,
+    date?: string,
 ): Promise<Invoice> {
     const response = await client.mutations.addItem({
         pk: pk,

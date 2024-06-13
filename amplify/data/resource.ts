@@ -118,6 +118,24 @@ const schema = a.schema({
             })
         ),
 
+    addItemDummy: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            birthdate: a.string(),
+            email: a.string(),
+            type: a.string().required(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./addItemDummy.js",
+            })
+        ),
+
     deleteByPKandSK: a
         .mutation()
         .arguments({

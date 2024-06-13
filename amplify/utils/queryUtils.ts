@@ -96,6 +96,21 @@ export async function addItem(
     })
 }
 
+export async function addItemDummy(
+    pk: string,
+    sk: string,
+    birthdate: string | null,
+    email: string | null,
+) {
+    return await client.mutations.addItemDummy({
+        pk: pk, 
+        sk: sk,
+        birthdate: birthdate,
+        email: email,
+        type: 'dummy_item',
+    })
+}
+
 export async function addCustomer(
     pk: string,
     sk: string,

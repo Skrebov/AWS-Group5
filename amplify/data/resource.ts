@@ -98,6 +98,7 @@ const schema = a.schema({
         .arguments({
             pk: a.string().required(),
             sk: a.string().required(),
+            type: a.string().required(),
             birthdate: a.string(),
             email: a.string(),
             gender: a.string(),
@@ -107,7 +108,6 @@ const schema = a.schema({
             price: a.string(),
             quantity: a.float(),
             category: a.string(),
-            type: a.string().required(),
         })
         .returns(a.ref("appdata"))
         .authorization(allow => [allow.authenticated("userPools")])
@@ -115,24 +115,6 @@ const schema = a.schema({
             a.handler.custom({
                 dataSource: "appDataDataSource",
                 entry: "./addItem.js",
-            })
-        ),
-
-    addItemDummy: a
-        .mutation()
-        .arguments({
-            pk: a.string().required(),
-            sk: a.string().required(),
-            birthdate: a.string(),
-            email: a.string(),
-            type: a.string().required(),
-        })
-        .returns(a.ref("appdata"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./addItemDummy.js",
             })
         ),
 

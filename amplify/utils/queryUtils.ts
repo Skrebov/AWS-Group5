@@ -69,6 +69,7 @@ export async function getSingleInvoiceInfo(invoice: string) {
 export async function addItem(
     pk: string,
     sk: string,
+    type: string,
     birthdate: string | null,
     email: string | null,
     gender: string | null,
@@ -78,11 +79,11 @@ export async function addItem(
     quantity: number | null,
     category: string | null,
     price: string | null,
-    type: string,
 ) {
     return await client.mutations.addItem({
         pk: pk, 
         sk: sk,
+        type: type,
         birthdate: birthdate,
         email: email,
         gender: gender,
@@ -92,22 +93,6 @@ export async function addItem(
         quantity: quantity,
         category: category,
         price: price,
-        type: type,
-    })
-}
-
-export async function addItemDummy(
-    pk: string,
-    sk: string,
-    birthdate: string | null,
-    email: string | null,
-) {
-    return await client.mutations.addItemDummy({
-        pk: pk, 
-        sk: sk,
-        birthdate: birthdate,
-        email: email,
-        type: 'dummy_item',
     })
 }
 
@@ -123,6 +108,7 @@ export async function addCustomer(
     const response = await addItem(
         pk,
         sk,
+        'customer',
         birthdate,
         email,
         gender,
@@ -132,7 +118,6 @@ export async function addCustomer(
         null,
         null,
         null,
-        'customer',
     );
     return mapToCustomer(response?.data);
 }
@@ -148,11 +133,11 @@ export async function addProduct(
     const response = await client.mutations.addItem({
         pk: pk,
         sk: sk,
+        type: 'product',
         category: category,
         name: name,
         price: price,
         quantity: quantity,
-        type: 'product',
     });
     return mapToProduct(response?.data);
 }

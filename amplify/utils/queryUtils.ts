@@ -66,36 +66,6 @@ export async function getSingleInvoiceInfo(invoice: string) {
     return await getByPK(invoice);
 }
 
-export async function addItem(
-    pk: string,
-    sk: string,
-    type: string,
-    birthdate: string | null,
-    email: string | null,
-    gender: string | null,
-    name: string | null,
-    phone: string | null,
-    date: string | null,
-    quantity: number | null,
-    category: string | null,
-    price: string | null,
-) {
-    return await client.mutations.addItem({
-        pk: pk, 
-        sk: sk,
-        type: type,
-        birthdate: birthdate,
-        email: email,
-        gender: gender,
-        name: name,
-        phone: phone,
-        date: date,
-        quantity: quantity,
-        category: category,
-        price: price,
-    })
-}
-
 export async function addCustomer(
     pk: string,
     sk: string,
@@ -105,20 +75,16 @@ export async function addCustomer(
     name: string | null,
     phone: string | null,
 ): Promise<Customer> {
-    const response = await addItem(
-        pk,
-        sk,
-        'customer',
-        birthdate,
-        email,
-        gender,
-        name,
-        phone,
-        null,
-        null,
-        null,
-        null,
-    );
+    const response = await client.mutations.addItem({
+        pk: pk,
+        sk: sk,
+        type: 'customer',
+        birthdate: birthdate,
+        email: email,
+        gender: gender,
+        name: name,
+        phone: phone,
+});
     return mapToCustomer(response?.data);
 }
 
@@ -150,8 +116,8 @@ export async function addInvoice(
     const response = await client.mutations.addItem({
         pk: pk,
         sk: sk,
-        date: date,
         type: 'invoice',
+        date: date,
     });
     return mapToInvoice(response?.data);
 }
@@ -164,8 +130,8 @@ export async function addInvoiceProduct(
     const response = await client.mutations.addItem({
         pk: pk,
         sk: sk,
-        quantity: quantity,
         type: 'invoice_product',
+        quantity: quantity,
     });
     return mapToInvoiceProduct(response?.data);
 }

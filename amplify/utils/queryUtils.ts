@@ -105,3 +105,21 @@ export async function addProduct(
     });
     return mapToProduct(response?.data);
 }
+
+async function deleteByPKandSK (pk: string, sk: string ) {
+    return await client.mutations.deleteByPKandSK({pk : pk, sk: sk})
+}
+
+async function deleteByPKandType (pk: string, type: string ) {
+    return await client.mutations.deleteByPKandType({pk : pk, type: type})
+}
+
+export async function deleteCustomer (customer: string): Promise<Customer> {
+    const queryResult = await deleteByPKandSK(customer, customer);
+    return mapToCustomer(queryResult?.data);
+}
+
+export async function deleteProduct (product: string): Promise<Product> {
+    const queryResult = await deleteByPKandSK(product, product);
+    return mapToProduct(queryResult?.data);
+}

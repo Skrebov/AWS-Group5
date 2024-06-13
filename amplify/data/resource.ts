@@ -130,7 +130,37 @@ const schema = a.schema({
                 dataSource: "appDataDataSource",
                 entry: "./addProduct.js",
             })
-        )
+        ),
+
+        deleteByPKandSK: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./deleteByPKandSK.js",
+            })
+        ),
+
+        deleteByPKandType: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            type: a.string().required(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./deleteByPKandType.js",
+            })
+        ),
 })
 
 export type Schema = ClientSchema<typeof schema>;

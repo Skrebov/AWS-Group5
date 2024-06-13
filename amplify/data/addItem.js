@@ -5,12 +5,12 @@
  * @returns {object} - The request object formatted for DynamoDB Query operation.
  */
 export function request(ctx) {
-  const { pk, sk, ...values } = ctx.args
-  return {
-    operation: 'PutItem',
-    key: util.dynamodb.toMapValues({ pk, sk }),
-    attributeValues: util.dynamodb.toMapValues(values),
-  };
+    const { pk, sk, ...values } = ctx.args
+    return {
+        operation: 'PutItem',
+        key: util.dynamodb.toMapValues({ pk, sk }),
+        attributeValues: util.dynamodb.toMapValues(values),
+    };
 }
 
 /**

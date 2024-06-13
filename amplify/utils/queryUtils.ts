@@ -1,7 +1,7 @@
 import { generateClient } from "aws-amplify/api";
 import { Schema } from "../data/resource";
 import { Customer, Product, Invoice, InvoiceProduct } from "./model";
-import { mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct, mapToInvoice, mapInvoiceProducts } from "./mapper";
+import { mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct, mapToInvoice, mapInvoiceProducts, mapToInvoiceProduct } from "./mapper";
 
 const client = generateClient<Schema>();
 
@@ -75,7 +75,7 @@ export async function addCustomer(
     name: string | null,
     phone: string | null,
 ): Promise<Customer> {
-    const response = await client.mutations.addCustomer({
+    const response = await client.mutations.addItem({
         pk: pk,
         sk: sk,
         birthdate: birthdate,
@@ -83,6 +83,7 @@ export async function addCustomer(
         gender: gender,
         name: name,
         phone: phone,
+        type: 'customer',
     });
     return mapToCustomer(response?.data);
 }
@@ -95,15 +96,44 @@ export async function addProduct(
     price: string | null,
     quantity: number | null,
 ): Promise<Product> {
-    const response = await client.mutations.addProduct({
+    const response = await client.mutations.addItem({
         pk: pk,
         sk: sk,
         category: category,
         name: name,
         price: price,
         quantity: quantity,
+        type: 'product',
     });
     return mapToProduct(response?.data);
+}
+
+export async function addInvoice(
+    pk: string,
+    sk: string,
+    date: string | null,
+): Promise<Invoice> {
+    const response = await client.mutations.addItem({
+        pk: pk,
+        sk: sk,
+        date: date,
+        type: 'invoice',
+    });
+    return mapToInvoice(response?.data);
+}
+
+export async function addInvoiceProduct(
+    pk: string,
+    sk: string,
+    quantity: number | null,
+): Promise<InvoiceProduct> {
+    const response = await client.mutations.addItem({
+        pk: pk,
+        sk: sk,
+        quantity: quantity,
+        type: 'invoice_product',
+    });
+    return mapToInvoiceProduct(response?.data);
 }
 
 async function deleteByPKandSK(pk: string, sk: string) {

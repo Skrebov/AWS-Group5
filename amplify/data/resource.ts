@@ -1,4 +1,5 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { PhaseChangeEvent } from "aws-cdk-lib/aws-codebuild";
 
 const schema = a.schema({
     appdata: a.customType({
@@ -93,7 +94,7 @@ const schema = a.schema({
             })
         ),
 
-    addCustomer: a
+    addItem: a
         .mutation()
         .arguments({
             pk: a.string().required(),
@@ -103,32 +104,18 @@ const schema = a.schema({
             gender: a.string(),
             name: a.string(),
             phone: a.string(),
-        })
-        .returns(a.ref("appdata"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./addCustomer.js",
-            })
-        ),
-
-    addProduct: a
-        .mutation()
-        .arguments({
-            pk: a.string().required(),
-            sk: a.string().required(),
-            category: a.string(),
-            name: a.string(),
+            date: a.string(),
             price: a.string(),
             quantity: a.float(),
+            category: a.string(),
+            type: a.string().required(),
         })
         .returns(a.ref("appdata"))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(
             a.handler.custom({
                 dataSource: "appDataDataSource",
-                entry: "./addProduct.js",
+                entry: "./addItem.js",
             })
         ),
 

@@ -4,11 +4,11 @@ import { Button } from "./shadcn/components/ui/button";
 import {Routing} from "@/pages/Routing.tsx";
 import {BrowserRouter} from "react-router-dom";
 import {
-    getCustomers,
-    getInvoices,
-    getInvoicesByCustomer, getProduct,
-    getProductsByCategory, getSingleInvoiceInfo,
-    scan,
+    // getCustomers,
+    // getInvoices,
+    // getInvoicesByCustomer, getProduct,
+    // getProductsByCategory, getSingleInvoiceInfo,
+    // scan,
     addCustomer,
     addProduct,
     addInvoice,

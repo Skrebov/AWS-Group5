@@ -63,8 +63,7 @@ function App() {
                 <Button onClick={async () => console.log(await getInvoicesByCustomer('c#11111126'))}>Get Invoices by Customer</Button>
                 <Button onClick={async () => console.log(await getSingleInvoiceInfo('i#11111132'))}>Get Single Invoice Info</Button> */}
 
-                <Button onClick={async () => console.log(await ('c#99887766', 'c#99887766', currentDate.toString(), 'test_user@email.com', 'attack helicopter', 'Major Major Major', null))}>Create new customer</Button>
-
+                <Button onClick={async () => console.log(await addItem('c#99887766', 'c#99887766', currentDate.toString(), 'test_user@email.com', 'attack helicopter', 'Major Major Major', null, null, null, null, null, 'customer'))}>Create new customer</Button>
 
                 <Button onClick={async () => console.log(await addCustomer('c#99887766', 'c#99887766', currentDate.toString(), 'test_user@email.com', 'attack helicopter', 'Major Major Major', null))}>Create new customer</Button>
                 <Button onClick={async () => console.log(await addInvoice('i#99887766', 'c#99887766', currentDate.toDateString()))}>Create invoice for current date</Button>

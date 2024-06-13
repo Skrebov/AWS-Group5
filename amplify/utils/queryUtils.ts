@@ -74,8 +74,8 @@ export async function addCustomer(
     gender?: string,
     name?: string,
     phone?: string,
-): Promise<Customer> {
-    const response = await client.mutations.addItem({
+){
+    return client.mutations.addItem({
         pk: pk,
         sk: sk,
         type: 'customer',
@@ -84,8 +84,8 @@ export async function addCustomer(
         gender: gender,
         name: name,
         phone: phone,
-});
-    return mapToCustomer(response?.data);
+    });
+    // return mapToCustomer(response?.data);
 }
 
 export async function addProduct(

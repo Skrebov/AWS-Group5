@@ -18,8 +18,6 @@ import {
     deleteInvoice,
 } from "../amplify/utils/queryUtils.ts";
 
-const currentDate = new Date();
-
 function App() {
  // const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
@@ -62,8 +60,8 @@ function App() {
                 <Button onClick={async () => console.log(await getInvoicesByCustomer('c#11111126'))}>Get Invoices by Customer</Button>
                 <Button onClick={async () => console.log(await getSingleInvoiceInfo('i#11111132'))}>Get Single Invoice Info</Button> */}
 
-                <Button onClick={async () => console.log(await addCustomer('c#99887766', 'c#99887766', currentDate.toString(), 'test_user@email.com', 'attack helicopter', 'Major Major Major', null))}>Create new customer</Button>
-                <Button onClick={async () => console.log(await addInvoice('i#99887766', 'c#99887766', currentDate.toDateString()))}>Create invoice for current date</Button>
+                <Button onClick={async () => console.log(await addCustomer('c#99887766', 'c#99887766', 'definitely a date', 'test_user@email.com', 'attack helicopter', 'Major Major Major', null))}>Create new customer</Button>
+                <Button onClick={async () => console.log(await addInvoice('i#99887766', 'c#99887766', 'definitely a date'))}>Create invoice for current date</Button>
                 <Button onClick={async () => console.log(await addProduct('p#99887766', 'p#99887766', 'Category 1', 'Test product 99887766', '6.66', 420))}>Create new product 1</Button>
                 <Button onClick={async () => console.log(await addProduct('p#99887755', 'p#99887755', 'Category 2', 'Test product 99887755', '9.87', 1))}>Create new product 2</Button>
                 <Button onClick={async () => console.log(await addProduct('p#99887744', 'p#99887744', 'Category 3', 'Test product 99887744', '420.69', 2))}>Create new product 3</Button>

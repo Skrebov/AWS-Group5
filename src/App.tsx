@@ -9,6 +9,7 @@ import {
     // getInvoicesByCustomer, getProduct,
     // getProductsByCategory, getSingleInvoiceInfo,
     // scan,
+    addItem,
     addCustomer,
     addProduct,
     addInvoice,
@@ -61,6 +62,10 @@ function App() {
                 <Button onClick={async () => console.log(await scan())}>Scen</Button>
                 <Button onClick={async () => console.log(await getInvoicesByCustomer('c#11111126'))}>Get Invoices by Customer</Button>
                 <Button onClick={async () => console.log(await getSingleInvoiceInfo('i#11111132'))}>Get Single Invoice Info</Button> */}
+
+                <Button onClick={async () => console.log(await ('c#99887766', 'c#99887766', currentDate.toString(), 'test_user@email.com', 'attack helicopter', 'Major Major Major', null))}>Create new customer</Button>
+
+
                 <Button onClick={async () => console.log(await addCustomer('c#99887766', 'c#99887766', currentDate.toString(), 'test_user@email.com', 'attack helicopter', 'Major Major Major', null))}>Create new customer</Button>
                 <Button onClick={async () => console.log(await addInvoice('i#99887766', 'c#99887766', currentDate.toDateString()))}>Create invoice for current date</Button>
                 <Button onClick={async () => console.log(await addProduct('p#99887766', 'p#99887766', 'Category 1', 'Test product 99887766', '6.66', 420))}>Create new product 1</Button>

@@ -66,6 +66,36 @@ export async function getSingleInvoiceInfo(invoice: string) {
     return await getByPK(invoice);
 }
 
+export async function addItem(
+    pk: string,
+    sk: string,
+    birthdate: string | null,
+    email: string | null,
+    gender: string | null,
+    name: string | null,
+    phone: string | null,
+    date: string | null,
+    quantity: number | null,
+    category: string | null,
+    price: string | null,
+    type: string,
+) {
+    return await client.mutations.addItem({
+        pk: pk, 
+        sk: sk,
+        birthdate: birthdate,
+        email: email,
+        gender: gender,
+        name: name,
+        phone: phone,
+        date: date,
+        quantity: quantity,
+        category: category,
+        price: price,
+        type: type,
+    })
+}
+
 export async function addCustomer(
     pk: string,
     sk: string,
@@ -75,16 +105,20 @@ export async function addCustomer(
     name: string | null,
     phone: string | null,
 ): Promise<Customer> {
-    const response = await client.mutations.addItem({
-        pk: pk,
-        sk: sk,
-        birthdate: birthdate,
-        email: email,
-        gender: gender,
-        name: name,
-        phone: phone,
-        type: 'customer',
-    });
+    const response = await addItem(
+        pk,
+        sk,
+        birthdate,
+        email,
+        gender,
+        name,
+        phone,
+        null,
+        null,
+        null,
+        null,
+        'customer',
+    );
     return mapToCustomer(response?.data);
 }
 

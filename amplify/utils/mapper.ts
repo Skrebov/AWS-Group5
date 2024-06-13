@@ -2,22 +2,22 @@ import { Customer, Invoice, Product, InvoiceProduct } from "./model";
 
 function mapToCustomer(obj: any): Customer {
     return {
+        pk: obj.pk,
+        sk: obj.sk,
         birthdate: obj.birthdate,
         email: obj.email,
         gender: obj.gender,
         name: obj.name,
         phone: obj.phone,
-        pk: obj.pk,
-        sk: obj.sk,
     }
 }
 
 function mapToProduct(obj: any): Product {
     return {
-        category: obj.category,
-        name: obj.name,
         pk: obj.pk,
         sk: obj.sk,
+        category: obj.category,
+        name: obj.name,
         price: obj.price,
         quantity: obj.quantity,
     }
@@ -25,17 +25,17 @@ function mapToProduct(obj: any): Product {
 
 function mapToInvoice(obj: any): Invoice {
     return {
-        date: obj.date,
         pk: obj.pk,
         sk: obj.sk,
+        date: obj.date,
     }
 }
 
 function mapToInvoiceProduct(obj: any): InvoiceProduct {
     return {
-        quantity: obj.quantity,
         pk: obj.pk,
         sk: obj.sk,
+        quantity: obj.quantity,
     }
 }
 

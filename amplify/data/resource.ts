@@ -1,5 +1,4 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
-import { PhaseChangeEvent } from "aws-cdk-lib/aws-codebuild";
 
 const schema = a.schema({
     appdata: a.customType({

@@ -1,5 +1,5 @@
 
-export type Customer =  {
+export type Customer = {
     birthdate: string;
     email: string;
     gender: string;
@@ -10,7 +10,7 @@ export type Customer =  {
 };
 
 
-export type Product  =  {
+export type Product = {
     category: string;
     name: string;
     pk: string;
@@ -19,13 +19,13 @@ export type Product  =  {
     quantity: number;
 };
 
-export type Invoice  =  {
+export type Invoice = {
     date: string;
     pk: string;
     sk: string;
 };
 
-export type InvoiceProduct  =  {
+export type InvoiceProduct = {
     quantity: number;
     pk: string;
     sk: string;

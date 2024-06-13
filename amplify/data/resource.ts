@@ -1,4 +1,4 @@
-import {type ClientSchema, a, defineData} from "@aws-amplify/backend";
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 const schema = a.schema({
     appdata: a.customType({
@@ -35,7 +35,7 @@ const schema = a.schema({
 
     getByType: a
         .query()
-        .arguments({ type: a.string().required()})
+        .arguments({ type: a.string().required() })
         .returns(a.ref("listReturnType"))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(
@@ -47,7 +47,7 @@ const schema = a.schema({
 
     getProductsByCategory: a
         .query()
-        .arguments({ category: a.string().required()})
+        .arguments({ category: a.string().required() })
         .returns(a.ref("listReturnType"))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(
@@ -98,7 +98,7 @@ const schema = a.schema({
         .arguments({
             pk: a.string().required(),
             sk: a.string().required(),
-            birthdate: a.string(), 
+            birthdate: a.string(),
             email: a.string(),
             gender: a.string(),
             name: a.string(),
@@ -132,7 +132,7 @@ const schema = a.schema({
             })
         ),
 
-        deleteByPKandSK: a
+    deleteByPKandSK: a
         .mutation()
         .arguments({
             pk: a.string().required(),
@@ -147,7 +147,7 @@ const schema = a.schema({
             })
         ),
 
-        deleteByPKandType: a
+    deleteByPKandType: a
         .mutation()
         .arguments({
             pk: a.string().required(),

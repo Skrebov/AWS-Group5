@@ -1,6 +1,6 @@
-import {Customer, Invoice, Product, InvoiceProduct} from "./model";
+import { Customer, Invoice, Product, InvoiceProduct } from "./model";
 
-function mapToCustomer(obj: any): Customer{
+function mapToCustomer(obj: any): Customer {
     return {
         birthdate: obj.birthdate,
         email: obj.email,
@@ -12,7 +12,7 @@ function mapToCustomer(obj: any): Customer{
     }
 }
 
-function mapToProduct(obj: any): Product{
+function mapToProduct(obj: any): Product {
     return {
         category: obj.category,
         name: obj.name,
@@ -60,4 +60,4 @@ function mapInvoiceProducts(list: any): InvoiceProduct[] {
     return list.map(mapToInvoiceProduct);
 }
 
-export {mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct, mapCustomers, mapProducts, mapInvoices, mapInvoiceProducts}
+export { mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct, mapCustomers, mapProducts, mapInvoices, mapInvoiceProducts }

@@ -5,14 +5,13 @@
  * @returns {object} - The request object formatted for DynamoDB Query operation.
  */
 export function request(ctx) {
-  const { pk, sk, ...values} = ctx.args
+  const { pk, sk, ...values } = ctx.args
   return {
     operation: 'PutItem',
-    key: util.dynamodb.toMapValues({pk, sk}),
+    key: util.dynamodb.toMapValues({ pk, sk }),
     attributeValues: util.dynamodb.toMapValues(values),
   };
 }
-
 
 /**
  * Response handler for the AppSync resolver.
@@ -21,5 +20,3 @@ export function request(ctx) {
  * @returns {object} - The result object directly from the DynamoDB query response.
  */
 export const response = (ctx) => ctx.result;
-
-

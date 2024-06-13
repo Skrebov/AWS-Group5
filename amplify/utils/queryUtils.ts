@@ -91,7 +91,7 @@ export async function addCustomer(
 export async function addProduct(
     pk: string,
     sk: string,
-    category: string,
+    category?: string,
     name?: string,
     price?: string,
     quantity?: number,

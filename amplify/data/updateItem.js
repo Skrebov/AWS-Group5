@@ -6,7 +6,7 @@
  */
 export function request(ctx) {
   const { pk, sk, ...values } = ctx.args;
-  const updateExpression = Object.keys(values).map(key => `${key} = :${key}`).join(', ');
+  const updateExpression = 'SET ' + Object.keys(values).map(key => `${key} = :${key}`).join(', ');
   
   return {
       operation: 'UpdateItem',

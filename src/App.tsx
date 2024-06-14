@@ -75,9 +75,9 @@ function App() {
                 <Button onClick={async () => console.log(await addInvoiceProduct('i#99887766', 'p#99887755', 1))}>Create new invoice product 2</Button>
 
                 <Button onClick={async () => console.log(await updateCustomer('c#99887766', 'c#99887766', 'definitely not a date', 'real_email@email.com', 'defense helicopter', 'Big Chungus'))}>Update customer</Button>
-                <Button onClick={async () => console.log(await updateInvoice('i#99887766', 'c#99887766', 'definitely not a date'))}>Update invoice</Button>
+                {/* <Button onClick={async () => console.log(await updateInvoice('i#99887766', 'c#99887766', 'definitely not a date'))}>Update invoice</Button>
                 <Button onClick={async () => console.log(await updateProduct('p#99887766', 'p#99887766', 'Category 1', 'Updated test product 99887766', '1.11', 111))}>Update product 1</Button>
-                <Button onClick={async () => console.log(await updateInvoiceProduct('i#99887766', 'p#99887766', 2))}>Update invoice product 1</Button>
+                <Button onClick={async () => console.log(await updateInvoiceProduct('i#99887766', 'p#99887766', 2))}>Update invoice product 1</Button> */}
 
                 <Button onClick={async () => console.log(await deleteInvoice('i#99887766', 'c#99887766'))}>Delete invoice</Button>
                 <Button onClick={async () => console.log(await deleteInvoiceProductPKandSK('i#99887766', 'p#99887766'))}>Delete invoice products using PK and SK</Button>

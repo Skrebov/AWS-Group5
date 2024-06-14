@@ -7,13 +7,12 @@ import * as ddb from "@aws-appsync/utils/dynamodb";
  * @returns {object} - The request object formatted for DynamoDB Query operation.
  */
 export function request(ctx) {
-  const { pk, sk, expectedVersion, ...rest } = ctx.args;
+  const { pk, sk, ...rest } = ctx.args;
   const values = Object.entries(rest).reduce((obj, [key, value]) => {
     obj[key] = value ?? ddb.operations.remove();
     return obj;
   }, {});
-  log.console({ values });
-
+  
   return ddb.update({
     key: { pk, sk },
     update: { ...values },

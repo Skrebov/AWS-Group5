@@ -7,17 +7,22 @@
  */
 export function request(ctx) {
     const { pk, sk, ...values } = ctx.args
-    const updateExpression = Object.keys(values).map(key => `SET ${key} = :${key}`).join(', ');
-    const expressionValues = Object.entries(values).reduce((acc, [key, value]) => {
-        acc[`:${key}`] = value;
-        return acc;
-    }, {});
+    // const updateExpression = Object.keys(values).map(key => `SET ${key} = :${key}`).join(', ');
+    // const expressionValues = Object.entries(values).reduce((acc, [key, value]) => {
+    //     acc[`:${key}`] = value;
+    //     return acc;
+    // }, {});
+
+    const modifiedValues = Object.entries(values).reduce((obj, [key, value]) => {
+        obj[key] = value ?? null;
+        return obj;
+      }, {});
     return {
         operation: 'UpdateItem',
         key: util.dynamodb.toMapValues({ pk, sk }),
-        update: {
-            expression: updateExpression,
-            expressionValues: util.dynamodb.toMapValues(expressionValues),
+        update: { ...modifiedValues
+            // expression: updateExpression,
+            // expressionValues: util.dynamodb.toMapValues(expressionValues),
         },
     };
 }

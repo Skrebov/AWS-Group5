@@ -74,8 +74,8 @@ export async function addCustomer(
     gender?: string,
     name?: string,
     phone?: string,
-){
-    return client.mutations.addItem({
+): Promise<Customer> {
+    const response = await client.mutations.addCustomer({
         pk: pk,
         sk: sk,
         type: 'customer',
@@ -85,7 +85,7 @@ export async function addCustomer(
         name: name,
         phone: phone,
     });
-    // return mapToCustomer(response?.data);
+    return mapToCustomer(response?.data);
 }
 
 export async function addProduct(
@@ -96,7 +96,7 @@ export async function addProduct(
     price?: string,
     quantity?: number,
 ): Promise<Product> {
-    const response = await client.mutations.addItem({
+    const response = await client.mutations.addProduct({
         pk: pk,
         sk: sk,
         type: 'product',
@@ -113,7 +113,7 @@ export async function addInvoice(
     sk: string,
     date?: string,
 ): Promise<Invoice> {
-    const response = await client.mutations.addItem({
+    const response = await client.mutations.addInvoice({
         pk: pk,
         sk: sk,
         type: 'invoice',
@@ -127,7 +127,7 @@ export async function addInvoiceProduct(
     sk: string,
     quantity: number,
 ): Promise<InvoiceProduct> {
-    const response = await client.mutations.addItem({
+    const response = await client.mutations.addInvoiceProduct({
         pk: pk,
         sk: sk,
         type: 'invoice_product',

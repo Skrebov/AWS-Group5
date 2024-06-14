@@ -16,6 +16,8 @@ import {
     deleteCustomer,
     deleteProduct,
     deleteInvoice,
+    deleteInvoiceProductPKandSK,
+    deleteInvoiceProductSKandType
 } from "../amplify/utils/queryUtils.ts";
 
 function App() {
@@ -67,8 +69,9 @@ function App() {
                 <Button onClick={async () => console.log(await addProduct('p#99887744', 'p#99887744', 'Category 3', 'Test product 99887744', '420.69', 2))}>Create new product 3</Button>
                 <Button onClick={async () => console.log(await addInvoiceProduct('i#99887766', 'p#99887766', 1))}>Create new invoice product 1</Button>
                 <Button onClick={async () => console.log(await addInvoiceProduct('i#99887766', 'p#99887755', 1))}>Create new invoice product 2</Button>
-                <Button onClick={async () => console.log(await addInvoiceProduct('i#99887766', 'p#99887744', 1))}>Create new invoice product 3</Button>
-                <Button onClick={async () => console.log(await deleteInvoice('i#99887766', 'p#99887766'))}>Delete invoice and invoice products</Button>
+                <Button onClick={async () => console.log(await deleteInvoice('i#99887766', 'c#99887766'))}>Delete invoice</Button>
+                <Button onClick={async () => console.log(await deleteInvoiceProductPKandSK('i#99887766', 'p#99887766'))}>Delete invoice products using PK and SK</Button>
+                <Button onClick={async () => console.log(await deleteInvoiceProductSKandType('p#99887755'))}>Delete invoice products using SK and type</Button>
                 <Button onClick={async () => console.log(await deleteProduct('p#99887766'))}>Delete product 1</Button>
                 <Button onClick={async () => console.log(await deleteProduct('p#99887755'))}>Delete product 2</Button>
                 <Button onClick={async () => console.log(await deleteProduct('p#99887744'))}>Delete product 3</Button>

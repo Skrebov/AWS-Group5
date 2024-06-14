@@ -183,10 +183,10 @@ const schema = a.schema({
             })
         ),
 
-    deleteByPKandType: a
+    deleteBySKandType: a
         .mutation()
         .arguments({
-            pk: a.string().required(),
+            sk: a.string().required(),
             type: a.string().required(),
         })
         .returns(a.ref("listReturnType"))
@@ -194,7 +194,7 @@ const schema = a.schema({
         .handler(
             a.handler.custom({
                 dataSource: "appDataDataSource",
-                entry: "./deleteByPKandType.js",
+                entry: "./deleteBySKandType.js",
             })
         ),
 })

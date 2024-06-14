@@ -5,10 +5,10 @@
  * @returns {object} - The request object formatted for DynamoDB Query operation.
  */
 export function request(ctx) {
-    const {pk, type} = ctx.args
+    const {sk, type} = ctx.args
     return {
         operation: 'DeleteItem',
-        key: util.dynamodb.toMapValues({ pk, type }),
+        key: util.dynamodb.toMapValues({ sk, type }),
     };
 }
 

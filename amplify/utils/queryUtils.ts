@@ -75,6 +75,10 @@ export async function addCustomer(
     name?: string,
     phone?: string,
 ): Promise<Customer> {
+    const exists = await getCustomer(pk);
+    if (exists) {
+        throw new Error('Customer already exists');
+    }
     const response = await client.mutations.addCustomer({
         pk: pk,
         sk: sk,
@@ -96,6 +100,10 @@ export async function addProduct(
     price?: string,
     quantity?: number,
 ): Promise<Product> {
+    const exists = await getProduct(pk);
+    if (exists) {
+        throw new Error('Product already exists');
+    }
     const response = await client.mutations.addProduct({
         pk: pk,
         sk: sk,
@@ -113,6 +121,10 @@ export async function addInvoice(
     sk: string,
     date?: string,
 ): Promise<Invoice> {
+    const exists = await getSingleInvoiceInfo(pk);
+    if (exists) {
+        throw new Error('Invoice already exists');
+    }
     const response = await client.mutations.addInvoice({
         pk: pk,
         sk: sk,
@@ -140,8 +152,8 @@ async function deleteByPKandSK(pk: string, sk: string) {
     return await client.mutations.deleteByPKandSK({ pk: pk, sk: sk })
 }
 
-async function deleteByPKandType(pk: string, type: string) {
-    return await client.mutations.deleteByPKandType({ pk: pk, type: type })
+async function deleteBySKandType(sk: string, type: string) {
+    return await client.mutations.deleteBySKandType({ sk: sk, type: type })
 }
 
 export async function deleteCustomer(customer: string): Promise<Customer> {
@@ -154,14 +166,17 @@ export async function deleteProduct(product: string): Promise<Product> {
     return mapToProduct(queryResult?.data);
 }
 
+export async function deleteInvoice(invoice: string, customer: string): Promise<Invoice>{
+    const queryResult = await deleteByPKandSK(invoice, customer);
+    return mapToInvoice(queryResult?.data);
+}
 
-export async function deleteInvoice(invoice: string, customer: string){
-    return {
-        invoiceResult: await deleteByPKandSK(invoice, customer), 
-        invoiceProductsResult: await deleteByPKandType(invoice, 'invoice_product')
-    };
-    // return {
-    //     invoice: mapToInvoice(invoiceResult?.data),
-    //     invoiceProducts: mapInvoiceProducts(invoiceProducts?.data)
-    // };
+export async function deleteInvoiceProductPKandSK(invoice: string, product: string): Promise<InvoiceProduct>{
+    const queryResult = await deleteByPKandSK(invoice, product);
+    return mapToInvoiceProduct(queryResult?.data);
+}
+
+export async function deleteInvoiceProductSKandType(product: string): Promise<InvoiceProduct>{
+    const queryResult = await deleteBySKandType(product, 'invoice_product');
+    return mapToInvoiceProduct(queryResult?.data);
 }

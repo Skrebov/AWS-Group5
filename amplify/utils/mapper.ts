@@ -1,6 +1,7 @@
 import { Customer, Invoice, Product, InvoiceProduct } from "./model";
 
 function mapToCustomer(obj: any): Customer {
+    if (!obj) throw new Error('Null object given to mapToCustomer');
     return {
         pk: obj.pk,
         sk: obj.sk,
@@ -13,6 +14,7 @@ function mapToCustomer(obj: any): Customer {
 }
 
 function mapToProduct(obj: any): Product {
+    if (!obj) throw new Error('Null object given to mapToProduct');
     return {
         pk: obj.pk,
         sk: obj.sk,
@@ -24,6 +26,7 @@ function mapToProduct(obj: any): Product {
 }
 
 function mapToInvoice(obj: any): Invoice {
+    if (!obj) throw new Error('Null object given to mapToInvoice');
     return {
         pk: obj.pk,
         sk: obj.sk,
@@ -32,6 +35,7 @@ function mapToInvoice(obj: any): Invoice {
 }
 
 function mapToInvoiceProduct(obj: any): InvoiceProduct {
+    if (!obj) throw new Error('Null object given to mapToInvoiceProduct');
     return {
         pk: obj.pk,
         sk: obj.sk,

@@ -68,7 +68,7 @@ function App() {
                 <Button onClick={async () => console.log(await addInvoiceProduct('i#99887766', 'p#99887766', 1))}>Create new invoice product 1</Button>
                 <Button onClick={async () => console.log(await addInvoiceProduct('i#99887766', 'p#99887755', 1))}>Create new invoice product 2</Button>
                 <Button onClick={async () => console.log(await addInvoiceProduct('i#99887766', 'p#99887744', 1))}>Create new invoice product 3</Button>
-                <Button onClick={async () => console.log(await deleteInvoice('i#99887766'))}>Delete invoice and invoice products</Button>
+                <Button onClick={async () => console.log(await deleteInvoice('i#99887766', 'p#99887766'))}>Delete invoice and invoice products</Button>
                 <Button onClick={async () => console.log(await deleteProduct('p#99887766'))}>Delete product 1</Button>
                 <Button onClick={async () => console.log(await deleteProduct('p#99887755'))}>Delete product 2</Button>
                 <Button onClick={async () => console.log(await deleteProduct('p#99887744'))}>Delete product 3</Button>

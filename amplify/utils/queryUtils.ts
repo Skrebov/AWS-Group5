@@ -154,8 +154,8 @@ export async function deleteProduct(product: string): Promise<Product> {
     return mapToProduct(queryResult?.data);
 }
 
-export async function deleteInvoice(invoice: string): Promise<{ invoice: Invoice, invoiceProducts: InvoiceProduct[] }> {
-    const invoiceResult = await deleteByPKandSK(invoice, invoice);
+export async function deleteInvoice(invoice: string, customer: string): Promise<{ invoice: Invoice, invoiceProducts: InvoiceProduct[] }> {
+    const invoiceResult = await deleteByPKandSK(invoice, customer);
     const invoiceProducts = await deleteByPKandType(invoice, 'invoice_product');
     return {
         invoice: mapToInvoice(invoiceResult?.data),

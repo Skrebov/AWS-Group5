@@ -8,7 +8,7 @@ export function request(ctx) {
     const {pk, type} = ctx.args
     return {
         operation: 'DeleteItem',
-        key: util.dynamodb.toMapValues({ pk: pk, type: type }),
+        key: util.dynamodb.toMapValues({ pk, type }),
     };
 }
 

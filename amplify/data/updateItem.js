@@ -1,3 +1,4 @@
+import * as ddb from "@aws-appsync/utils/dynamodb";
 
 /**
  * Request handler for the AppSync resolver.
@@ -6,25 +7,16 @@
  * @returns {object} - The request object formatted for DynamoDB Query operation.
  */
 export function request(ctx) {
-    const { pk, sk, ...values } = ctx.args
-    // const updateExpression = Object.keys(values).map(key => `SET ${key} = :${key}`).join(', ');
-    // const expressionValues = Object.entries(values).reduce((acc, [key, value]) => {
-    //     acc[`:${key}`] = value;
-    //     return acc;
-    // }, {});
+  const { pk, sk, expectedVersion, ...rest } = ctx.args;
+  const values = Object.entries(rest).reduce((obj, [key, value]) => {
+    obj[key] = value ?? ddb.operations.remove();
+    return obj;
+  }, {});
 
-    const modifiedValues = Object.entries(values).reduce((obj, [key, value]) => {
-        obj[key] = value ?? null;
-        return obj;
-      }, {});
-    return {
-        operation: 'UpdateItem',
-        key: util.dynamodb.toMapValues({ pk, sk }),
-        update: { ...modifiedValues
-            // expression: updateExpression,
-            // expressionValues: util.dynamodb.toMapValues(expressionValues),
-        },
-    };
+  return ddb.update({
+    key: util.dynamodb.toMapValues({ pk, sk }),
+    update: { ...values },
+  });
 }
 
 /**

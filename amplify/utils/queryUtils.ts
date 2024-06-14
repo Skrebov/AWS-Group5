@@ -75,16 +75,6 @@ export async function addCustomer(
     name?: string,
     phone?: string,
 ): Promise<Customer> {
-    try {
-        const exists = await getCustomer(pk);
-        if (exists) {
-            throw new Error('Customer already exists');
-        }
-    } catch (e: any) {
-        if (e.message !== 'Null object given to mapToCustomer') {
-            throw e;
-        }
-    }
     const response = await client.mutations.addCustomer({
         pk: pk,
         sk: sk,
@@ -106,16 +96,6 @@ export async function addProduct(
     price?: string,
     quantity?: number,
 ): Promise<Product> {
-    try {
-        const exists = await getProduct(pk);
-        if (exists) {
-            throw new Error('Product already exists');
-        }
-    } catch (e: any) {
-        if (e.message !== 'Null object given to mapToProduct') {
-            throw e;
-        }
-    }
     const response = await client.mutations.addProduct({
         pk: pk,
         sk: sk,
@@ -133,16 +113,6 @@ export async function addInvoice(
     sk: string,
     date?: string,
 ): Promise<Invoice> {
-    try {
-        const exists = await getCustomer(pk);
-        if (exists) {
-            throw new Error('Invoice already exists');
-        }
-    } catch (e: any) {
-        if (e.message !== 'Null object given to mapToInvoice') {
-            throw e;
-        }
-    }
     const response = await client.mutations.addInvoice({
         pk: pk,
         sk: sk,
@@ -157,17 +127,6 @@ export async function addInvoiceProduct(
     sk: string,
     quantity: number,
 ): Promise<InvoiceProduct> {
-    try {
-        const data = await getByPKandSK(pk, sk);
-        const exists = mapToInvoiceProduct(data?.data);
-        if (exists) {
-            throw new Error('InvoiceProduct already exists');
-        }
-    } catch (e: any) {
-        if (e.message !== 'Null object given to mapToInvoiceProduct') {
-            throw e;
-        }
-    }
     const response = await client.mutations.addInvoiceProduct({
         pk: pk,
         sk: sk,

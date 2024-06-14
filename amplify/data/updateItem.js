@@ -7,7 +7,7 @@
  */
 export function request(ctx) {
     const { pk, sk, ...values } = ctx.args
-    const updateExpression = Object.keys(values).map(key => `${key} = :${key}`).join(', ');
+    const updateExpression = Object.keys(values).map(key => `SET ${key} = :${key}`).join(', ');
     const expressionValues = Object.entries(values).reduce((acc, [key, value]) => {
         acc[`:${key}`] = value;
         return acc;
@@ -17,7 +17,7 @@ export function request(ctx) {
         key: util.dynamodb.toMapValues({ pk, sk }),
         update: {
             expression: updateExpression,
-            expressionValues: expressionValues,
+            expressionValues: util.dynamodb.toMapValues(expressionValues),
         },
     };
 }

@@ -5,20 +5,17 @@
  * @returns {object} - The request object formatted for DynamoDB Query operation.
  */
 export function request(ctx) {
-  const { pk, sk, ...rest } = ctx.args;
-  const values = Object.entries(rest).reduce((obj, [key, value]) => {
-    obj[key] = value ?? ddb.operations.remove();
-    return obj;
-  }, {});
+  const { pk, sk, ...values } = ctx.args;
+  const updateExpression = Object.keys(values).map(key => `${key} = :${key}`).join(', ');
   
-    return {
-        operation: 'UpdateItem',
-        key: util.dynamodb.toMapValues({ pk, sk }),
-        update: {
-            expression: 'SET ' + Object.keys(values).map(key => `#${key} = :${key}`).join(', '), // #name = :name
-            expressionValues: util.dynamodb.toMapValues(values),
-        }
-    };
+  return {
+      operation: 'UpdateItem',
+      key: util.dynamodb.toMapValues({ pk, sk }),
+      update: {
+        expression: updateExpression,
+        expressionValues: util.dynamodb.toMapValues(values),
+      }
+  };
 }
 
 /**

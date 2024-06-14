@@ -169,54 +169,6 @@ export async function deleteInvoiceProductSKandType(product: string): Promise<In
     return mapToInvoiceProduct(queryResult?.data);
 }
 
-export async function updateInvoiceProduct(
-    pk: string,
-    sk: string,
-    quantity?: number,
-): Promise<InvoiceProduct> {
-    const response = await client.mutations.updateInvoiceProduct({
-        pk: pk,
-        sk: sk,
-        type: 'invoice_product',
-        quantity: quantity,
-    });
-    return mapToInvoiceProduct(response?.data);
-}
-
-export async function updateProduct(
-    pk: string,
-    sk: string,
-    category?: string,
-    name?: string,
-    price?: string,
-    quantity?: number,
-) {
-    const response = await client.mutations.updateProduct({
-        pk: pk,
-        sk: sk,
-        type: 'product',
-        category: category,
-        name: name,
-        price: price,
-        quantity: quantity,
-    });
-    return mapToProduct(response?.data);
-}
-
-export async function updateInvoice(
-    pk: string,
-    sk: string,
-    date?: string,
-): Promise<Invoice> {
-    const response = await client.mutations.updateInvoice({
-        pk: pk,
-        sk: sk,
-        type: 'invoice',
-        date: date,
-    });
-    return mapToInvoice(response?.data);
-}
-
 export async function updateCustomer(
     pk: string,
     sk: string,
@@ -238,3 +190,51 @@ export async function updateCustomer(
     });
     return mapToCustomer(response?.data);
 }
+
+// export async function updateInvoiceProduct(
+//     pk: string,
+//     sk: string,
+//     quantity?: number,
+// ): Promise<InvoiceProduct> {
+//     const response = await client.mutations.updateInvoiceProduct({
+//         pk: pk,
+//         sk: sk,
+//         type: 'invoice_product',
+//         quantity: quantity,
+//     });
+//     return mapToInvoiceProduct(response?.data);
+// }
+
+// export async function updateProduct(
+//     pk: string,
+//     sk: string,
+//     category?: string,
+//     name?: string,
+//     price?: string,
+//     quantity?: number,
+// ) {
+//     const response = await client.mutations.updateProduct({
+//         pk: pk,
+//         sk: sk,
+//         type: 'product',
+//         category: category,
+//         name: name,
+//         price: price,
+//         quantity: quantity,
+//     });
+//     return mapToProduct(response?.data);
+// }
+
+// export async function updateInvoice(
+//     pk: string,
+//     sk: string,
+//     date?: string,
+// ): Promise<Invoice> {
+//     const response = await client.mutations.updateInvoice({
+//         pk: pk,
+//         sk: sk,
+//         type: 'invoice',
+//         date: date,
+//     });
+//     return mapToInvoice(response?.data);
+// }

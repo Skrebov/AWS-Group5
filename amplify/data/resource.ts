@@ -1,5 +1,4 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
-import { updateCustomer } from "../utils/queryUtils";
 
 const schema = a.schema({
     appdata: a.customType({
@@ -220,59 +219,59 @@ const schema = a.schema({
             })
         ),
     
-    updateProduct: a
-        .mutation()
-        .arguments({
-            pk: a.string().required(),
-            sk: a.string().required(),
-            type: a.string().required(),
-            category: a.string(),
-            name: a.string(),
-            price: a.string(),
-            quantity: a.float(),
-        })
-        .returns(a.ref("appdata"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./updateItem.js",
-            })
-        ),
+    // updateProduct: a
+    //     .mutation()
+    //     .arguments({
+    //         pk: a.string().required(),
+    //         sk: a.string().required(),
+    //         type: a.string().required(),
+    //         category: a.string(),
+    //         name: a.string(),
+    //         price: a.string(),
+    //         quantity: a.float(),
+    //     })
+    //     .returns(a.ref("appdata"))
+    //     .authorization(allow => [allow.authenticated("userPools")])
+    //     .handler(
+    //         a.handler.custom({
+    //             dataSource: "appDataDataSource",
+    //             entry: "./updateItem.js",
+    //         })
+    //     ),
 
-    updateInvoice: a
-        .mutation()
-        .arguments({
-            pk: a.string().required(),
-            sk: a.string().required(),
-            type: a.string().required(),
-            date: a.string(),
-        })
-        .returns(a.ref("appdata"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./updateItem.js",
-            })
-        ),
+    // updateInvoice: a
+    //     .mutation()
+    //     .arguments({
+    //         pk: a.string().required(),
+    //         sk: a.string().required(),
+    //         type: a.string().required(),
+    //         date: a.string(),
+    //     })
+    //     .returns(a.ref("appdata"))
+    //     .authorization(allow => [allow.authenticated("userPools")])
+    //     .handler(
+    //         a.handler.custom({
+    //             dataSource: "appDataDataSource",
+    //             entry: "./updateItem.js",
+    //         })
+    //     ),
     
-    updateInvoiceProduct: a
-        .mutation()
-        .arguments({
-            pk: a.string().required(),
-            sk: a.string().required(),
-            type: a.string().required(),
-            quantity: a.float(),
-        })
-        .returns(a.ref("appdata"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./updateItem.js",
-            })
-        ),
+    // updateInvoiceProduct: a
+    //     .mutation()
+    //     .arguments({
+    //         pk: a.string().required(),
+    //         sk: a.string().required(),
+    //         type: a.string().required(),
+    //         quantity: a.float(),
+    //     })
+    //     .returns(a.ref("appdata"))
+    //     .authorization(allow => [allow.authenticated("userPools")])
+    //     .handler(
+    //         a.handler.custom({
+    //             dataSource: "appDataDataSource",
+    //             entry: "./updateItem.js",
+    //         })
+    //     ),
     
 })
 

@@ -17,7 +17,7 @@ export function request(ctx) {
         key: util.dynamodb.toMapValues({ pk, sk }),
         update: {
             expression: updateExpression,
-            expressionValues
+            expressionValues: expressionValues,
         },
     };
 }

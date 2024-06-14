@@ -19,9 +19,9 @@ import {
     deleteInvoiceProductPKandSK,
     deleteInvoiceProductSKandType,
     updateCustomer,
-    updateInvoice,
-    updateProduct,
-    updateInvoiceProduct
+    // updateInvoice,
+    // updateProduct,
+    // updateInvoiceProduct
 } from "../amplify/utils/queryUtils.ts";
 
 function App() {

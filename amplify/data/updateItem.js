@@ -12,9 +12,10 @@ export function request(ctx) {
     obj[key] = value ?? ddb.operations.remove();
     return obj;
   }, {});
+  log.console({ values });
 
   return ddb.update({
-    key: util.dynamodb.toMapValues({ pk, sk }),
+    key: { pk, sk },
     update: { ...values },
   });
 }

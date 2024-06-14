@@ -2,6 +2,7 @@ import { generateClient } from "aws-amplify/api";
 import { Schema } from "../data/resource";
 import { Customer, Product, Invoice, InvoiceProduct } from "./model";
 import { mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct } from "./mapper";
+import { log } from "console";
 
 const client = generateClient<Schema>();
 

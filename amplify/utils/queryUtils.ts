@@ -2,7 +2,6 @@ import { generateClient } from "aws-amplify/api";
 import { Schema } from "../data/resource";
 import { Customer, Product, Invoice, InvoiceProduct } from "./model";
 import { mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct } from "./mapper";
-import { log } from "console";
 
 const client = generateClient<Schema>();
 
@@ -170,44 +169,18 @@ export async function deleteInvoiceProductSKandType(product: string): Promise<In
     return mapToInvoiceProduct(queryResult?.data);
 }
 
-export async function updateItem(
-    pk: string,
-    sk: string,
-    birthdate?: string,
-    date?: string,
-    email?: string,
-    gender?: string,
-    name?: string,
-    phone?: string,
-    price?: string,
-    quantity?: number,
-    category?: string,
-) {
-    return await client.mutations.updateItem({
-        pk: pk,
-        sk: sk,
-        birthdate: birthdate,
-        date: date,
-        email: email,
-        gender: gender,
-        name: name,
-        phone: phone,
-        price: price,
-        quantity: quantity,
-        category: category,
-    });
-}
-
 export async function updateInvoiceProduct(
     pk: string,
     sk: string,
     quantity?: number,
-) {
-    return await client.mutations.updateItem({
+): Promise<InvoiceProduct> {
+    const response = await client.mutations.updateInvoiceProduct({
         pk: pk,
         sk: sk,
+        type: 'invoice_product',
         quantity: quantity,
     });
+    return mapToInvoiceProduct(response?.data);
 }
 
 export async function updateProduct(
@@ -218,26 +191,30 @@ export async function updateProduct(
     price?: string,
     quantity?: number,
 ) {
-    return await client.mutations.updateItem({
+    const response = await client.mutations.updateProduct({
         pk: pk,
         sk: sk,
+        type: 'product',
         category: category,
         name: name,
         price: price,
         quantity: quantity,
     });
+    return mapToProduct(response?.data);
 }
 
 export async function updateInvoice(
     pk: string,
     sk: string,
     date?: string,
-) {
-    return await client.mutations.updateItem({
+): Promise<Invoice> {
+    const response = await client.mutations.updateInvoice({
         pk: pk,
         sk: sk,
+        type: 'invoice',
         date: date,
     });
+    return mapToInvoice(response?.data);
 }
 
 export async function updateCustomer(
@@ -248,14 +225,16 @@ export async function updateCustomer(
     gender?: string,
     name?: string,
     phone?: string,
-) {
-    return await client.mutations.updateItem({
+): Promise<Customer> {
+    const response = await client.mutations.updateCustomer({
         pk: pk,
         sk: sk,
+        type: 'customer',
         birthdate: birthdate,
         email: email,
         gender: gender,
         name: name,
         phone: phone,
     });
+    return mapToCustomer(response?.data);
 }

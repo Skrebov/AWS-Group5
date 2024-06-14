@@ -1,5 +1,3 @@
-import * as ddb from "@aws-appsync/utils/dynamodb";
-
 /**
  * Request handler for the AppSync resolver.
  *
@@ -13,10 +11,14 @@ export function request(ctx) {
     return obj;
   }, {});
   
-  return ddb.update({
-    key: { pk, sk },
-    update: { ...values },
-  });
+    return {
+        operation: 'UpdateItem',
+        key: util.dynamodb.toMapValues({ pk, sk }),
+        update: {
+            expression: 'SET ' + Object.keys(values).map(key => `#${key} = :${key}`).join(', '), // #name = :name
+            expressionValues: util.dynamodb.toMapValues(values),
+        }
+    };
 }
 
 /**

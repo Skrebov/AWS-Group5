@@ -1,4 +1,5 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { updateCustomer } from "../utils/queryUtils";
 
 const schema = a.schema({
     appdata: a.customType({
@@ -197,21 +198,18 @@ const schema = a.schema({
                 entry: "./deleteBySKandType.js",
             })
         ),
-
-    updateItem: a
+    
+    updateCustomer: a
         .mutation()
         .arguments({
             pk: a.string().required(),
             sk: a.string().required(),
+            type: a.string().required(),
             birthdate: a.string(),
-            date: a.string(),
             email: a.string(),
             gender: a.string(),
             name: a.string(),
             phone: a.string(),
-            price: a.string(),
-            quantity: a.float(),
-            category: a.string(),
         })
         .returns(a.ref("appdata"))
         .authorization(allow => [allow.authenticated("userPools")])
@@ -221,6 +219,61 @@ const schema = a.schema({
                 entry: "./updateItem.js",
             })
         ),
+    
+    updateProduct: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            category: a.string(),
+            name: a.string(),
+            price: a.string(),
+            quantity: a.float(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./updateItem.js",
+            })
+        ),
+
+    updateInvoice: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            date: a.string(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./updateItem.js",
+            })
+        ),
+    
+    updateInvoiceProduct: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            quantity: a.float(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./updateItem.js",
+            })
+        ),
+    
 })
 
 export type Schema = ClientSchema<typeof schema>;

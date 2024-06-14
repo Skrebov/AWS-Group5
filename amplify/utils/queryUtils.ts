@@ -144,21 +144,23 @@ async function deleteByPKandType(pk: string, type: string) {
     return await client.mutations.deleteByPKandType({ pk: pk, type: type })
 }
 
-export async function deleteCustomer(customer: string): Promise<Customer> {
-    const queryResult = await deleteByPKandSK(customer, customer);
-    return mapToCustomer(queryResult?.data);
+export async function deleteCustomer(customer: string) {
+    // : Promise<Customer>
+    return await deleteByPKandSK(customer, customer);
+    // return mapToCustomer(queryResult?.data);
 }
 
-export async function deleteProduct(product: string): Promise<Product> {
-    const queryResult = await deleteByPKandSK(product, product);
-    return mapToProduct(queryResult?.data);
+export async function deleteProduct(product: string) {
+    //: Promise<Product>
+    return await deleteByPKandSK(product, product);
+    // return mapToProduct(queryResult?.data);
 }
 
-export async function deleteInvoice(invoice: string, customer: string): Promise<{ invoice: Invoice, invoiceProducts: InvoiceProduct[] }> {
-    const invoiceResult = await deleteByPKandSK(invoice, customer);
-    const invoiceProducts = await deleteByPKandType(invoice, 'invoice_product');
-    return {
-        invoice: mapToInvoice(invoiceResult?.data),
-        invoiceProducts: mapInvoiceProducts(invoiceProducts?.data)
-    };
+export async function deleteInvoice(invoice: string, customer: string){
+    // : Promise<{ invoice: Invoice, invoiceProducts: InvoiceProduct[] }> 
+    return await deleteByPKandSK(invoice, customer), await deleteByPKandType(invoice, 'invoice_product');
+    // return {
+    //     invoice: mapToInvoice(invoiceResult?.data),
+    //     invoiceProducts: mapInvoiceProducts(invoiceProducts?.data)
+    // };
 }

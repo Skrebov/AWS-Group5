@@ -1,3 +1,4 @@
+
 /**
  * Request handler for the AppSync resolver.
  *
@@ -6,10 +7,18 @@
  */
 export function request(ctx) {
     const { pk, sk, ...values } = ctx.args
+    const updateExpression = Object.keys(values).map(key => `${key} = :${key}`).join(', ');
+    const expressionValues = Object.entries(values).reduce((acc, [key, value]) => {
+        acc[`:${key}`] = value;
+        return acc;
+    }, {});
     return {
         operation: 'UpdateItem',
         key: util.dynamodb.toMapValues({ pk, sk }),
-        attributeValues: util.dynamodb.toMapValues(values),
+        update: {
+            expression: updateExpression,
+            expressionValues
+        },
     };
 }
 

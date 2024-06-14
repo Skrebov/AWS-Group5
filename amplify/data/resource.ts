@@ -197,6 +197,30 @@ const schema = a.schema({
                 entry: "./deleteBySKandType.js",
             })
         ),
+
+    updateItem: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            birthdate: a.string(),
+            date: a.string(),
+            email: a.string(),
+            gender: a.string(),
+            name: a.string(),
+            phone: a.string(),
+            price: a.string(),
+            quantity: a.float(),
+            category: a.string(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./updateItem.js",
+            })
+        ),
 })
 
 export type Schema = ClientSchema<typeof schema>;

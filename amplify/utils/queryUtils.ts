@@ -168,3 +168,93 @@ export async function deleteInvoiceProductSKandType(product: string): Promise<In
     const queryResult = await deleteBySKandType(product, 'invoice_product');
     return mapToInvoiceProduct(queryResult?.data);
 }
+
+export async function updateItem(
+    pk: string,
+    sk: string,
+    birthdate?: string,
+    date?: string,
+    email?: string,
+    gender?: string,
+    name?: string,
+    phone?: string,
+    price?: string,
+    quantity?: number,
+    category?: string,
+) {
+    return await client.mutations.updateItem({
+        pk: pk,
+        sk: sk,
+        birthdate: birthdate,
+        date: date,
+        email: email,
+        gender: gender,
+        name: name,
+        phone: phone,
+        price: price,
+        quantity: quantity,
+        category: category,
+    });
+}
+
+export async function updateInvoiceProduct(
+    pk: string,
+    sk: string,
+    quantity?: number,
+) {
+    return await client.mutations.updateItem({
+        pk: pk,
+        sk: sk,
+        quantity: quantity,
+    });
+}
+
+export async function updateProduct(
+    pk: string,
+    sk: string,
+    category?: string,
+    name?: string,
+    price?: string,
+    quantity?: number,
+) {
+    return await client.mutations.updateItem({
+        pk: pk,
+        sk: sk,
+        category: category,
+        name: name,
+        price: price,
+        quantity: quantity,
+    });
+}
+
+export async function updateInvoice(
+    pk: string,
+    sk: string,
+    date?: string,
+) {
+    return await client.mutations.updateItem({
+        pk: pk,
+        sk: sk,
+        date: date,
+    });
+}
+
+export async function updateCustomer(
+    pk: string,
+    sk: string,
+    birthdate?: string,
+    email?: string,
+    gender?: string,
+    name?: string,
+    phone?: string,
+) {
+    return await client.mutations.updateItem({
+        pk: pk,
+        sk: sk,
+        birthdate: birthdate,
+        email: email,
+        gender: gender,
+        name: name,
+        phone: phone,
+    });
+}

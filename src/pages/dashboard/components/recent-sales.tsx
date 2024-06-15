@@ -1,6 +1,22 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {useEffect, useState} from "react";
+import {getRecentInvoices} from "../../../../amplify/utils/queryUtils.ts";
+import {Invoice} from "../../../../amplify/utils/model.ts";
 
 export default function RecentSales() {
+    const [invoices, setInvoices] = useState<Invoice[]>([]);
+
+     useEffect( () =>{
+        let invoiceTemp;
+        async function fetchInvoices(){
+            const invoices = await getRecentInvoices();
+            setInvoices(invoices);
+            invoiceTemp = invoices;
+        }
+        fetchInvoices();
+        console.log(invoiceTemp);
+    })
+
     return (
         <div className="space-y-8">
             <div className="flex items-center">

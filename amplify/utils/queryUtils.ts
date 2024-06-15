@@ -1,6 +1,6 @@
 import {generateClient} from "aws-amplify/api";
 import {Schema} from "../data/resource";
-import {Customer, Product} from "./model";
+import {Customer, Invoice, Product} from "./model";
 import {mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct} from "./mapper";
 
 const client = generateClient<Schema>();
@@ -64,5 +64,10 @@ async function getByPK(pk: string){
 //TODO consider typing for composite
 export async function getSingleInvoiceInfo(invoice: string){
   return await getByPK(invoice);
+}
+
+export async function getRecentInvoices(): Promise<Invoice[]> {
+    const queryResult =  await client.queries.getRecentInvoices();
+    return mapInvoices(getRecentInvoices());
 }
 

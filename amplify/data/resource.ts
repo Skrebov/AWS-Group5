@@ -83,6 +83,7 @@ const schema = a.schema({
 
     getRecentInvoices: a
         .query()
+        .arguments({ type: a.string().required() })
         .returns(a.ref("listReturnType"))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(

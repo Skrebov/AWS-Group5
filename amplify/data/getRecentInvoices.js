@@ -13,13 +13,13 @@ export function request(ctx) {
                 '#type': 'type'
             },
             expressionValues: {
-                ":type" : 'invoice'
+                ":type" : { "S" : ctx.args.type }
             }
         },
         index: 'type-date-index',
         scanIndexForward: false,
-        limit: 5,
-        select: 'ALL_PROJECTED_ATTRIBUTES'
+        select: 'ALL_PROJECTED_ATTRIBUTES',
+        limit: 5
     };
 }
 

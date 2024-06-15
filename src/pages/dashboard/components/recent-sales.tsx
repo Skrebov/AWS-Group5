@@ -14,8 +14,7 @@ export default function RecentSales() {
             invoiceTemp = invoices;
         }
         fetchInvoices();
-        console.log(invoiceTemp);
-    })
+    }, [])
 
     return (
         <div className="space-y-8">

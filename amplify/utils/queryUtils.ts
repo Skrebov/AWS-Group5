@@ -67,7 +67,9 @@ export async function getSingleInvoiceInfo(invoice: string){
 }
 
 export async function getRecentInvoices(): Promise<Invoice[]> {
-    const queryResult =  await client.queries.getRecentInvoices();
-    return mapInvoices(getRecentInvoices());
+    const queryResult =  await client.queries.getRecentInvoices({type: 'invoice'});
+    const temp:Invoice[] =  mapInvoices(queryResult?.data?.items);
+    console.log(temp);
+    return temp;
 }
 

@@ -1,19 +1,26 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {useEffect, useState} from "react";
-import {getRecentInvoices} from "../../../../amplify/utils/queryUtils.ts";
-import {Invoice} from "../../../../amplify/utils/model.ts";
+import {getRecentInvoices, getSingleInvoiceInfo} from "../../../../amplify/utils/queryUtils.ts";
+import {CompleteInvoice, Invoice} from "../../../../amplify/utils/model.ts";
 
 export default function RecentSales() {
     const [invoices, setInvoices] = useState<Invoice[]>([]);
 
+    const [completeInvoices, setCompleteInvoices] = useState<CompleteInvoice[]>([]);
+
      useEffect( () =>{
-        let invoiceTemp;
         async function fetchInvoices(){
             const invoices = await getRecentInvoices();
             setInvoices(invoices);
-            invoiceTemp = invoices;
+            return invoices;
         }
-        fetchInvoices();
+        fetchInvoices().then(invoices => {
+            const invoicePKs:string[] = invoices.map(invoice => invoice.pk);
+            invoicePKs.forEach(async pk => {
+                const invoiceInformation = await getSingleInvoiceInfo(pk);
+
+            })
+        });
     }, [])
 
     return (

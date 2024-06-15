@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {useEffect, useState} from "react";
-import {getRecentInvoices, getSingleInvoiceInfo} from "../../../../amplify/utils/queryUtils.ts";
+import {batchGetItem, getRecentInvoices, getSingleInvoiceInfo} from "../../../../amplify/utils/queryUtils.ts";
 import {CompleteInvoice, Invoice} from "../../../../amplify/utils/model.ts";
 
 export default function RecentSales() {
@@ -18,7 +18,8 @@ export default function RecentSales() {
             const invoicePKs:string[] = invoices.map(invoice => invoice.pk);
             invoicePKs.forEach(async pk => {
                 const invoiceInformation = await getSingleInvoiceInfo(pk);
-
+               // console.log(invoiceInformation);
+                console.log(await batchGetItem(invoiceInformation?.data?.items?.map(entry => entry.pk)));
             })
         });
     }, [])

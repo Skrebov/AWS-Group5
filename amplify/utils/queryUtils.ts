@@ -71,3 +71,7 @@ export async function getRecentInvoices(): Promise<Invoice[]> {
     return mapInvoices(queryResult?.data?.items);
 }
 
+export async function batchGetItem(ids:string[] | undefined){
+    return await client.queries.batchGetItem({ids});
+}
+

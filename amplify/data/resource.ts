@@ -93,6 +93,18 @@ const schema = a.schema({
             })
         ),
 
+    batchGetItem: a
+        .query()
+        .arguments({ ids: a.string().array()})
+        .returns(a.ref("listReturnType"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./batchGetItem.js",
+            })
+        ),
+
     scan: a
         .query()
         .returns(a.ref("listReturnType"))

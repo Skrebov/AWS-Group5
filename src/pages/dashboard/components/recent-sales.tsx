@@ -19,7 +19,8 @@ export default function RecentSales() {
             invoicePKs.forEach(async pk => {
                 const invoiceInformation = await getSingleInvoiceInfo(pk);
                // console.log(invoiceInformation);
-                console.log(await batchGetItem(invoiceInformation?.data?.items?.map(entry => entry.pk)));
+                const ids = invoiceInformation?.data?.items?.map(entry => entry.sk);
+                await batchGetItem(ids);
             })
         });
     }, [])

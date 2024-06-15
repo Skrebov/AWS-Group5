@@ -95,7 +95,7 @@ const schema = a.schema({
 
     batchGetItem: a
         .query()
-        .arguments({ ids: a.string().array()})
+        .arguments({ ids: a.string().array().required()})
         .returns(a.ref("listReturnType"))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(

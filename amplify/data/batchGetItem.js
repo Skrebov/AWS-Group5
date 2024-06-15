@@ -18,4 +18,9 @@ export function request(ctx) {
  * @param {object} ctx - The context object provided by AppSync.
  * @returns {object} - The result object directly from the DynamoDB query response.
  */
-export const response = (ctx) => ctx.result;
+export function response(ctx) {
+    if (ctx.error) {
+        util.error(ctx.error.message, ctx.error.type, null, ctx.result.data.unprocessedKeys);
+    }
+    return ctx.result.data;
+}

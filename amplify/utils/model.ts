@@ -24,3 +24,15 @@ export type Invoice  =  {
     pk: string;
     sk: string;
 };
+
+export type CompleteInvoice = {
+    invoice: Invoice;
+    customer: Customer;
+    products: Product[];
+    sum: number;
+}
+
+export type DataItem =  {
+    name: string;
+    total: number;
+}

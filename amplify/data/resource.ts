@@ -81,6 +81,29 @@ const schema = a.schema({
             })
         ),
 
+    getRecentInvoices: a
+        .query()
+        .arguments({ type: a.string().required() })
+        .returns(a.ref("listReturnType"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./getRecentInvoices.js",
+            })
+        ),
+
+    batchGetItem: a
+        .query()
+        .arguments({ ids: a.string().array().required()})
+        .returns(a.ref("listReturnType"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./batchGetItem.js",
+            })
+        ),
 
     scan: a
         .query()

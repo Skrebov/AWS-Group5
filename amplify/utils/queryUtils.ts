@@ -1,6 +1,6 @@
 import {generateClient} from "aws-amplify/api";
 import {Schema} from "../data/resource";
-import {Customer, Product} from "./model";
+import {Customer, Invoice, Product} from "./model";
 import {mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct} from "./mapper";
 
 const client = generateClient<Schema>();
@@ -65,4 +65,16 @@ async function getByPK(pk: string){
 export async function getSingleInvoiceInfo(invoice: string){
   return await getByPK(invoice);
 }
+
+export async function getRecentInvoices(): Promise<Invoice[]> {
+    const queryResult =  await client.queries.getRecentInvoices({type: 'invoice'});
+    return mapInvoices(queryResult?.data?.items);
+}
+
+export async function batchGetItem(ids:string[] | undefined){
+    if(ids !== undefined){
+        return await client.queries.batchGetItem({ids});
+    }
+}
+
 

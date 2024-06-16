@@ -1,7 +1,7 @@
 import {generateClient} from "aws-amplify/api";
 import {Schema} from "../data/resource";
 import {Customer, Invoice, Product} from "./model";
-import {mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct} from "./mapper";
+import {mapCustomers, mapDataItems, mapInvoices, mapProducts, mapToCustomer, mapToProduct} from "./mapper";
 
 const client = generateClient<Schema>();
 
@@ -77,4 +77,10 @@ export async function batchGetItem(ids:string[] | undefined){
     }
 }
 
+export async function getAggregateInformation(){
+    const year = new Date().getFullYear();
+    const queryResult =  await client.queries.getAggregateInformation({year: year.toString()});
+    console.log(queryResult)
+    return mapDataItems(queryResult?.data?.items);
+}
 

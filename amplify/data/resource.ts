@@ -16,6 +16,18 @@ const schema = a.schema({
         type: a.string().required(),
     }),
 
+    aggregate: a.customType({
+        'month_year': a.string().required(),
+        'aggregation_type': a.string().required(),
+        total: a.float(),
+        year: a.string()
+    }),
+
+    aggregateList: a.customType({
+        items: a.ref("aggregate").array(),
+        nextToken: a.string()
+    }),
+
     listReturnType: a.customType({
         items: a.ref("appdata").array(),
         nextToken: a.string()
@@ -113,6 +125,18 @@ const schema = a.schema({
             a.handler.custom({
                 dataSource: "appDataDataSource",
                 entry: "./scan.js",
+            })
+        ),
+
+    getAggregateInformation: a
+        .query()
+        .arguments({ year: a.string().required()})
+        .returns(a.ref("aggregateList"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "aggregationDataSource",
+                entry: "./getAggregateByYear.js",
             })
         ),
 })

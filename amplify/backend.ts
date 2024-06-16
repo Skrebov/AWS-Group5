@@ -2,10 +2,14 @@ import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource'
 import { data } from './data/resource';
 import {aws_dynamodb} from "aws-cdk-lib";
+import {getMonthlyAggregate} from "./functions/monthlyAggregate/resource"
+import * as iam from "aws-cdk-lib/aws-iam"
+
 
 const backend = defineBackend({
   auth,
   data,
+  getMonthlyAggregate
 });
 
 const externalDataSourcesStack = backend.createStack("TestExternalTableStack");
@@ -23,6 +27,27 @@ backend.data.addDynamoDbDataSource(
     "appDataDataSource",
     externalTable
 );
+
+const getMonthlyAggregateLambda = backend.getMonthlyAggregate.resources.lambda;
+const statement = new iam.PolicyStatement({
+    sid: "AllowPublishToDigest",
+    actions: [	"dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"],
+    resources: ["arn:aws:dynamodb:eu-central-1:637423640136:table/appdata",
+        "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata/index/*"],
+})
+
+getMonthlyAggregateLambda.addToRolePolicy(statement);
 
 
 //extract L1 CfnUserPool resources

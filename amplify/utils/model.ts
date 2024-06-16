@@ -31,3 +31,8 @@ export type CompleteInvoice = {
     products: Product[];
     sum: number;
 }
+
+export type DataItem =  {
+    name: string;
+    total: number;
+}

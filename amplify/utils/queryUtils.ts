@@ -72,6 +72,9 @@ export async function getRecentInvoices(): Promise<Invoice[]> {
 }
 
 export async function batchGetItem(ids:string[] | undefined){
-    return await client.queries.batchGetItem({ids});
+    if(ids !== undefined){
+        return await client.queries.batchGetItem({ids});
+    }
 }
+
 

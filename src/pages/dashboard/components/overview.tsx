@@ -1,4 +1,7 @@
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import {useEffect} from "react";
+import {getMonthlyAggregate} from "../../../../amplify/utils/lambdas.ts";
+import {getRecentInvoices} from "../../../../amplify/utils/queryUtils.ts";
 
 const data = [
     {
@@ -52,6 +55,12 @@ const data = [
 ];
 
 export default function Overview() {
+    useEffect(() => {
+        async function fetchAggregate() {
+            return await getMonthlyAggregate();
+        }
+        console.log(fetchAggregate())
+    })
     return (
         <ResponsiveContainer width="100%" height={350}>
             <BarChart data={data}>

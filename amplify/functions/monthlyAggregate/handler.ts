@@ -1,4 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
+import type { APIGatewayProxyHandler } from "aws-lambda";
+
 
 const dynamoDb = new DynamoDB.DocumentClient();
 
@@ -11,10 +13,10 @@ interface MonthlyTotal {
     [key: string]: number;
 }
 
-exports.handler = async (event: any): Promise<any> => {
+export const handler: APIGatewayProxyHandler = async (event: any): Promise<any> => {
     const params = {
         TableName: 'appdata',
-        IndexName: 'type-date-index', // Use appropriate index
+        IndexName: 'type-date-index',
         KeyConditionExpression: '#type = :typeValue',
         ExpressionAttributeNames: {
             '#type': 'type'
@@ -43,12 +45,20 @@ exports.handler = async (event: any): Promise<any> => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify(responseData)
+            headers: {
+                "Access-Control-Allow-Origin": "*", // Restrict this to domains you trust
+                "Access-Control-Allow-Headers": "*", // Specify only the headers you need to allow
+            },
+            body: JSON.stringify(responseData),
         };
     } catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: 'Could not retrieve data' })
+            headers: {
+                "Access-Control-Allow-Origin": "*", // Restrict this to domains you trust
+                "Access-Control-Allow-Headers": "*", // Specify only the headers you need to allow
+            },
+            body: JSON.stringify({ error: 'Could not retrieve data' }),
         };
     }
 };

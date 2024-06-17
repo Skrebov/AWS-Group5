@@ -6,6 +6,7 @@ const DashboardLayout = lazy(
 );
 const DashboardPage = lazy(() => import('@/pages/dashboard/index.tsx'));
 const ProductPage = lazy(() => import('@/pages/products/index.tsx'));
+const CustomerPage = lazy(() => import('@/pages/customers/index.tsx'));
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +29,10 @@ export default function AppRouter() {
                 {
                     path: 'product',
                     element: <ProductPage />
+                },
+                {
+                    path: 'customer',
+                    element: <CustomerPage />
                 }
             ]
         }

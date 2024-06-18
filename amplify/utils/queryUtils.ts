@@ -1,7 +1,17 @@
-import { generateClient } from "aws-amplify/api";
-import { Schema } from "../data/resource";
-import { Customer, Product, Invoice, InvoiceProduct } from "./model";
-import { mapCustomers, mapInvoices, mapProducts, mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct } from "./mapper";
+import {generateClient} from "aws-amplify/api";
+import {Schema} from "../data/resource";
+import {Customer, Invoice, Product, InvoiceProduct} from "./model";
+import {
+    mapCustomers,
+    mapDataItems,
+    mapInvoices,
+    mapProducts,
+    mapRecentPurchases,
+    mapToCustomer,
+    mapToProduct,
+    mapToInvoice,
+    mapToInvoiceProduct
+} from "./mapper";
 
 const client = generateClient<Schema>();
 
@@ -237,4 +247,26 @@ export async function updateInvoice(
         date: date,
     });
     return mapToInvoice(response?.data);
+}
+
+export async function getRecentInvoices(): Promise<Invoice[]> {
+    const queryResult =  await client.queries.getRecentInvoices({type: 'invoice'});
+    return mapInvoices(queryResult?.data?.items);
+}
+
+export async function batchGetItem(ids:string[] | undefined){
+    if(ids !== undefined){
+        return await client.queries.batchGetItem({ids});
+    }
+}
+
+export async function getAggregateInformation(){
+    const year = new Date().getFullYear();
+    const queryResult =  await client.queries.getAggregateInformation({year: year.toString()});
+    return mapDataItems(queryResult?.data?.items);
+}
+
+export async function getRecentPurchases(){
+    const queryResult =  await client.queries.getRecentPurchases();
+    return mapRecentPurchases(queryResult?.data?.items);
 }

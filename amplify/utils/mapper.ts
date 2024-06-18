@@ -1,4 +1,4 @@
-import { Customer, Invoice, Product, InvoiceProduct } from "./model";
+import {Customer, DataItem, Invoice, Product, RecentPurchase, InvoiceProduct} from "./model";
 
 function mapToCustomer(obj: any): Customer {
     return {
@@ -39,6 +39,24 @@ function mapToInvoiceProduct(obj: any): InvoiceProduct {
     }
 }
 
+function mapToDataItem(obj: any): DataItem {
+    return {
+        name: obj['month_year'].slice(8),
+        total: obj.total,
+    }
+}
+
+function mapToRecentPurchase(obj: any): RecentPurchase {
+    return {
+        pk: obj.pk,
+        date: obj.date,
+        email: obj.email,
+        customerName: obj.customerName,
+        totalAmount: obj.totalAmount,
+        type: obj.type,
+    }
+}
+
 //this is for a list of customers
 function mapCustomers(list: any): Customer[] {
     return list.map(mapToCustomer);
@@ -60,4 +78,12 @@ function mapInvoiceProducts(list: any): InvoiceProduct[] {
     return list.map(mapToInvoiceProduct);
 }
 
-export { mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct, mapCustomers, mapProducts, mapInvoices, mapInvoiceProducts }
+function mapDataItems(list: any): DataItem[] {
+    return list.map(mapToDataItem);
+}
+
+function mapRecentPurchases(list: any): RecentPurchase[] {
+    return list.map(mapToRecentPurchase)
+}
+
+export { mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct, mapCustomers, mapProducts, mapInvoices, mapInvoiceProducts, mapDataItems, mapRecentPurchases }

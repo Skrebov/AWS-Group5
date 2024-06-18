@@ -1,18 +1,45 @@
-import  {FunctionComponent} from "react";
-import {Route, Routes} from "react-router-dom";
-import Dashboard from "@/pages/Dashboard.tsx";
+import { Suspense, lazy } from 'react';
+import {  Outlet, useRoutes } from 'react-router-dom';
 
-type Props = {};
+const DashboardLayout = lazy(
+    () => import('@/pages/Dashboard.tsx')
+);
+const DashboardPage = lazy(() => import('@/pages/dashboard/index.tsx'));
+const ProductPage = lazy(() => import('@/pages/products/index.tsx'));
+const CustomerPage = lazy(() => import('@/pages/customers/index.tsx'));
 
-export const Routing: FunctionComponent<Props> = ({}) => {
-    return (
-        <div className='flex flex-col items-center justify-center'>
-            <Routes>
-                <Route path='/' element={<Dashboard />}/>
-                <Route path='/products' element={<Dashboard />}/>
-                <Route path='customers'  element={<Dashboard />}/>
-            </Routes>
-        </div>
+// ----------------------------------------------------------------------
 
-    )
+export default function AppRouter() {
+    const dashboardRoutes = [
+        {
+            path: '/',
+            element: (
+                <DashboardLayout>
+                    <Suspense>
+                        <Outlet />
+                    </Suspense>
+                </DashboardLayout>
+            ),
+            children: [
+                {
+                    element: <DashboardPage />,
+                    index: true
+                },
+                {
+                    path: 'product',
+                    element: <ProductPage />
+                },
+                {
+                    path: 'customer',
+                    element: <CustomerPage />
+                }
+            ]
+        }
+    ];
+
+
+    const routes = useRoutes([...dashboardRoutes]);
+
+    return routes;
 }

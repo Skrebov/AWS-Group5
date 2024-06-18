@@ -16,6 +16,32 @@ const schema = a.schema({
         type: a.string().required(),
     }),
 
+    aggregate: a.customType({
+        'month_year': a.string().required(),
+        'aggregation_type': a.string().required(),
+        total: a.float(),
+        year: a.string()
+    }),
+
+    recentPurchase: a.customType({
+        pk: a.string().required(),
+        date: a.string().required(),
+        customerName: a.string(),
+        email: a.string(),
+        totalAmount: a.float(),
+        type: a.string().required(),
+    }),
+
+    recentPurchaseList: a.customType({
+        items: a.ref("recentPurchase").array(),
+        nextToken: a.string()
+    }),
+
+    aggregateList: a.customType({
+        items: a.ref("aggregate").array(),
+        nextToken: a.string()
+    }),
+
     listReturnType: a.customType({
         items: a.ref("appdata").array(),
         nextToken: a.string()
@@ -81,6 +107,29 @@ const schema = a.schema({
             })
         ),
 
+    getRecentInvoices: a
+        .query()
+        .arguments({ type: a.string().required() })
+        .returns(a.ref("listReturnType"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./getRecentInvoices.js",
+            })
+        ),
+
+    batchGetItem: a
+        .query()
+        .arguments({ ids: a.string().array().required()})
+        .returns(a.ref("listReturnType"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./batchGetItem.js",
+            })
+        ),
 
     scan: a
         .query()
@@ -92,6 +141,30 @@ const schema = a.schema({
                 entry: "./scan.js",
             })
         ),
+
+    getAggregateInformation: a
+        .query()
+        .arguments({ year: a.string().required()})
+        .returns(a.ref("aggregateList"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "aggregationDataSource",
+                entry: "./getAggregateByYear.js",
+            })
+        ),
+
+    getRecentPurchases: a
+        .query()
+        .returns(a.ref("recentPurchaseList"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "recentPurchasesDataSource",
+                entry: "./getRecentPurchases.js",
+            })
+        ),
+
     addCustomer: a
         .mutation()
         .arguments({

@@ -1,7 +1,7 @@
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import {useEffect, useState} from "react";
-import {getMonthlyAggregate} from "../../../../amplify/utils/lambdas.ts";
 import {DataItem} from "../../../../amplify/utils/model.ts";
+import {getAggregateInformation} from "../../../../amplify/utils/queryUtils.ts";
 
 
 
@@ -9,7 +9,7 @@ export default function Overview() {
     const [data, setData] = useState<DataItem[]>([]);
     useEffect(() => {
         async function fetchAggregate() {
-            setData(await getMonthlyAggregate())
+            setData(await getAggregateInformation())
         }
         fetchAggregate();
     }, [])

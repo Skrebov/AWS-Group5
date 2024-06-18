@@ -1,11 +1,10 @@
-// auth-context.js
-import { createContext, useContext } from 'react';
-import { AuthEventData } from '@aws-amplify/ui'
+import { createContext, useContext, ReactNode } from 'react';
+import { AuthEventData } from '@aws-amplify/ui';
 
 // Define the default value
 const defaultAuthContext = {
     signOut: (data?: AuthEventData | undefined) => {
-        console.warn('signOut function is not provided');
+        console.warn('signOut function is not provided', data);
     },
 };
 
@@ -16,11 +15,12 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({
-                                 children, signOut
+                                 children,
+                                 signOut = defaultAuthContext.signOut,  // Provide default value here
                              }: {
-    children: React.ReactNode;
-    signOut: (data?: AuthEventData | undefined) => void;
-})  => {
+    children: ReactNode;
+    signOut?: (data?: AuthEventData | undefined) => void;
+}) => {
     return (
         <AuthContext.Provider value={{ signOut }}>
             {children}

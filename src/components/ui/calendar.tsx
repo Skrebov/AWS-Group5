@@ -4,7 +4,10 @@ import * as React from "react"
 // import { ChevronLeft, ChevronRight } from "lucide-react"
 import {cn} from "@/lib/utils.ts";
 import {buttonVariants} from "@/components/ui/button.tsx";
-import {DayPicker, DropdownProps} from "react-day-picker";
+import {
+    DayPicker, 
+    // DropdownProps
+} from "react-day-picker";
 // import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 // import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 

@@ -2,7 +2,6 @@ import PageHead from '@/components/shared/page-head.jsx';
 import {
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle
 } from '@/components/ui/card';
@@ -38,9 +37,6 @@ export default function DashboardPage() {
                             <Card className="col-span-4 md:col-span-3">
                                 <CardHeader>
                                     <CardTitle>Recent Sales</CardTitle>
-                                    <CardDescription>
-                                        You made 265 sales this month.
-                                    </CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <RecentSales />

@@ -30,6 +30,16 @@ const externalAggregateTable = aws_dynamodb.Table.fromTableAttributes(
     }
 )
 
+//import the external table
+const externalRecentPurchasesTable = aws_dynamodb.Table.fromTableAttributes(
+    externalDataSourcesStack,
+    "RecentPurchases",
+    {
+        tableArn: "arn:aws:dynamodb:eu-central-1:637423640136:table/RecentPurchases",
+        globalIndexes: ['type-date-index']
+    }
+)
+
 //add datasource to appsync graphql api
 backend.data.addDynamoDbDataSource(
     "appDataDataSource",
@@ -40,6 +50,12 @@ backend.data.addDynamoDbDataSource(
 backend.data.addDynamoDbDataSource(
     "aggregationDataSource",
     externalAggregateTable
+);
+
+//add datasource to appsync graphql api
+backend.data.addDynamoDbDataSource(
+    "recentPurchasesDataSource",
+    externalRecentPurchasesTable
 );
 
 //extract L1 CfnUserPool resources

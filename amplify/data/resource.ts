@@ -23,6 +23,20 @@ const schema = a.schema({
         year: a.string()
     }),
 
+    recentPurchase: a.customType({
+        pk: a.string().required(),
+        date: a.string().required(),
+        customerName: a.string(),
+        email: a.string(),
+        totalAmount: a.float(),
+        type: a.string().required(),
+    }),
+
+    recentPurchaseList: a.customType({
+        items: a.ref("recentPurchase").array(),
+        nextToken: a.string()
+    }),
+
     aggregateList: a.customType({
         items: a.ref("aggregate").array(),
         nextToken: a.string()
@@ -139,6 +153,18 @@ const schema = a.schema({
                 entry: "./getAggregateByYear.js",
             })
         ),
+
+    getRecentPurchases: a
+        .query()
+        .returns(a.ref("recentPurchaseList"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "recentPurchasesDataSource",
+                entry: "./getRecentPurchases.js",
+            })
+        ),
+
 })
 
 export type Schema = ClientSchema<typeof schema>;

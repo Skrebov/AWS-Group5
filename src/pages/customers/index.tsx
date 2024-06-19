@@ -1,35 +1,30 @@
 import DataTable from '@/components/shared/data-table';
 import {columns} from './columns';
-import {useEffect, useState} from "react";
-import {Customer} from "../../../amplify/utils/model.ts";
-import {getCustomers} from "../../../amplify/utils/queryUtils.ts";
 import CustomerTableActions from "@/pages/customers/customer-table-action.tsx";
+import {useSearchParams} from "react-router-dom";
+import {useGetCustomersByType} from "@/pages/hooks/getByTypeHook.ts";
+import {useState} from "react";
 
-type TCustomersTableProps = {
-    customers: any;
-    page: number;
-    totalCustomers: number;
-    pageCount: number;
-};
 
-export default function ConsumerTable({
-                                          //customers,
-                                          //pageCount
-                                      }: TCustomersTableProps) {
-    //TODO make pagination, use customers & pageCount somehow ?
-    const [customerItems, setCustomerItems] = useState<Customer[]>([]);
-    useEffect(() => {
-        async function fetchCustomers() {
-            setCustomerItems(await getCustomers())
-        }
-        fetchCustomers();
-    }, [])
+
+export default function ConsumerTable() {
+    const [searchParams] = useSearchParams();
+    const page = Number(searchParams.get('page') || 1);
+    const pageLimit = Number(searchParams.get('limit') || 10);
+    const searchQuery = searchParams.get('search') || null;
+    const [paginationKeys, setPaginationKeys] = useState([''])
+    const updatePaginationKeys = (keys:string[]) =>{
+        setPaginationKeys(keys)
+    }
+
+    const data = useGetCustomersByType(paginationKeys, page, updatePaginationKeys, pageLimit, searchQuery ? searchQuery : '')
+    const customers = data.data?.customers ? data.data.customers : [];
 
     return (
         <>
             <CustomerTableActions />
-            {customerItems && (
-                <DataTable columns={columns} data={customerItems} pageCount={0} />
+            {data && (
+                <DataTable columns={columns} data={customers} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
             )}
         </>
     );

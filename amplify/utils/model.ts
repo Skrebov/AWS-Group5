@@ -19,6 +19,17 @@ export type Product  =  {
     quantity: number;
 };
 
+export type ProductPaginationType = {
+    products: Product[];
+    nextToken: string,
+}
+
+export type CustomerPaginationType = {
+    customers: Customer[];
+    nextToken: string,
+}
+
+
 export type Invoice  =  {
     date: string;
     pk: string;

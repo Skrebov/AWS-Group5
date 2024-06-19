@@ -1,35 +1,30 @@
 import DataTable from '@/components/shared/data-table';
 import {columns} from './columns';
 import ProductTableActions from './product-table-action.tsx';
-import {useEffect, useState} from "react";
-import {Product} from "../../../amplify/utils/model.ts";
-import {getProducts} from "../../../amplify/utils/queryUtils.ts";
+import {useSearchParams} from "react-router-dom";
+import {useGetProductByType} from "@/pages/hooks/getByTypeHook.ts";
+import {useState} from "react";
 
-type TProductsTableProps = {
-    products: any;
-    page: number;
-    totalProducts: number;
-    pageCount: number;
-};
 
-export default function ProductsTable({
-                                          //products,
-                                          //pageCount
-                                      }: TProductsTableProps) {
-    //TODO make pagination, use products & pageCount somehow ?
-    const [productItems, setProductItems] = useState<Product[]>([]);
-    useEffect(() => {
-        async function fetchProducts() {
-            setProductItems(await getProducts())
-        }
-        fetchProducts();
-    }, [])
+export default function ProductsTable() {
+    const [searchParams] = useSearchParams();
+    const page = Number(searchParams.get('page') || 1);
+    const pageLimit = Number(searchParams.get('limit') || 10);
+    const searchQuery = searchParams.get('search') || null;
+    const [paginationKeys, setPaginationKeys] = useState([''])
+    const updatePaginationKeys = (keys:string[]) =>{
+        setPaginationKeys(keys)
+    }
+
+    const data = useGetProductByType(paginationKeys, page, updatePaginationKeys, pageLimit, searchQuery ? searchQuery : '')
+    const products = data.data?.products ? data.data.products : [];
+
 
     return (
         <>
             <ProductTableActions />
-            {productItems && (
-                <DataTable columns={columns} data={productItems} pageCount={0} />
+            {data && (
+                <DataTable columns={columns} data={products} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
             )}
         </>
     );

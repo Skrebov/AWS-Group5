@@ -6,17 +6,9 @@ import {getCustomers} from "../../../amplify/utils/queryUtils.ts";
 import CustomerTableActions from "@/pages/customers/customer-table-action.tsx";
 import {useSearchParams} from "react-router-dom";
 
-type TCustomersTableProps = {
-    customers: any;
-    page: number;
-    totalCustomers: number;
-    pageCount: number;
-};
 
-export default function ConsumerTable({
-                                          //customers,
-                                          //pageCount
-                                      }: TCustomersTableProps) {
+
+export default function ConsumerTable() {
     //TODO make pagination, use customers & pageCount somehow ?
     const [searchParams] = useSearchParams();
     const page = Number(searchParams.get('page') || 1);

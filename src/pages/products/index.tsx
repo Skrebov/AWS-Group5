@@ -6,17 +6,8 @@ import {Product} from "../../../amplify/utils/model.ts";
 import {getProducts} from "../../../amplify/utils/queryUtils.ts";
 import {useSearchParams} from "react-router-dom";
 
-type TProductsTableProps = {
-    products: any;
-    page: number;
-    totalProducts: number;
-    pageCount: number;
-};
 
-export default function ProductsTable({
-                                          //products,
-                                          //pageCount
-                                      }: TProductsTableProps) {
+export default function ProductsTable() {
     //TODO make pagination, use products & pageCount somehow ?
     const [searchParams] = useSearchParams();
     const page = Number(searchParams.get('page') || 1);

@@ -61,7 +61,7 @@ const schema = a.schema({
 
     getByType: a
         .query()
-        .arguments({ type: a.string().required(), exclusiveStartKey: a.string(), limit: a.integer().required(), searchQuery: a.string().required() })
+        .arguments({ type: a.string().required(), nextToken: a.string().required(), limit: a.integer().required(), searchQuery: a.string().required() })
         .returns(a.ref("listReturnType"))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(

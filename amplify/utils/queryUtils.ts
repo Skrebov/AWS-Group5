@@ -27,24 +27,24 @@ export async function getProduct (product: string): Promise<Product> {
     return mapToProduct(queryResult?.data);
 }
 
-export async function getByType(type: string, exclusiveStartKey:string, limit:number, searchQuery:string){
-    return await client.queries.getByType({type,exclusiveStartKey, limit, searchQuery});
+export async function getByType(type: string, nextToken:string, limit:number, searchQuery:string){
+    return await client.queries.getByType({type,nextToken, limit, searchQuery});
 }
 
-export async function getCustomers(exclusiveStartKey:string, limit:number, searchQuery:string): Promise<CustomerPaginationType> {
-    const queryResult = await getByType('customer', exclusiveStartKey, limit, searchQuery);
+export async function getCustomers(nextToken:string, limit:number, searchQuery:string): Promise<CustomerPaginationType> {
+    const queryResult = await getByType('customer', nextToken, limit, searchQuery);
     const customers:Customer[] = mapCustomers(queryResult?.data?.items);
     return {customers, nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
 }
 
-export async function getProducts(exclusiveStartKey:string, limit:number, searchQuery:string): Promise<ProductPaginationType> {
-    const queryResult = await getByType('product', exclusiveStartKey, limit, searchQuery);
+export async function getProducts(nextToken:string, limit:number, searchQuery:string): Promise<ProductPaginationType> {
+    const queryResult = await getByType('product', nextToken, limit, searchQuery);
     const products:Product[] = mapProducts(queryResult?.data?.items);
     return {products, nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
 }
 
-export async function getInvoices(exclusiveStartKey:string, limit:number, searchQuery:string){
-    const queryResult = await getByType('invoice', exclusiveStartKey, limit, searchQuery);
+export async function getInvoices(nextToken:string, limit:number, searchQuery:string){
+    const queryResult = await getByType('invoice', nextToken, limit, searchQuery);
     return mapInvoices(queryResult?.data?.items);
 }
 

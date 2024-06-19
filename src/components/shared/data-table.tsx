@@ -16,10 +16,6 @@ import {
     TableRow
 } from '@/components/ui/table';
 import {
-    DoubleArrowLeftIcon,
-    DoubleArrowRightIcon
-} from '@radix-ui/react-icons';
-import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
@@ -35,13 +31,13 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     pageSizeOptions?: number[];
-    pageCount: number;
+    paginationKeys:string[];
 }
 
 export default function DataTable<TData, TValue>({
                                                      columns,
                                                      data,
-                                                     pageCount,
+                                                     paginationKeys,
                                                      pageSizeOptions = [10, 20, 30, 40, 50]
                                                  }: DataTableProps<TData, TValue>) {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -73,7 +69,7 @@ export default function DataTable<TData, TValue>({
     const table = useReactTable({
         data,
         columns,
-        pageCount: pageCount ?? -1,
+        pageCount: -1,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         state: {
@@ -169,26 +165,13 @@ export default function DataTable<TData, TValue>({
                     </div>
                 </div>
                 <div className="flex w-full items-center justify-between gap-2 sm:justify-end">
-                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                        Page {table.getState().pagination.pageIndex + 1} of{' '}
-                        {table.getPageCount()}
-                    </div>
                     <div className="flex items-center space-x-2">
-                        <Button
-                            aria-label="Go to first page"
-                            variant="outline"
-                            className="hidden h-8 w-8 p-0 lg:flex"
-                            onClick={() => table.setPageIndex(0)}
-                            disabled={!table.getCanPreviousPage()}
-                        >
-                            <DoubleArrowLeftIcon className="h-4 w-4" aria-hidden="true" />
-                        </Button>
                         <Button
                             aria-label="Go to previous page"
                             variant="outline"
                             className="h-8 w-8 p-0"
                             onClick={() => table.previousPage()}
-                            disabled={!table.getCanPreviousPage()}
+                            disabled={pageAsNumber === 1}
                         >
                             <ChevronLeftIcon className="h-4 w-4" aria-hidden="true" />
                         </Button>
@@ -197,18 +180,9 @@ export default function DataTable<TData, TValue>({
                             variant="outline"
                             className="h-8 w-8 p-0"
                             onClick={() => table.nextPage()}
-                            disabled={!table.getCanNextPage()}
+                            disabled={pageAsNumber ===  paginationKeys.length}
                         >
                             <ChevronRightIcon className="h-4 w-4" aria-hidden="true" />
-                        </Button>
-                        <Button
-                            aria-label="Go to last page"
-                            variant="outline"
-                            className="hidden h-8 w-8 p-0 lg:flex"
-                            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                            disabled={!table.getCanNextPage()}
-                        >
-                            <DoubleArrowRightIcon className="h-4 w-4" aria-hidden="true" />
                         </Button>
                     </div>
                 </div>

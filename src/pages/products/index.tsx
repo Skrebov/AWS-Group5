@@ -3,16 +3,20 @@ import {columns} from './columns';
 import ProductTableActions from './product-table-action.tsx';
 import {useSearchParams} from "react-router-dom";
 import {useGetProductByType} from "@/pages/hooks/getByTypeHook.ts";
+import {useState} from "react";
 
 
 export default function ProductsTable() {
-    //TODO make pagination, use products & pageCount somehow ?
     const [searchParams] = useSearchParams();
     const page = Number(searchParams.get('page') || 1);
     const pageLimit = Number(searchParams.get('limit') || 10);
     const searchQuery = searchParams.get('search') || null;
+    const [paginationKeys, setPaginationKeys] = useState([''])
+    const updatePaginationKeys = (keys:string[]) =>{
+        setPaginationKeys(keys)
+    }
 
-    const data = useGetProductByType('', pageLimit, searchQuery ? searchQuery : '')
+    const data = useGetProductByType(paginationKeys, page, updatePaginationKeys, pageLimit, searchQuery ? searchQuery : '')
     const products = data.data?.products ? data.data.products : [];
 
 
@@ -20,7 +24,7 @@ export default function ProductsTable() {
         <>
             <ProductTableActions />
             {data && (
-                <DataTable columns={columns} data={products} pageCount={0} />
+                <DataTable columns={columns} data={products} paginationKeys={paginationKeys} />
             )}
         </>
     );

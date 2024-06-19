@@ -32,6 +32,7 @@ export function request(ctx) {
                 ":searchQuery" : { "S" : ctx.args.searchQuery }
             }
         },
+        nextToken: ctx.args.nextToken !== '' ? ctx.args.nextToken : undefined,
         select: 'ALL_PROJECTED_ATTRIBUTES'
     };
 }

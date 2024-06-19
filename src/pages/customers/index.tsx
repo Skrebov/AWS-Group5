@@ -24,7 +24,7 @@ export default function ConsumerTable() {
         <>
             <CustomerTableActions />
             {data && (
-                <DataTable columns={columns} data={customers} paginationKeys={paginationKeys} />
+                <DataTable columns={columns} data={customers} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
             )}
         </>
     );

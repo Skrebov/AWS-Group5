@@ -24,7 +24,7 @@ export default function ProductsTable() {
         <>
             <ProductTableActions />
             {data && (
-                <DataTable columns={columns} data={products} paginationKeys={paginationKeys} />
+                <DataTable columns={columns} data={products} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
             )}
         </>
     );

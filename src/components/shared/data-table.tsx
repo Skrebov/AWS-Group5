@@ -32,13 +32,15 @@ interface DataTableProps<TData, TValue> {
     data: TData[];
     pageSizeOptions?: number[];
     paginationKeys:string[];
+    setPaginationKeys: (keys: string[]) => void;
 }
 
 export default function DataTable<TData, TValue>({
                                                      columns,
                                                      data,
                                                      paginationKeys,
-                                                     pageSizeOptions = [10, 20, 30, 40, 50]
+                                                     pageSizeOptions = [10, 20, 30, 40, 50],
+                                                     setPaginationKeys
                                                  }: DataTableProps<TData, TValue>) {
     const [searchParams, setSearchParams] = useSearchParams();
     // Search params
@@ -146,6 +148,7 @@ export default function DataTable<TData, TValue>({
                                 value={`${table.getState().pagination.pageSize}`}
                                 onValueChange={(value: string) => {
                                     table.setPageSize(Number(value));
+                                    setPaginationKeys(['']);
                                 }}
                             >
                                 <SelectTrigger className="h-8 w-[70px]">

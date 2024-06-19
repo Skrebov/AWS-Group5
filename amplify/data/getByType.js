@@ -16,7 +16,22 @@ export function request(ctx) {
                 ":type" : { "S" : ctx.args.type }
             }
         },
+        limit: ctx.args.limit,
         index: 'type_index',
+        filter: {
+            expression: '(contains (#category, :searchQuery) OR contains (#name, :searchQuery)' +
+                ' OR contains (#email, :searchQuery) OR contains (#gender, :searchQuery)  OR contains (#phone, :searchQuery))',
+            expressionNames: {
+                '#category': 'category',
+                '#name': 'name',
+                '#email': 'email',
+                '#gender': 'gender',
+                '#phone': 'phone',
+            },
+            expressionValues: {
+                ":searchQuery" : { "S" : ctx.args.searchQuery }
+            }
+        },
         select: 'ALL_PROJECTED_ATTRIBUTES'
     };
 }

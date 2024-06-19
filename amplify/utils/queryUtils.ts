@@ -27,22 +27,23 @@ export async function getProduct (product: string): Promise<Product> {
     return mapToProduct(queryResult?.data);
 }
 
-async function getByType(type: string){
-    return await client.queries.getByType({type : type});
+async function getByType(type: string, exclusiveStartKey:string, limit:number, searchQuery:string){
+    return await client.queries.getByType({type,exclusiveStartKey, limit, searchQuery});
 }
 
-export async function getCustomers(): Promise<Customer[]> {
-    const queryResult = await getByType('customer');
+export async function getCustomers(exclusiveStartKey:string, limit:number, searchQuery:string): Promise<Customer[]> {
+    const queryResult = await getByType('customer', exclusiveStartKey, limit, searchQuery);
     return mapCustomers(queryResult?.data?.items);
 }
 
-export async function getProducts(): Promise<Product[]> {
-    const queryResult = await getByType('product');
+export async function getProducts(exclusiveStartKey:string, limit:number, searchQuery:string): Promise<Product[]> {
+    const queryResult = await getByType('product', exclusiveStartKey, limit, searchQuery);
+    console.log(queryResult);
     return mapProducts(queryResult?.data?.items);
 }
 
-export async function getInvoices(){
-    const queryResult = await getByType('invoice');
+export async function getInvoices(exclusiveStartKey:string, limit:number, searchQuery:string){
+    const queryResult = await getByType('invoice', exclusiveStartKey, limit, searchQuery);
     return mapInvoices(queryResult?.data?.items);
 }
 

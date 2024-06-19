@@ -1,10 +1,8 @@
 import DataTable from '@/components/shared/data-table';
 import {columns} from './columns';
 import ProductTableActions from './product-table-action.tsx';
-import {useEffect, useState} from "react";
-import {Product} from "../../../amplify/utils/model.ts";
-import {getProducts} from "../../../amplify/utils/queryUtils.ts";
 import {useSearchParams} from "react-router-dom";
+import {useGetProductByType} from "@/pages/hooks/getByTypeHook.ts";
 
 
 export default function ProductsTable() {
@@ -14,19 +12,15 @@ export default function ProductsTable() {
     const pageLimit = Number(searchParams.get('limit') || 10);
     const searchQuery = searchParams.get('search') || null;
 
-    const [productItems, setProductItems] = useState<Product[]>([]);
-    useEffect(() => {
-        async function fetchProducts() {
-            setProductItems(await getProducts('', pageLimit, searchQuery ? searchQuery : ''))
-        }
-        fetchProducts();
-    }, [])
+    const data = useGetProductByType('', pageLimit, searchQuery ? searchQuery : '')
+    const products = data.data?.products ? data.data.products : [];
+
 
     return (
         <>
             <ProductTableActions />
-            {productItems && (
-                <DataTable columns={columns} data={productItems} pageCount={0} />
+            {data && (
+                <DataTable columns={columns} data={products} pageCount={0} />
             )}
         </>
     );

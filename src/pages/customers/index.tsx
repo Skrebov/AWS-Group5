@@ -1,10 +1,8 @@
 import DataTable from '@/components/shared/data-table';
 import {columns} from './columns';
-import {useEffect, useState} from "react";
-import {Customer} from "../../../amplify/utils/model.ts";
-import {getCustomers} from "../../../amplify/utils/queryUtils.ts";
 import CustomerTableActions from "@/pages/customers/customer-table-action.tsx";
 import {useSearchParams} from "react-router-dom";
+import {useGetCustomersByType} from "@/pages/hooks/getByTypeHook.ts";
 
 
 
@@ -15,19 +13,14 @@ export default function ConsumerTable() {
     const pageLimit = Number(searchParams.get('limit') || 10);
     const searchQuery = searchParams.get('search') || null;
 
-    const [customerItems, setCustomerItems] = useState<Customer[]>([]);
-    useEffect(() => {
-        async function fetchCustomers() {
-            setCustomerItems(await getCustomers('', pageLimit, searchQuery ? searchQuery : ''))
-        }
-        fetchCustomers();
-    }, [])
+    const data = useGetCustomersByType('', pageLimit, searchQuery ? searchQuery : '')
+    const customers = data.data?.customers ? data.data.customers : [];
 
     return (
         <>
             <CustomerTableActions />
-            {customerItems && (
-                <DataTable columns={columns} data={customerItems} pageCount={0} />
+            {data && (
+                <DataTable columns={columns} data={customers} pageCount={0} />
             )}
         </>
     );

@@ -1,6 +1,6 @@
 import {generateClient} from "aws-amplify/api";
 import {Schema} from "../data/resource";
-import {Customer, Invoice, Product} from "./model";
+import {Customer, CustomerPaginationType, Invoice, Product, ProductPaginationType} from "./model";
 import {
     mapCustomers,
     mapDataItems,
@@ -27,19 +27,20 @@ export async function getProduct (product: string): Promise<Product> {
     return mapToProduct(queryResult?.data);
 }
 
-async function getByType(type: string, exclusiveStartKey:string, limit:number, searchQuery:string){
+export async function getByType(type: string, exclusiveStartKey:string, limit:number, searchQuery:string){
     return await client.queries.getByType({type,exclusiveStartKey, limit, searchQuery});
 }
 
-export async function getCustomers(exclusiveStartKey:string, limit:number, searchQuery:string): Promise<Customer[]> {
+export async function getCustomers(exclusiveStartKey:string, limit:number, searchQuery:string): Promise<CustomerPaginationType> {
     const queryResult = await getByType('customer', exclusiveStartKey, limit, searchQuery);
-    return mapCustomers(queryResult?.data?.items);
+    const customers:Customer[] = mapCustomers(queryResult?.data?.items);
+    return {customers, nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
 }
 
-export async function getProducts(exclusiveStartKey:string, limit:number, searchQuery:string): Promise<Product[]> {
+export async function getProducts(exclusiveStartKey:string, limit:number, searchQuery:string): Promise<ProductPaginationType> {
     const queryResult = await getByType('product', exclusiveStartKey, limit, searchQuery);
-    console.log(queryResult);
-    return mapProducts(queryResult?.data?.items);
+    const products:Product[] = mapProducts(queryResult?.data?.items);
+    return {products, nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
 }
 
 export async function getInvoices(exclusiveStartKey:string, limit:number, searchQuery:string){

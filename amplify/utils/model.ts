@@ -32,6 +32,8 @@ export type CustomerPaginationType = {
 
 export type Invoice  =  {
     date: string;
+    pk: string;
+    sk: string;
 };
 
 export type InvoiceProduct = {

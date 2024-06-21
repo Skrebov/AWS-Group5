@@ -8,25 +8,33 @@ import {
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import {Edit, MoreHorizontal, Trash} from 'lucide-react';
-//import { useRouter } from '@/routes/hooks';
 import {useState} from 'react';
 import {Product} from "../../../amplify/utils/model.ts";
 import ProductForm from "@/pages/products/forms/product-form.tsx";
 import {Modal} from "@/components/ui/modal.tsx";
+import {deleteByPKandSK} from "../../../amplify/utils/queryUtils.ts";
 
 interface CellActionProps {
     data: Product;
+    completeData: Product[]
+    setData: ((newProducts: Product[]) => void) | undefined;
 }
 
-export const CellAction: React.FC<CellActionProps> = ({data}) => {
+export const CellAction: React.FC<CellActionProps> = ({data, completeData, setData}) => {
     const [loading] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
-    //const router = useRouter();
 
     const onConfirm = async () => {
-        //TODO delete data.pk
+        await deleteByPKandSK(data.pk, data.sk)
         console.log('delete ', data.pk)
+        const product: Product | undefined = completeData.find(prod => prod.pk === data.pk && prod.sk === data.sk);
+        if(product) {
+            const changedProducts:Product[] = completeData.filter(customer => customer.pk !== data.pk && customer.sk !== data.sk);
+            if (setData) {
+                setData(changedProducts);
+            }
+        }
         setOpenDelete(false)
     };
 
@@ -65,7 +73,6 @@ export const CellAction: React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                     <DropdownMenuItem
-                        //                    onClick={() => router.push(`/dashboard/product/${data.pk}`)}
                         onClick={() => setOpenUpdate(true)}
                     >
                         <Edit className="mr-2 h-4 w-4"/> Update

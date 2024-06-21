@@ -17,18 +17,26 @@ import {deleteByPKandSK} from "../../../amplify/utils/queryUtils.ts";
 
 interface CellActionProps {
     data: Customer;
+    completeData: Customer[]
+    setData: ((newCustomers: Customer[]) => void) | undefined;
 }
 
-export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+export const CellAction: React.FC<CellActionProps> = ({ data, completeData, setData }) => {
     const [loading] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
     //const router = useRouter();
 
     const onConfirm = async () => {
-        //TODO delete data.pk
         await deleteByPKandSK(data.pk, data.sk)
         console.log('delete ', data.pk)
+        const customer: Customer | undefined = completeData.find(customer => customer.pk === data.pk && customer.sk === data.sk);
+        if(customer) {
+           const changedCustomers:Customer[] = completeData.filter(customer => customer.pk !== data.pk && customer.sk !== data.sk);
+           if(setData){
+               setData(changedCustomers);
+           }
+        }
         setOpenDelete(false)
     };
 

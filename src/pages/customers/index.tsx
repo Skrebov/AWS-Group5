@@ -30,7 +30,7 @@ export default function ConsumerTable() {
         <>
             <CustomerTableActions customers={customers} updateCustomers={updateCustomers}/>
             {data && (
-                <DataTable columns={columns} data={customers} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
+                <DataTable columns={columns} data={customers} setData={setCustomers} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
             )}
         </>
     );

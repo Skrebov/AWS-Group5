@@ -21,6 +21,6 @@ export const columns: ColumnDef<Product>[] = [
     },
     {
         id: 'actions',
-        cell: ({row}) => <CellAction data={row.original}/>
+        cell: ({row, table}) => <CellAction data={row.original} completeData={table.options.data} setData={table.options.meta?.setData}/>
     }
 ];

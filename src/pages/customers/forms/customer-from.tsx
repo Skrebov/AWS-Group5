@@ -12,6 +12,7 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.t
 import {cn} from "@/lib/utils.ts";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import {format} from "date-fns";
+import {addCustomer, updateCustomer} from "../../../../amplify/utils/queryUtils.ts";
 
 const customerFormSchema = z
     .object({
@@ -21,6 +22,8 @@ const customerFormSchema = z
         phone: z.string().min(1, {message: 'Enter a valid phone number'}),
         birthdate: z.date(),
         gender: z.string(),
+        pk: z.string().min(10, {message: 'pk is required'}),
+        sk: z.string().min(10, {message: 'sk is required'})
     })
 
 type CustomerFormSchemaType = z.infer<typeof customerFormSchema>;
@@ -28,7 +31,7 @@ type CustomerFormSchemaType = z.infer<typeof customerFormSchema>;
 type Props = {
     initialValues?: Customer;
     closeModal: () => void;
-    onSubmitNotify: (data: any) => void;
+    onSubmitNotify: (data: Customer) => void;
     mode: 'create' | 'edit';
 };
 
@@ -52,17 +55,25 @@ const CustomerForm: FunctionComponent<Props> = ({
             phone: initialValues?.phone || '',
             birthdate: initialValues ? parseDate(initialValues?.birthdate) : new Date(),
             gender: initialValues?.gender || '',
+            pk: initialValues?.pk || '',
+            sk: initialValues?.sk || '',
         }
     });
 
-    const onSubmit = (values: CustomerFormSchemaType) => {
-        console.log(values);
+    const parseDateBack = (date: Date):string => {
+        return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+    }
 
-        let response;
+    const onSubmit = async (values: CustomerFormSchemaType) => {
+        //console.log(values);
+
+        let response:Customer;
         if (mode === 'create') {
             // create response
-        } else if (mode === 'edit') {
+            response = await addCustomer(values.pk, values.sk, parseDateBack(values.birthdate), values.email, values.gender, values.name, values.phone);
+        } else {
             // update response
+            response =  await updateCustomer(values.pk, values.sk, parseDateBack(values.birthdate), values.email, values.gender, values.name, values.phone);
         }
         if (response) {
             onSubmitNotify(response);
@@ -79,6 +90,38 @@ const CustomerForm: FunctionComponent<Props> = ({
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                        <FormField
+                            control={form.control}
+                            name="pk"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Enter pk"
+                                            {...field}
+                                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                                        />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="sk"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Enter sk"
+                                            {...field}
+                                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                                        />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="email"

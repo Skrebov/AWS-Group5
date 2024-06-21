@@ -1,3 +1,5 @@
+import {util} from '@aws-appsync/utils';
+
 /**
  * Request handler for the AppSync resolver.
  *

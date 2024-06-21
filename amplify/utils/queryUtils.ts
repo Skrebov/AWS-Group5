@@ -148,7 +148,7 @@ export async function addInvoiceProduct(
     return mapToInvoiceProduct(response?.data);
 }
 
-async function deleteByPKandSK(pk: string, sk: string) {
+export async function deleteByPKandSK(pk: string, sk: string) {
     return await client.mutations.deleteByPKandSK({ pk: pk, sk: sk })
 }
 

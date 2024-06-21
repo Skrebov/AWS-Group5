@@ -1,9 +1,10 @@
 import DataTable from '@/components/shared/data-table';
 import {columns} from './columns';
-import ProductTableActions from './product-table-action.tsx';
+import {ProductTableActions} from './product-table-action.tsx';
 import {useSearchParams} from "react-router-dom";
 import {useGetProductByType} from "@/pages/hooks/getByTypeHook.ts";
 import {useState} from "react";
+import {Customer, Product} from "../../../amplify/utils/model.ts";
 
 
 export default function ProductsTable() {
@@ -15,14 +16,17 @@ export default function ProductsTable() {
     const updatePaginationKeys = (keys:string[]) =>{
         setPaginationKeys(keys)
     }
+    const updateProducts = (products:Product[]) => {
+        setProducts(products)
+    }
 
-    const data = useGetProductByType(paginationKeys, page, updatePaginationKeys, pageLimit, searchQuery ? searchQuery : '')
-    const products = data.data?.products ? data.data.products : [];
+    const [products, setProducts] = useState<Product[]>([])
 
+    const data = useGetProductByType(paginationKeys, page, updatePaginationKeys, pageLimit, searchQuery ? searchQuery : '', updateProducts)
 
     return (
         <>
-            <ProductTableActions />
+            <ProductTableActions products={products} updateProducts={updateProducts}/>
             {data && (
                 <DataTable columns={columns} data={products} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
             )}

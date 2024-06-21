@@ -194,7 +194,6 @@ const schema = a.schema({
             type: a.string().required(),
             category: a.string(),
             name: a.string(),
-            date: a.string(),
             price: a.string(),
             quantity: a.float(),
         })

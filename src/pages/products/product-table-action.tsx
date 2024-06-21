@@ -4,9 +4,15 @@ import {Modal} from "@/components/ui/modal.tsx";
 import {useState} from "react";
 import {Button} from "@/components/ui/button.tsx";
 import {Plus} from "lucide-react";
-//import StudentCreateForm from '../student-forms/student-create-form';
+import {Product} from "../../../amplify/utils/model.ts";
 
-export default function ProductTableActions() {
+
+type Props = {
+    products: Product[];
+    updateProducts: (products: Product[]) => void;
+};
+
+export const ProductTableActions: React.FC<Props> = ({products, updateProducts}) => {
     const [openCreate, setOpenCreate] = useState(false);
     return (
         <div className="flex items-center justify-between py-5">
@@ -21,10 +27,10 @@ export default function ProductTableActions() {
                     }}
                 >
                     <ProductForm
-                        //TODO add states for updating table
                         closeModal={() => setOpenCreate(false)}
                         onSubmitNotify={(data) => {
-                            console.log(data);
+                            const updatedProducts = [...products, data];
+                            updateProducts(updatedProducts);
                         }}
                         mode='create'
                     />
@@ -39,18 +45,6 @@ export default function ProductTableActions() {
                         Create
                     </Button>
                 </div>
-                {/*<PopupModal*/}
-                {/*    renderModal={(onClose) =>*/}
-                {/*        <ProductForm*/}
-                {/*            //TODO add states for updating table*/}
-                {/*            closeModal={onClose}*/}
-                {/*            onSubmitNotify={(data) => {*/}
-                {/*                console.log(data);*/}
-                {/*            }}*/}
-                {/*            mode='create'*/}
-                {/*        />*/}
-                {/*}*/}
-                {/*/>*/}
             </div>
         </div>
     );

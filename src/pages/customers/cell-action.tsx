@@ -13,6 +13,7 @@ import {useState} from 'react';
 import {Customer} from "../../../amplify/utils/model.ts";
 import {Modal} from "@/components/ui/modal.tsx";
 import CustomerForm from "@/pages/customers/forms/customer-from.tsx";
+import {deleteByPKandSK} from "../../../amplify/utils/queryUtils.ts";
 
 interface CellActionProps {
     data: Customer;
@@ -26,6 +27,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
     const onConfirm = async () => {
         //TODO delete data.pk
+        await deleteByPKandSK(data.pk, data.sk)
         console.log('delete ', data.pk)
         setOpenDelete(false)
     };

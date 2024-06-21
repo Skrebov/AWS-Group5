@@ -29,13 +29,13 @@ export default function CustomerTableActions() {
                         mode='create'
                     />
                 </Modal>
-                <div className='flex justify-center'>
-                    <Button
+                <div className='flex justify-'>
+                    <Button className='min-w-20'
                         onClick={() => {
                             setOpenCreate(true);
                         }}
                     >
-                        <Plus/>
+
                         Create
                     </Button>
                 </div>

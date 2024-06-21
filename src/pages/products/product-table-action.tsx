@@ -30,12 +30,11 @@ export default function ProductTableActions() {
                     />
                 </Modal>
                 <div className='flex justify-center'>
-                    <Button
+                    <Button className='min-w-20'
                         onClick={() => {
                             setOpenCreate(true);
                         }}
                     >
-                        <Plus/>
                         Create
                     </Button>
                 </div>

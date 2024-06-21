@@ -22,10 +22,12 @@ export default function ProductsTable() {
 
     return (
         <>
-            <ProductTableActions />
-            {data && (
-                <DataTable columns={columns} data={products} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
-            )}
+            <main className="relative flex-1 overflow-y-auto bg-background focus:outline-none px-4">
+                <ProductTableActions />
+                {data && (
+                    <DataTable columns={columns} data={products} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
+                )}
+            </main>
         </>
     );
 }

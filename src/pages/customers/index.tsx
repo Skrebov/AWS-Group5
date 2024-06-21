@@ -22,10 +22,12 @@ export default function ConsumerTable() {
 
     return (
         <>
-            <CustomerTableActions />
-            {data && (
-                <DataTable columns={columns} data={customers} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
-            )}
+            <main className="relative flex-1 overflow-y-auto bg-background focus:outline-none px-4">
+                <CustomerTableActions />
+                {data && (
+                    <DataTable columns={columns} data={customers} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
+                )}
+            </main>
         </>
     );
 }

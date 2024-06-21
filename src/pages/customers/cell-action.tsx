@@ -10,7 +10,7 @@ import {
 import {Edit, MoreHorizontal, Trash} from 'lucide-react';
 //import { useRouter } from '@/routes/hooks';
 import {useState} from 'react';
-import {Customer} from "../../../amplify/utils/model.ts";
+import {Customer, Product} from "../../../amplify/utils/model.ts";
 import {Modal} from "@/components/ui/modal.tsx";
 import CustomerForm from "@/pages/customers/forms/customer-from.tsx";
 import {deleteByPKandSK} from "../../../amplify/utils/queryUtils.ts";
@@ -59,7 +59,13 @@ export const CellAction: React.FC<CellActionProps> = ({ data, completeData, setD
                     closeModal={() => setOpenUpdate(false)}
                     initialValues={data}
                     onSubmitNotify={(updatedData) => {
-                        console.log(updatedData);
+                        const toUpdate:Customer|undefined = completeData.find(customer => customer.pk === updatedData.pk && customer.sk === updatedData.sk)
+                        if(toUpdate) {
+                            const updatedCustomers = completeData.map(customer => customer.pk === updatedData.pk && customer.sk === updatedData.sk ? updatedData : customer);
+                            if(setData){
+                                setData(updatedCustomers);
+                            }
+                        }
                     }}
                     mode='edit'
                 />

@@ -31,7 +31,7 @@ type ProductFormSchemaType = z.infer<typeof productFormSchema>;
 type Props = {
     initialValues?: Product;
     closeModal: () => void;
-    onSubmitNotify: (data: any) => void;
+    onSubmitNotify: (data: Product) => void;
     mode: 'create' | 'edit';
 };
 
@@ -54,7 +54,6 @@ const ProductForm: FunctionComponent<Props> = ({
     });
 
     const onSubmit = async (values: ProductFormSchemaType) => {
-        console.log(values);
 
         let response:Product;
         if (mode === 'create') {

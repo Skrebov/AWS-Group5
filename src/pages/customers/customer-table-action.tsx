@@ -4,9 +4,14 @@ import {Modal} from "@/components/ui/modal.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Plus} from "lucide-react";
 import {useState} from "react";
-//import StudentCreateForm from '../student-forms/student-create-form';
+import {Customer} from "../../../amplify/utils/model.ts";
 
-export default function CustomerTableActions() {
+type Props = {
+    customers: Customer[];
+    updateCustomers: (customers: Customer[]) => void;
+};
+
+export const CustomerTableActions: React.FC<Props> = ({customers, updateCustomers}) => {
     const [openCreate, setOpenCreate] = useState(false);
     return (
         <div className="flex items-center justify-between py-5">
@@ -24,7 +29,8 @@ export default function CustomerTableActions() {
                         //TODO add states for updating table
                         closeModal={() => setOpenCreate(false)}
                         onSubmitNotify={(data) => {
-                            console.log(data);
+                            const updatedCustomers = [...customers, data];
+                            updateCustomers(updatedCustomers);
                         }}
                         mode='create'
                     />

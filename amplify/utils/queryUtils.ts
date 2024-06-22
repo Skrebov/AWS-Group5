@@ -1,6 +1,13 @@
 import {generateClient} from "aws-amplify/api";
 import {Schema} from "../data/resource";
-import {Customer, CustomerPaginationType, Invoice, Product, ProductPaginationType} from "./model";
+import {
+    Customer,
+    CustomerPaginationType,
+    Invoice,
+    InvoicePaginationType,
+    Product,
+    ProductPaginationType
+} from "./model";
 import {
     mapCustomers,
     mapDataItems,
@@ -43,9 +50,11 @@ export async function getProducts(nextToken:string, limit:number, searchQuery:st
     return {products, nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
 }
 
-export async function getInvoices(nextToken:string, limit:number, searchQuery:string){
+export async function getInvoices(nextToken:string, limit:number, searchQuery:string): Promise<InvoicePaginationType>{
     const queryResult = await getByType('invoice', nextToken, limit, searchQuery);
-    return mapInvoices(queryResult?.data?.items);
+    const invoices:Invoice[] = mapInvoices(queryResult?.data?.items);
+    //const completeInvoices:CompleteInvoice[] = mapCompleteInvoices();
+    return {invoices, nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
 }
 
 export async function getProductsByCategory(category: string){

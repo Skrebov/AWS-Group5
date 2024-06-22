@@ -29,6 +29,11 @@ export type CustomerPaginationType = {
     nextToken: string,
 }
 
+export type InvoicePaginationType = {
+    invoices: Invoice[];
+    nextToken: string,
+}
+
 
 export type Invoice  =  {
     date: string;

@@ -1,6 +1,6 @@
 import {useQuery, UseQueryResult} from '@tanstack/react-query';
-import {getCustomers, getProducts} from "../../../amplify/utils/queryUtils.ts";
-import {CustomerPaginationType, ProductPaginationType} from "../../../amplify/utils/model.ts";
+import {getCustomers, getInvoices, getProducts} from "../../../amplify/utils/queryUtils.ts";
+import {CustomerPaginationType, InvoicePaginationType, ProductPaginationType} from "../../../amplify/utils/model.ts";
 
 export const useGetProductByType = (paginationKeys:string[], page:number, setPaginationKeys: (keys:string[]) => void, pageLimit:number, searchQuery:string): UseQueryResult<ProductPaginationType> => {
     return useQuery({
@@ -21,6 +21,20 @@ export const useGetCustomersByType = (paginationKeys:string[], page:number, setP
         queryKey: ['customers', paginationKeys[page-1], pageLimit, searchQuery],
         queryFn: async () => {
             const res = await getCustomers(paginationKeys[page-1], pageLimit, searchQuery)
+            if(res.nextToken !== undefined && res.nextToken !== '' && paginationKeys.length <= page){
+                paginationKeys.push(res.nextToken)
+                setPaginationKeys(paginationKeys)
+            }
+            return res;
+        }
+    });
+};
+
+export const useGetInvoiceByType = (paginationKeys:string[], page:number, setPaginationKeys: (keys:string[]) => void, pageLimit:number, searchQuery:string): UseQueryResult<InvoicePaginationType> => {
+    return useQuery({
+        queryKey: ['invoices', paginationKeys[page-1], pageLimit, searchQuery],
+        queryFn: async () => {
+            const res = await getInvoices(paginationKeys[page-1], pageLimit, searchQuery);
             if(res.nextToken !== undefined && res.nextToken !== '' && paginationKeys.length <= page){
                 paginationKeys.push(res.nextToken)
                 setPaginationKeys(paginationKeys)

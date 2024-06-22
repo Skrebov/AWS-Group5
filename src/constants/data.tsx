@@ -18,5 +18,11 @@ export const navItems: NavItem[] = [
         href: '/customer',
         icon: 'user',
         label: 'Customer'
+    },
+    {
+        title: 'Invoices',
+        href: '/invoice',
+        icon: 'billing',
+        label: 'Invoices'
     }
 ];

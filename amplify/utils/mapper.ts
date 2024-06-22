@@ -1,4 +1,4 @@
-import {Customer, DataItem, Invoice, Product, RecentPurchase} from "./model";
+import {CompleteInvoice, Customer, DataItem, Invoice, Product, RecentPurchase} from "./model";
 
 function mapToCustomer(obj: any): Customer{
     return {

@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {Plus} from "lucide-react";
 import {useState} from "react";
 import {Customer} from "../../../amplify/utils/model.ts";
+import {useSearchParams} from "react-router-dom";
 
 type Props = {
     customers: Customer[];
@@ -12,6 +13,8 @@ type Props = {
 };
 
 export const CustomerTableActions: React.FC<Props> = ({customers, updateCustomers}) => {
+    const [searchParams] = useSearchParams();
+    const pageLimit = Number(searchParams.get('limit') || 10);
     const [openCreate, setOpenCreate] = useState(false);
     return (
         <div className="flex items-center justify-between py-5">
@@ -26,11 +29,13 @@ export const CustomerTableActions: React.FC<Props> = ({customers, updateCustomer
                     }}
                 >
                     <CustomerForm
-                        //TODO add states for updating table
                         closeModal={() => setOpenCreate(false)}
                         onSubmitNotify={(data) => {
-                            const updatedCustomers = [...customers, data];
-                            updateCustomers(updatedCustomers);
+                            if(customers.length < pageLimit){
+                                const updatedCustomers = [...customers, data];
+                                updateCustomers(updatedCustomers);
+                            }
+
                         }}
                         mode='create'
                     />

@@ -5,6 +5,7 @@ import {useState} from "react";
 import {Button} from "@/components/ui/button.tsx";
 import {Plus} from "lucide-react";
 import {Product} from "../../../amplify/utils/model.ts";
+import {useSearchParams} from "react-router-dom";
 
 
 type Props = {
@@ -13,6 +14,8 @@ type Props = {
 };
 
 export const ProductTableActions: React.FC<Props> = ({products, updateProducts}) => {
+    const [searchParams] = useSearchParams();
+    const pageLimit = Number(searchParams.get('limit') || 10);
     const [openCreate, setOpenCreate] = useState(false);
     return (
         <div className="flex items-center justify-between py-5">
@@ -29,8 +32,10 @@ export const ProductTableActions: React.FC<Props> = ({products, updateProducts})
                     <ProductForm
                         closeModal={() => setOpenCreate(false)}
                         onSubmitNotify={(data) => {
-                            const updatedProducts = [...products, data];
-                            updateProducts(updatedProducts);
+                           if(products.length < pageLimit){
+                               const updatedProducts = [...products, data];
+                               updateProducts(updatedProducts);
+                           }
                         }}
                         mode='create'
                     />

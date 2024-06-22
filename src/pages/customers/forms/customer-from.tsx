@@ -41,11 +41,7 @@ const CustomerForm: FunctionComponent<Props> = ({
                                                     onSubmitNotify,
                                                     mode,
                                                 }) => {
-    //TODO improve date related stuff
-    const parseDate = (dateString: string): Date => {
-        const [day, month, year] = dateString.split('.').map(Number);
-        return new Date(year, month - 1, day); // month is 0-indexed
-    };
+
 
     const form = useForm<CustomerFormSchemaType>({
         resolver: zodResolver(customerFormSchema),
@@ -53,15 +49,19 @@ const CustomerForm: FunctionComponent<Props> = ({
             email: initialValues?.email || '',
             name: initialValues?.name || '',
             phone: initialValues?.phone || '',
-            birthdate: initialValues ? parseDate(initialValues?.birthdate) : new Date(),
+            birthdate: initialValues ? new Date(initialValues?.birthdate) : new Date(),
             gender: initialValues?.gender || '',
             pk: initialValues?.pk || '',
             sk: initialValues?.sk || '',
         }
     });
 
-    const parseDateBack = (date: Date):string => {
-        return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+
+    const formatToDateString = (date:Date):string => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 
     const onSubmit = async (values: CustomerFormSchemaType) => {
@@ -70,10 +70,10 @@ const CustomerForm: FunctionComponent<Props> = ({
         let response:Customer;
         if (mode === 'create') {
             // create response
-            response = await addCustomer(values.pk, values.sk, parseDateBack(values.birthdate), values.email, values.gender, values.name, values.phone);
+            response = await addCustomer(values.pk, values.sk, formatToDateString(values.birthdate), values.email, values.gender, values.name, values.phone);
         } else {
             // update response
-            response =  await updateCustomer(values.pk, values.sk, parseDateBack(values.birthdate), values.email, values.gender, values.name, values.phone);
+            response =  await updateCustomer(values.pk, values.sk, formatToDateString(values.birthdate), values.email, values.gender, values.name, values.phone);
         }
         if (response) {
             onSubmitNotify(response);

@@ -165,6 +165,186 @@ const schema = a.schema({
             })
         ),
 
+    addCustomer: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            birthdate: a.string(),
+            email: a.string(),
+            gender: a.string(),
+            name: a.string(),
+            phone: a.string(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./addItem.js",
+            })
+        ),
+
+    addProduct: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            category: a.string(),
+            name: a.string(),
+            price: a.string(),
+            quantity: a.float(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./addItem.js",
+            })
+        ),
+
+    addInvoice: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            date: a.string(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./addItem.js",
+            })
+        ),
+
+    addInvoiceProduct: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            quantity: a.float(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./addItem.js",
+            })
+        ),
+
+    deleteByPKandSK: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./deleteByPKandSK.js",
+            })
+        ),
+
+    deleteBySKandType: a
+        .mutation()
+        .arguments({
+            sk: a.string().required(),
+            type: a.string().required(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./deleteBySKandType.js",
+            })
+        ),
+
+    updateCustomer: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            birthdate: a.string(),
+            email: a.string(),
+            gender: a.string(),
+            name: a.string(),
+            phone: a.string(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./updateItem.js",
+            })
+        ),
+
+    updateProduct: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            category: a.string(),
+            name: a.string(),
+            price: a.string(),
+            quantity: a.float(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./updateItem.js",
+            })
+        ),
+
+    updateInvoice: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            date: a.string(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./updateItem.js",
+            })
+        ),
+
+    updateInvoiceProduct: a
+        .mutation()
+        .arguments({
+            pk: a.string().required(),
+            sk: a.string().required(),
+            type: a.string().required(),
+            quantity: a.float(),
+        })
+        .returns(a.ref("appdata"))
+        .authorization(allow => [allow.authenticated("userPools")])
+        .handler(
+            a.handler.custom({
+                dataSource: "appDataDataSource",
+                entry: "./updateItem.js",
+            })
+        ),
+
 })
 
 export type Schema = ClientSchema<typeof schema>;

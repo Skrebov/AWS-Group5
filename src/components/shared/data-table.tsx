@@ -20,12 +20,18 @@ import {
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
-    getPaginationRowModel,
+    getPaginationRowModel, RowData,
     useReactTable
 } from '@tanstack/react-table';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
+
+declare module '@tanstack/table-core' {
+    interface TableMeta<TData extends RowData> {
+        setData: (data: TData[]) => void;
+    }
+}
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -33,6 +39,7 @@ interface DataTableProps<TData, TValue> {
     pageSizeOptions?: number[];
     paginationKeys:string[];
     setPaginationKeys: (keys: string[]) => void;
+    setData: (data: TData[]) => void;
 }
 
 export default function DataTable<TData, TValue>({
@@ -40,7 +47,8 @@ export default function DataTable<TData, TValue>({
                                                      data,
                                                      paginationKeys,
                                                      pageSizeOptions = [10, 20, 30, 40, 50],
-                                                     setPaginationKeys
+                                                     setPaginationKeys,
+                                                     setData
                                                  }: DataTableProps<TData, TValue>) {
     const [searchParams, setSearchParams] = useSearchParams();
     // Search params
@@ -68,6 +76,7 @@ export default function DataTable<TData, TValue>({
         // if search is there setting filter value
     }, [pageIndex, pageSize, searchParams, setSearchParams]);
 
+
     const table = useReactTable({
         data,
         columns,
@@ -80,7 +89,10 @@ export default function DataTable<TData, TValue>({
         onPaginationChange: setPagination,
         getPaginationRowModel: getPaginationRowModel(),
         manualPagination: true,
-        manualFiltering: true
+        manualFiltering: true,
+        meta:{
+            setData: setData
+        }
     });
 
     return (

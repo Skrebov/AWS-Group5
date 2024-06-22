@@ -42,8 +42,8 @@ const externalRecentPurchasesTable = aws_dynamodb.Table.fromTableAttributes(
 
 //add datasource to appsync graphql api
 backend.data.addDynamoDbDataSource(
-    "appDataDataSource",
-    externalTable
+  "appDataDataSource",
+  externalTable
 );
 
 //add datasource to appsync graphql api

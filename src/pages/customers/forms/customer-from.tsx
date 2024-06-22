@@ -12,6 +12,7 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.t
 import {cn} from "@/lib/utils.ts";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import {format} from "date-fns";
+import {addCustomer, updateCustomer} from "../../../../amplify/utils/queryUtils.ts";
 
 const customerFormSchema = z
     .object({
@@ -21,6 +22,8 @@ const customerFormSchema = z
         phone: z.string().min(1, {message: 'Enter a valid phone number'}),
         birthdate: z.date(),
         gender: z.string(),
+        pk: z.string().min(10, {message: 'pk is required'}),
+        sk: z.string().min(10, {message: 'sk is required'})
     })
 
 type CustomerFormSchemaType = z.infer<typeof customerFormSchema>;
@@ -28,7 +31,7 @@ type CustomerFormSchemaType = z.infer<typeof customerFormSchema>;
 type Props = {
     initialValues?: Customer;
     closeModal: () => void;
-    onSubmitNotify: (data: any) => void;
+    onSubmitNotify: (data: Customer) => void;
     mode: 'create' | 'edit';
 };
 
@@ -38,11 +41,7 @@ const CustomerForm: FunctionComponent<Props> = ({
                                                     onSubmitNotify,
                                                     mode,
                                                 }) => {
-    //TODO improve date related stuff
-    const parseDate = (dateString: string): Date => {
-        const [day, month, year] = dateString.split('.').map(Number);
-        return new Date(year, month - 1, day); // month is 0-indexed
-    };
+
 
     const form = useForm<CustomerFormSchemaType>({
         resolver: zodResolver(customerFormSchema),
@@ -50,19 +49,31 @@ const CustomerForm: FunctionComponent<Props> = ({
             email: initialValues?.email || '',
             name: initialValues?.name || '',
             phone: initialValues?.phone || '',
-            birthdate: initialValues ? parseDate(initialValues?.birthdate) : new Date(),
+            birthdate: initialValues ? new Date(initialValues?.birthdate) : new Date(),
             gender: initialValues?.gender || '',
+            pk: initialValues?.pk || '',
+            sk: initialValues?.sk || '',
         }
     });
 
-    const onSubmit = (values: CustomerFormSchemaType) => {
-        console.log(values);
 
-        let response;
+    const formatToDateString = (date:Date):string => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    const onSubmit = async (values: CustomerFormSchemaType) => {
+        //console.log(values);
+
+        let response:Customer;
         if (mode === 'create') {
             // create response
-        } else if (mode === 'edit') {
+            response = await addCustomer(values.pk, values.sk, formatToDateString(values.birthdate), values.email, values.gender, values.name, values.phone);
+        } else {
             // update response
+            response =  await updateCustomer(values.pk, values.sk, formatToDateString(values.birthdate), values.email, values.gender, values.name, values.phone);
         }
         if (response) {
             onSubmitNotify(response);
@@ -79,6 +90,38 @@ const CustomerForm: FunctionComponent<Props> = ({
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                        <FormField
+                            control={form.control}
+                            name="pk"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Enter pk"
+                                            {...field}
+                                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                                        />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="sk"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Enter sk"
+                                            {...field}
+                                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                                        />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="email"

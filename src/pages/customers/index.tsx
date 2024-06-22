@@ -1,9 +1,10 @@
 import DataTable from '@/components/shared/data-table';
 import {columns} from './columns';
-import CustomerTableActions from "@/pages/customers/customer-table-action.tsx";
+import {CustomerTableActions} from "@/pages/customers/customer-table-action.tsx";
 import {useSearchParams} from "react-router-dom";
 import {useGetCustomersByType} from "@/pages/hooks/getByTypeHook.ts";
 import {useState} from "react";
+import {Customer} from "../../../amplify/utils/model.ts";
 
 
 
@@ -16,18 +17,21 @@ export default function ConsumerTable() {
     const updatePaginationKeys = (keys:string[]) =>{
         setPaginationKeys(keys)
     }
+    const updateCustomers = (customers:Customer[]) => {
+        setCustomers(customers)
+    }
 
-    const data = useGetCustomersByType(paginationKeys, page, updatePaginationKeys, pageLimit, searchQuery ? searchQuery : '')
-    const customers = data.data?.customers ? data.data.customers : [];
+    const [customers, setCustomers] = useState<Customer[]>([])
+
+    const data = useGetCustomersByType(paginationKeys, page, updatePaginationKeys, pageLimit, searchQuery ? searchQuery : '', updateCustomers)
+
 
     return (
-        <>
-            <main className="relative flex-1 overflow-y-auto bg-background focus:outline-none px-4">
-                <CustomerTableActions />
-                {data && (
-                    <DataTable columns={columns} data={customers} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
-                )}
-            </main>
-        </>
+        <main className="relative flex-1 overflow-y-auto bg-background focus:outline-none px-4">
+            <CustomerTableActions customers={customers} updateCustomers={updateCustomers}/>
+            {data && (
+                <DataTable columns={columns} data={customers} setData={setCustomers} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
+            )}
+        </main>
     );
 }

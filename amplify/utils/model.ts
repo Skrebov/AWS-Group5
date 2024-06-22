@@ -41,6 +41,12 @@ export type Invoice  =  {
     sk: string;
 };
 
+export type InvoiceProduct = {
+    pk: string;
+    sk: string;
+    quantity: number;
+};
+
 export type CompleteInvoice = {
     invoice: Invoice;
     customer: Customer;

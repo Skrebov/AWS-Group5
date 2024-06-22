@@ -13,6 +13,7 @@ import {useForm} from 'react-hook-form';
 import {z} from 'zod';
 import {Product} from "../../../../amplify/utils/model.ts";
 import {FunctionComponent} from "react";
+import {addProduct, updateProduct} from "../../../../amplify/utils/queryUtils.ts";
 
 const productFormSchema = z
     .object({
@@ -21,6 +22,8 @@ const productFormSchema = z
         name: z.string().min(1, {message: 'name is required'}),
         price: z.string().min(1, {message: 'price is required'}),
         quantity: z.coerce.number(),
+        pk: z.string().min(10, {message: 'pk is required'}),
+        sk: z.string().min(10, {message: 'sk is required'})
     });
 
 type ProductFormSchemaType = z.infer<typeof productFormSchema>;
@@ -28,7 +31,7 @@ type ProductFormSchemaType = z.infer<typeof productFormSchema>;
 type Props = {
     initialValues?: Product;
     closeModal: () => void;
-    onSubmitNotify: (data: any) => void;
+    onSubmitNotify: (data: Product) => void;
     mode: 'create' | 'edit';
 };
 
@@ -45,17 +48,20 @@ const ProductForm: FunctionComponent<Props> = ({
             name: initialValues?.name || '',
             price: initialValues?.price || '',
             quantity: initialValues?.quantity || 0,
+            pk: initialValues?.pk || '',
+            sk: initialValues?.sk || '',
         }
     });
 
-    const onSubmit = (values: ProductFormSchemaType) => {
-        console.log(values);
+    const onSubmit = async (values: ProductFormSchemaType) => {
 
-        let response;
+        let response:Product;
         if (mode === 'create') {
             // create response
-        } else if (mode === 'edit') {
+            response = await addProduct(values.pk, values.sk, values.category, values.name, values.price, values.quantity)
+        } else {
             // update response
+            response = await updateProduct(values.pk, values.sk, values.category, values.name, values.price, values.quantity)
         }
         if (response) {
             onSubmitNotify(response);
@@ -72,6 +78,38 @@ const ProductForm: FunctionComponent<Props> = ({
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                        <FormField
+                            control={form.control}
+                            name="pk"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Enter pk"
+                                            {...field}
+                                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                                        />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="sk"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Enter sk"
+                                            {...field}
+                                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                                        />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="category"

@@ -10,23 +10,33 @@ import {
 import {Edit, MoreHorizontal, Trash} from 'lucide-react';
 //import { useRouter } from '@/routes/hooks';
 import {useState} from 'react';
-import {Customer} from "../../../amplify/utils/model.ts";
+import {Customer, Product} from "../../../amplify/utils/model.ts";
 import {Modal} from "@/components/ui/modal.tsx";
 import CustomerForm from "@/pages/customers/forms/customer-from.tsx";
+import {deleteByPKandSK} from "../../../amplify/utils/queryUtils.ts";
 
 interface CellActionProps {
     data: Customer;
+    completeData: Customer[]
+    setData: ((newCustomers: Customer[]) => void) | undefined;
 }
 
-export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+export const CellAction: React.FC<CellActionProps> = ({ data, completeData, setData }) => {
     const [loading] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
     //const router = useRouter();
 
     const onConfirm = async () => {
-        //TODO delete data.pk
+        await deleteByPKandSK(data.pk, data.sk)
         console.log('delete ', data.pk)
+        const customer: Customer | undefined = completeData.find(customer => customer.pk === data.pk && customer.sk === data.sk);
+        if(customer) {
+           const changedCustomers:Customer[] = completeData.filter(customer => customer.pk !== data.pk && customer.sk !== data.sk);
+           if(setData){
+               setData(changedCustomers);
+           }
+        }
         setOpenDelete(false)
     };
 
@@ -49,7 +59,13 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                     closeModal={() => setOpenUpdate(false)}
                     initialValues={data}
                     onSubmitNotify={(updatedData) => {
-                        console.log(updatedData);
+                        const toUpdate:Customer|undefined = completeData.find(customer => customer.pk === updatedData.pk && customer.sk === updatedData.sk)
+                        if(toUpdate) {
+                            const updatedCustomers = completeData.map(customer => customer.pk === updatedData.pk && customer.sk === updatedData.sk ? updatedData : customer);
+                            if(setData){
+                                setData(updatedCustomers);
+                            }
+                        }
                     }}
                     mode='edit'
                 />

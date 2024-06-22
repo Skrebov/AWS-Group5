@@ -1,6 +1,6 @@
 import {generateClient} from "aws-amplify/api";
 import {Schema} from "../data/resource";
-import {Customer,InvoiceProduct, CustomerPaginationType, Invoice, Product, ProductPaginationType} from "./model";
+import {Customer,InvoiceProduct, CustomerPaginationType, Invoice, Product, ProductPaginationType, InvoicePaginationType} from "./model";
 import {
     mapCustomers,
     mapDataItems,

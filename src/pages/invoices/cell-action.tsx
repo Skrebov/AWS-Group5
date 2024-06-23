@@ -11,6 +11,7 @@ import {useState} from 'react';
 import {RecentPurchase} from "../../../amplify/utils/model.ts";
 import {Modal} from "@/components/ui/modal.tsx";
 import {getInvoiceProducts} from "../../../amplify/utils/lambdas.ts";
+import ProductModal from "@/components/shared/product-modal.tsx";
 
 interface CellActionProps {
     data: RecentPurchase;
@@ -19,19 +20,18 @@ interface CellActionProps {
 }
 
 export const CellAction: React.FC<CellActionProps> = ({data, completeData, setData}) => {
-    const [loading] = useState(false);
-    const [openDelete, setOpenDelete] = useState(false);
-    const [openUpdate, setOpenUpdate] = useState(false);
+    const [openProducts, setOpenProducts] = useState(false);
 
     return (
         <>
             <Modal
-                isOpen={openUpdate}
+                isOpen={openProducts}
                 onClose={() => {
-                    setOpenUpdate(false);
+                    setOpenProducts(false);
                 }}
             >
-
+                <ProductModal customerId={data.pk} closeModal={() => setOpenProducts(false)}
+                              getData={getInvoiceProducts} mode={'invoice'}/>
             </Modal>
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
@@ -44,8 +44,8 @@ export const CellAction: React.FC<CellActionProps> = ({data, completeData, setDa
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                     <DropdownMenuItem
-                        onClick={async () =>{
-                            console.log(await getInvoiceProducts(data.pk))
+                        onClick={async () => {
+                            setOpenProducts(true)
                         }}
                     >
                         <Image className="mr-2 h-4 w-4"/> Products

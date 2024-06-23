@@ -7,13 +7,15 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import {Edit, MoreHorizontal, Trash} from 'lucide-react';
+import {Edit, Gift, MoreHorizontal, Trash} from 'lucide-react';
 //import { useRouter } from '@/routes/hooks';
 import {useState} from 'react';
 import {Customer, Product} from "../../../amplify/utils/model.ts";
 import {Modal} from "@/components/ui/modal.tsx";
 import CustomerForm from "@/pages/customers/forms/customer-from.tsx";
 import {deleteByPKandSK} from "../../../amplify/utils/queryUtils.ts";
+import ProductModal from "@/components/shared/product-modal.tsx";
+import {getRecommendations} from "../../../amplify/utils/lambdas.ts";
 
 interface CellActionProps {
     data: Customer;
@@ -25,6 +27,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data, completeData, setD
     const [loading] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
+    const [openRecommendations, setOpenRecommendations] = useState(false);
     //const router = useRouter();
 
     const onConfirm = async () => {
@@ -70,6 +73,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data, completeData, setD
                     mode='edit'
                 />
             </Modal>
+            <Modal
+                isOpen={openRecommendations}
+                onClose={() => {
+                    setOpenRecommendations(false);
+                }}
+            >
+                <ProductModal customerId={data.pk} closeModal={() => setOpenRecommendations(false)} getData={getRecommendations} mode={'recommendation'}/>
+            </Modal>
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
@@ -88,6 +99,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data, completeData, setD
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setOpenDelete(true)}>
                         <Trash className="mr-2 h-4 w-4"/> Delete
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setOpenRecommendations(true)}>
+                        <Gift className="mr-2 h-4 w-4"/> Recommendations
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

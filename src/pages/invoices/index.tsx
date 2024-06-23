@@ -1,6 +1,5 @@
 import DataTable from '@/components/shared/data-table';
 import {columns} from './columns';
-import InvoiceTableActions from './invoice-table-action.tsx';
 import {useSearchParams} from "react-router-dom";
 import {useGetInvoiceByType} from "@/pages/hooks/getByTypeHook.ts";
 import {useState} from "react";
@@ -26,8 +25,7 @@ export default function InvoicesTable() {
 
     return (
         <>
-            <main className="relative flex-1 overflow-y-auto bg-background focus:outline-none px-4">
-                <InvoiceTableActions />
+            <main className="relative flex-1 overflow-y-auto bg-background focus:outline-none px-4 py-8">
                 {data && (
                     <DataTable columns={columns} data={invoices} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} setData={setInvoices} />
                 )}

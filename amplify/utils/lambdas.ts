@@ -1,6 +1,6 @@
 import { get } from 'aws-amplify/api';
 import { fetchAuthSession } from 'aws-amplify/auth'
-import {InvoiceProduct} from "./model";
+import {InvoiceProduct, Product} from "./model";
 
 const session = await fetchAuthSession();
 const token = session.tokens?.idToken
@@ -40,7 +40,7 @@ export async function getRecommendations(customerId: string) {
         });
         const { body }  = await restOperation.response;
         //console.log('GET call succeeded: ', body);
-        return await body.json() as [];
+        return await body.json() as Product[];
     } catch (error:any) {
         console.log('GET call failed: ', JSON.parse(error.response.body));
         return [];

@@ -87,7 +87,7 @@ if (Array.isArray(cfnUserPool.schema)) {
 const getInvoiceProductsLambda = backend.getInvoiceProducts.resources.lambda;
 const getRecommendationLambda = backend.getRecommendation.resources.lambda;
 const statement = new iam.PolicyStatement({
-    sid: "AllowPublishToDigest",
+    sid: "AllowReadDynamo",
     actions: [	"dynamodb:BatchGetItem",
         "dynamodb:GetRecords",
         "dynamodb:GetShardIterator",
@@ -103,33 +103,20 @@ const statement = new iam.PolicyStatement({
     resources: ["arn:aws:dynamodb:eu-central-1:637423640136:table/appdata",
         "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata/index/*"],
 })
-
-const recommendationStatement = new iam.PolicyStatement({
-    sid: "AllowPublishToDigest",
+const recommendationRecommenderStatement = new iam.PolicyStatement({
+    sid: "AllowReadPersonalize",
     actions: [
-        "dynamodb:BatchGetItem",
-        "dynamodb:GetRecords",
-        "dynamodb:GetShardIterator",
-        "dynamodb:Query",
-        "dynamodb:GetItem",
-        "dynamodb:Scan",
-        "dynamodb:ConditionCheckItem",
-        "dynamodb:BatchWriteItem",
-        "dynamodb:PutItem",
-        "dynamodb:UpdateItem",
-        "dynamodb:DeleteItem",
-        "dynamodb:DescribeTable",
         "personalize:*"
     ],
     resources: [
-        "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata",
-        "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata/index/*",
         "arn:aws:personalize:eu-central-1:637423640136:recommender/for-you-recommender"
     ]
-});
+})
+
 
 getInvoiceProductsLambda.addToRolePolicy(statement);
-getRecommendationLambda.addToRolePolicy(recommendationStatement);
+getRecommendationLambda.addToRolePolicy(statement);
+getRecommendationLambda.addToRolePolicy(recommendationRecommenderStatement);
 
 // create a new API stack
 const apiStack = backend.createStack("api-stack");

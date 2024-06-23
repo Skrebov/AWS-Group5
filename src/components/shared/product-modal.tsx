@@ -42,7 +42,7 @@ const ProductModal: FunctionComponent<Props> = ({
                 title={mode === 'invoice' ? "Products of " + customerId : "Recommended Products"}
                 className="space-y py-4 text-center"
             />
-            <div className="overflow-y-auto h-96">
+            <div className="overflow-y-auto max-h-96">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead>
                     <tr>

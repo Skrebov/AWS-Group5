@@ -4,7 +4,7 @@ import {ProductTableActions} from './product-table-action.tsx';
 import {useSearchParams} from "react-router-dom";
 import {useGetProductByType} from "@/pages/hooks/getByTypeHook.ts";
 import {useState} from "react";
-import {Customer, Product} from "../../../amplify/utils/model.ts";
+import {Product} from "../../../amplify/utils/model.ts";
 
 
 export default function ProductsTable() {

@@ -13,7 +13,6 @@ import {Product} from "../../../amplify/utils/model.ts";
 import ProductForm from "@/pages/products/forms/product-form.tsx";
 import {Modal} from "@/components/ui/modal.tsx";
 import {deleteByPKandSK} from "../../../amplify/utils/queryUtils.ts";
-import productForm from "@/pages/products/forms/product-form.tsx";
 
 interface CellActionProps {
     data: Product;

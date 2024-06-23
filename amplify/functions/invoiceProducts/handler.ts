@@ -39,15 +39,17 @@ export const handler: APIGatewayProxyHandler = async (event: any): Promise<any> 
 
         const products = batchGetData.Responses!['appdata'] as Product[];
 
-        // Create a map of products for easy lookup
-        const productMap = new Map<string, Product>();
-        products.forEach(product => {
-            productMap.set(product.pk, product);
-        });
-
+        const productQuantityMap = new Map<string, number>();
         // Populate the product field in each invoice item
         invoiceItems.forEach(invoiceItem => {
-            invoiceItem.product = productMap.get(invoiceItem.sk);
+            productQuantityMap.set(invoiceItem.sk, invoiceItem.quantity);
+        });
+
+        products.forEach(product => {
+            const quantity:number|undefined =  productQuantityMap.get(product.pk);
+           if(quantity ){
+               product.quantity = quantity;
+           }
         });
 
         return {
@@ -56,7 +58,7 @@ export const handler: APIGatewayProxyHandler = async (event: any): Promise<any> 
                 "Access-Control-Allow-Origin": "*", // Restrict this to domains you trust
                 "Access-Control-Allow-Headers": "*", // Specify only the headers you need to allow
             },
-            body: JSON.stringify(invoiceItems)
+            body: JSON.stringify(products)
         };
     } catch (error: any) {
         return {

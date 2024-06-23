@@ -19,7 +19,7 @@ export async function getInvoiceProducts(invoiceId: string) {
         });
         const { body }  = await restOperation.response;
         //console.log('GET call succeeded: ', body);
-        return await body.json() as InvoiceProduct[];
+        return await body.json() as Product[];
     } catch (error:any) {
         console.log('GET call failed: ', JSON.parse(error.response.body));
         return [];

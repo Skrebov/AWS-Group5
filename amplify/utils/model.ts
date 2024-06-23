@@ -45,7 +45,8 @@ export type InvoiceProduct = {
     pk: string;
     sk: string;
     quantity: number;
-    products?: Product[];
+    product?: Product;
+    type: string;
 };
 
 

@@ -36,6 +36,7 @@ function mapToInvoiceProduct(obj: any): InvoiceProduct {
         pk: obj.pk,
         sk: obj.sk,
         quantity: obj.quantity,
+        type: obj.type,
     }
 }
 

@@ -1,18 +1,10 @@
 import {DynamoDB} from 'aws-sdk';
 import type {APIGatewayProxyHandler} from "aws-lambda";
-import {Product} from "../../utils/model";
-
+import {Product, InvoiceProduct} from "../../utils/model";
 
 const dynamoDb = new DynamoDB.DocumentClient();
 
-interface InvoiceItem {
-    date?: string;
-    type: string;
-    pk: string;
-    sk: string;
-    quantity?: number;
-    product?: Product;
-}
+
 
 export const handler: APIGatewayProxyHandler = async (event: any): Promise<any> => {
 
@@ -29,7 +21,7 @@ export const handler: APIGatewayProxyHandler = async (event: any): Promise<any> 
             }
         };
         const data = await dynamoDb.query(params).promise();
-        let invoiceItems: InvoiceItem[] = data.Items as InvoiceItem[];
+        let invoiceItems: InvoiceProduct[] = data.Items as InvoiceProduct[];
         invoiceItems = invoiceItems.filter(ii => ii.type === 'invoice_product')
         const productKeys = Array.from(invoiceItems).map((invoiceItem => ({pk: invoiceItem.sk, sk: invoiceItem.sk})));
 

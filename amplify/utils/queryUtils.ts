@@ -49,7 +49,7 @@ export async function getInvoices(nextToken:string, limit:number, searchQuery:st
     const queryResult = await getByType('invoice', nextToken, limit, searchQuery);
     const invoices:Invoice[] = mapInvoices(queryResult?.data?.items);
     //const completeInvoices:CompleteInvoice[] = mapCompleteInvoices();
-    return {invoices, nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
+    return {invoices:[], nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
 }
 
 export async function getProductsByCategory(category: string){

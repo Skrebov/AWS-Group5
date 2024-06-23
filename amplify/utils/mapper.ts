@@ -1,4 +1,4 @@
-import {CompleteInvoice, Customer, DataItem, Invoice, Product, RecentPurchase, InvoiceProduct} from "./model";
+import {Customer, DataItem, Invoice, Product, RecentPurchase, InvoiceProduct} from "./model";
 
 function mapToCustomer(obj: any): Customer {
     return {
@@ -73,10 +73,6 @@ function mapInvoices(list: any): Invoice[] {
     return list.map(mapToInvoice);
 }
 
-//this is for a list of invoice products
-function mapInvoiceProducts(list: any): InvoiceProduct[] {
-    return list.map(mapToInvoiceProduct);
-}
 
 function mapDataItems(list: any): DataItem[] {
     return list.map(mapToDataItem);
@@ -86,4 +82,4 @@ function mapRecentPurchases(list: any): RecentPurchase[] {
     return list.map(mapToRecentPurchase)
 }
 
-export { mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct, mapCustomers, mapProducts, mapInvoices, mapInvoiceProducts, mapDataItems, mapRecentPurchases }
+export { mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct, mapCustomers, mapProducts, mapInvoices, mapDataItems, mapRecentPurchases }

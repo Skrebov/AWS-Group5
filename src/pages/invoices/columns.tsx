@@ -1,28 +1,34 @@
 import {ColumnDef} from '@tanstack/react-table';
-import {Invoice} from "../../../amplify/utils/model.ts";
-import { Icons } from '@/components/ui/icons';
+import {RecentPurchase} from "../../../amplify/utils/model.ts";
+import {CellAction} from "./cell-action.tsx";
 
-export const columns: ColumnDef<Invoice>[] = [
+export const columns: ColumnDef<RecentPurchase>[] = [
     {
-        accessorKey: "name",
-        header: "Customer",
+        accessorKey: "pk",
+        header: "pk",
     },
     {
-        accessorKey: "email",
-        header: "Email",
+        accessorKey: "customerName",
+        header: "Customer",
     },
     {
         accessorKey: "date",
         header: "Date",
     },
-
+    {
+        accessorKey: "totalAmount",
+        header: () => <div>Total</div>,
+        cell: ({ row }) => {
+            const amount = parseFloat(row.getValue("totalAmount"))
+            const formatted = new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+            }).format(amount)
+            return <div className="font-medium">{formatted}</div>
+        },
+    },
     {
         id: 'actions',
-        header: 'Actions',
-        cell: () => (
-            <div className="flex justify-center items-center">
-                <Icons.page className="w-5 h-5 text-blue-500" /> {/* Customize the class names as needed */}
-            </div>
-        ),
+        cell: ({row, table}) => <CellAction data={row.original} completeData={table.options.data} setData={table.options.meta?.setData}/>
     },
 ];

@@ -4,6 +4,7 @@ import InvoiceTableActions from './invoice-table-action.tsx';
 import {useSearchParams} from "react-router-dom";
 import {useGetInvoiceByType} from "@/pages/hooks/getByTypeHook.ts";
 import {useState} from "react";
+import {RecentPurchase} from "../../../amplify/utils/model.ts";
 
 
 export default function InvoicesTable() {
@@ -15,9 +16,12 @@ export default function InvoicesTable() {
     const updatePaginationKeys = (keys:string[]) =>{
         setPaginationKeys(keys)
     }
+    const updateInvoices = (invoices:RecentPurchase[]) => {
+        setInvoices(invoices)
+    }
 
-    const data = useGetInvoiceByType(paginationKeys, page, updatePaginationKeys, pageLimit, searchQuery ? searchQuery : '')
-    const invoices = data.data?.invoices ? data.data.invoices : [];
+    const [invoices, setInvoices] = useState<RecentPurchase[]>([])
+    const data = useGetInvoiceByType(paginationKeys, page, updatePaginationKeys, pageLimit, searchQuery ? searchQuery : '', updateInvoices)
 
 
     return (
@@ -25,7 +29,7 @@ export default function InvoicesTable() {
             <main className="relative flex-1 overflow-y-auto bg-background focus:outline-none px-4">
                 <InvoiceTableActions />
                 {data && (
-                    <DataTable columns={columns} data={invoices} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
+                    <DataTable columns={columns} data={invoices} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} setData={setInvoices} />
                 )}
             </main>
         </>

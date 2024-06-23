@@ -12,11 +12,13 @@ import {
     LambdaIntegration,
     RestApi
 } from "aws-cdk-lib/aws-apigateway";
+import {getRecommendation} from "./functions/getRecommendation/resource";
 
 const backend = defineBackend({
   auth,
   data,
-    getInvoiceProducts
+    getInvoiceProducts,
+    getRecommendation
 });
 
 const externalDataSourcesStack = backend.createStack("TestExternalTableStack");
@@ -83,6 +85,7 @@ if (Array.isArray(cfnUserPool.schema)) {
 
 //lambda for monthly aggregate
 const getInvoiceProductsLambda = backend.getInvoiceProducts.resources.lambda;
+const getRecommendationLambda = backend.getRecommendation.resources.lambda;
 const statement = new iam.PolicyStatement({
     sid: "AllowPublishToDigest",
     actions: [	"dynamodb:BatchGetItem",
@@ -100,7 +103,33 @@ const statement = new iam.PolicyStatement({
     resources: ["arn:aws:dynamodb:eu-central-1:637423640136:table/appdata",
         "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata/index/*"],
 })
+
+const recommendationStatement = new iam.PolicyStatement({
+    sid: "AllowPublishToDigest",
+    actions: [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "personalize:*"
+    ],
+    resources: [
+        "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata",
+        "arn:aws:dynamodb:eu-central-1:637423640136:table/appdata/index/*",
+        "arn:aws:personalize:eu-central-1:637423640136:recommender/for-you-recommender"
+    ]
+});
+
 getInvoiceProductsLambda.addToRolePolicy(statement);
+getRecommendationLambda.addToRolePolicy(recommendationStatement);
 
 // create a new API stack
 const apiStack = backend.createStack("api-stack");
@@ -124,6 +153,10 @@ const invoiceProductsLambdaIntegration = new LambdaIntegration(
     getInvoiceProductsLambda
 );
 
+const recommendationLambdaIntegration = new LambdaIntegration(
+    getRecommendationLambda
+)
+
 // create a new Cognito User Pools authorizer
 const cognitoAuth = new CognitoUserPoolsAuthorizer(apiStack, "CognitoAuth", {
     cognitoUserPools: [backend.auth.resources.userPool],
@@ -135,6 +168,13 @@ invoicePath.addResource("{invoiceId}")
     .addMethod("GET", invoiceProductsLambdaIntegration, {
     authorizationType: AuthorizationType.COGNITO,
     authorizer: cognitoAuth, });
+
+// create a new resource path with Cognito authorization
+const recommendationsPath = myRestApi.root.addResource("recommendations");
+recommendationsPath.addResource("{customerId}")
+    .addMethod("GET", recommendationLambdaIntegration, {
+        authorizationType: AuthorizationType.COGNITO,
+        authorizer: cognitoAuth, });
 
 // add outputs to the configuration file
 backend.addOutput({

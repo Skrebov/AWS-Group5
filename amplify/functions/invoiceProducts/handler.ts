@@ -15,24 +15,24 @@ interface InvoiceItem {
 }
 
 export const handler: APIGatewayProxyHandler = async (event: any): Promise<any> => {
-    const invoiceID = event.pathParameters.invoiceID;
-    const params = {
-        TableName: 'appdata',
-        KeyConditionExpression: '#pk = :pk and begins_with(#sk, :skPrefix)',
-        ExpressionAttributeNames: {
-            '#pk': 'pk',
-            '#sk': 'sk'
-        },
-        ExpressionAttributeValues: {
-            ':pk': invoiceID,
-            ':skPrefix': 'p#' // Assuming sk for products starts with 'p#'
-        }
-    };
 
     try {
+        const {invoiceId} = event.pathParameters;
+        const params = {
+            TableName: 'appdata',
+            KeyConditionExpression: '#pk = :pk',
+            ExpressionAttributeNames: {
+                '#pk': 'pk',
+            },
+            ExpressionAttributeValues: {
+                ':pk': `i#${invoiceId}`,
+            }
+        };
         const data = await dynamoDb.query(params).promise();
-        const invoiceItems: InvoiceItem[] = data.Items as InvoiceItem[];
+        let invoiceItems: InvoiceItem[] = data.Items as InvoiceItem[];
+        invoiceItems = invoiceItems.filter(ii => ii.type === 'invoice_product')
         const productKeys = Array.from(invoiceItems).map((invoiceItem => ({pk: invoiceItem.sk, sk: invoiceItem.sk})));
+
 
         // Batch get product prices
         const batchGetParams = {

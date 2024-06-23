@@ -10,6 +10,7 @@ import {Image, MoreHorizontal} from 'lucide-react';
 import {useState} from 'react';
 import {RecentPurchase} from "../../../amplify/utils/model.ts";
 import {Modal} from "@/components/ui/modal.tsx";
+import {getInvoiceProducts} from "../../../amplify/utils/lambdas.ts";
 
 interface CellActionProps {
     data: RecentPurchase;
@@ -43,7 +44,9 @@ export const CellAction: React.FC<CellActionProps> = ({data, completeData, setDa
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                     <DropdownMenuItem
-                        onClick={() => console.log('oi')}
+                        onClick={async () =>{
+                            console.log(await getInvoiceProducts(data.pk))
+                        }}
                     >
                         <Image className="mr-2 h-4 w-4"/> Products
                     </DropdownMenuItem>

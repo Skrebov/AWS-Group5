@@ -1,24 +1,25 @@
 import { get } from 'aws-amplify/api';
 import { fetchAuthSession } from 'aws-amplify/auth'
-import {DataItem} from "./model";
+import {InvoiceProduct} from "./model";
 
 const session = await fetchAuthSession();
 const token = session.tokens?.idToken
 
-export async function getMonthlyAggregate() {
+export async function getInvoiceProducts(invoiceId: string) {
+    const path:string = `invoices/${invoiceId.slice(2)}`;
     try {
         const restOperation = get({
             apiName: 'myRestApi',
-            path: 'aggregate',
+            path: path,
             options: {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
+                },
             }
         });
         const { body }  = await restOperation.response;
         //console.log('GET call succeeded: ', body);
-        return await body.json() as DataItem[];
+        return await body.json() as InvoiceProduct[];
     } catch (error:any) {
         console.log('GET call failed: ', JSON.parse(error.response.body));
         return [];

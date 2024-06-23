@@ -1,5 +1,5 @@
 import {useQuery, UseQueryResult} from '@tanstack/react-query';
-import {getCustomers, getInvoices, getProducts} from "../../../amplify/utils/queryUtils.ts";
+import {getCustomers, getProducts, getRecentPurchases} from "../../../amplify/utils/queryUtils.ts";
 import {
     Customer,
     InvoicePaginationType,
@@ -43,7 +43,7 @@ export const useGetInvoiceByType = (paginationKeys:string[], page:number, setPag
     return useQuery({
         queryKey: ['invoices', paginationKeys[page-1], pageLimit, searchQuery],
         queryFn: async () => {
-            const res = await getInvoices(paginationKeys[page-1], pageLimit, searchQuery);
+            const res = await getRecentPurchases(pageLimit, paginationKeys[page-1]);
             if(res.nextToken !== undefined && res.nextToken !== '' && paginationKeys.length <= page){
                 paginationKeys.push(res.nextToken)
                 setPaginationKeys(paginationKeys)

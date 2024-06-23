@@ -4,13 +4,10 @@ import {Customer,InvoiceProduct, CustomerPaginationType, Invoice, Product, Produ
 import {
     mapCustomers,
     mapDataItems,
-    mapInvoices,
     mapProducts,
     mapRecentPurchases,
     mapToCustomer,
     mapToProduct,
-    mapToInvoice,
-    mapToInvoiceProduct
 } from "./mapper";
 
 const client = generateClient<Schema>();
@@ -43,41 +40,6 @@ export async function getProducts(nextToken:string, limit:number, searchQuery:st
     const queryResult = await getByType('product', nextToken, limit, searchQuery);
     const products:Product[] = mapProducts(queryResult?.data?.items);
     return {products, nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
-}
-
-export async function getInvoices(nextToken:string, limit:number, searchQuery:string): Promise<InvoicePaginationType>{
-    const queryResult = await getByType('invoice', nextToken, limit, searchQuery);
-    const invoices:Invoice[] = mapInvoices(queryResult?.data?.items);
-    //const completeInvoices:CompleteInvoice[] = mapCompleteInvoices();
-    return {invoices:[], nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
-}
-
-export async function getProductsByCategory(category: string){
-    const queryResult =  await client.queries.getProductsByCategory({category : category})
-    return mapProducts(queryResult?.data?.items);
-}
-
-export async function scan(){
-    return await client.queries.scan();
-}
-
-async function getBySKAndType(sk: string, type: string){
-    return await client.queries.getBySKandType({sk : sk, type: type})
-}
-
-export async function getInvoicesByCustomer(customer: string){
-    const queryResult =  await getBySKAndType(customer, 'invoice')
-    return mapInvoices(queryResult?.data?.items);
-}
-
-async function getByPK(pk: string){
-    return await client.queries.getByPK({pk : pk})
-}
-
-//this returns all entries for a invoice with pk {invoice} regardless of type
-//TODO consider typing for composite
-export async function getSingleInvoiceInfo(invoice: string){
-  return await getByPK(invoice);
 }
 
 export async function addCustomer(
@@ -122,65 +84,8 @@ export async function addProduct(
     return mapToProduct(response?.data);
 }
 
-export async function addInvoice(
-    pk: string,
-    sk: string,
-    date?: string,
-): Promise<Invoice> {
-    const response = await client.mutations.addInvoice({
-        pk: pk,
-        sk: sk,
-        type: 'invoice',
-        date: date,
-    });
-    return mapToInvoice(response?.data);
-}
-
-export async function addInvoiceProduct(
-    pk: string,
-    sk: string,
-    quantity: number,
-): Promise<InvoiceProduct> {
-    const response = await client.mutations.addInvoiceProduct({
-        pk: pk,
-        sk: sk,
-        type: 'invoice_product',
-        quantity: quantity,
-    });
-    return mapToInvoiceProduct(response?.data);
-}
-
 export async function deleteByPKandSK(pk: string, sk: string) {
     return await client.mutations.deleteByPKandSK({ pk: pk, sk: sk })
-}
-
-async function deleteBySKandType(sk: string, type: string) {
-    return await client.mutations.deleteBySKandType({ sk: sk, type: type })
-}
-
-export async function deleteCustomer(customer: string): Promise<Customer> {
-    const queryResult = await deleteByPKandSK(customer, customer);
-    return mapToCustomer(queryResult?.data);
-}
-
-export async function deleteProduct(product: string): Promise<Product> {
-    const queryResult = await deleteByPKandSK(product, product);
-    return mapToProduct(queryResult?.data);
-}
-
-export async function deleteInvoice(invoice: string, customer: string): Promise<Invoice>{
-    const queryResult = await deleteByPKandSK(invoice, customer);
-    return mapToInvoice(queryResult?.data);
-}
-
-export async function deleteInvoiceProductPKandSK(invoice: string, product: string): Promise<InvoiceProduct>{
-    const queryResult = await deleteByPKandSK(invoice, product);
-    return mapToInvoiceProduct(queryResult?.data);
-}
-
-export async function deleteInvoiceProductSKandType(product: string): Promise<InvoiceProduct>{
-    const queryResult = await deleteBySKandType(product, 'invoice_product');
-    return mapToInvoiceProduct(queryResult?.data);
 }
 
 export async function updateCustomer(
@@ -205,20 +110,6 @@ export async function updateCustomer(
     return mapToCustomer(response?.data);
 }
 
-export async function updateInvoiceProduct(
-    pk: string,
-    sk: string,
-    quantity?: number,
-): Promise<InvoiceProduct> {
-    const response = await client.mutations.updateInvoiceProduct({
-        pk: pk,
-        sk: sk,
-        type: 'invoice_product',
-        quantity: quantity,
-    });
-    return mapToInvoiceProduct(response?.data);
-}
-
 export async function updateProduct(
     pk: string,
     sk: string,
@@ -239,39 +130,14 @@ export async function updateProduct(
     return mapToProduct(response?.data);
 }
 
-export async function updateInvoice(
-    pk: string,
-    sk: string,
-    date?: string,
-): Promise<Invoice> {
-    const response = await client.mutations.updateInvoice({
-        pk: pk,
-        sk: sk,
-        type: 'invoice',
-        date: date,
-    });
-    return mapToInvoice(response?.data);
-}
-
-export async function getRecentInvoices(): Promise<Invoice[]> {
-    const queryResult =  await client.queries.getRecentInvoices({type: 'invoice'});
-    return mapInvoices(queryResult?.data?.items);
-}
-
-export async function batchGetItem(ids:string[] | undefined){
-    if(ids !== undefined){
-        return await client.queries.batchGetItem({ids});
-    }
-}
-
 export async function getAggregateInformation(){
     const year = new Date().getFullYear();
     const queryResult =  await client.queries.getAggregateInformation({year: year.toString()});
     return mapDataItems(queryResult?.data?.items);
 }
 
-export async function getRecentPurchases(){
-    const queryResult =  await client.queries.getRecentPurchases();
-    return mapRecentPurchases(queryResult?.data?.items);
+export async function getRecentPurchases(limit:number, nextToken?:string) : Promise<InvoicePaginationType>{
+    const queryResult =  await client.queries.getRecentPurchases({limit:limit, nextToken:nextToken});
+    const invoices = mapRecentPurchases(queryResult?.data?.items)
+    return {invoices, nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
 }
-

@@ -5,7 +5,7 @@ import {CellAction} from "./cell-action.tsx";
 export const columns: ColumnDef<RecentPurchase>[] = [
     {
         accessorKey: "pk",
-        header: "pk",
+        header: "Invoice",
     },
     {
         accessorKey: "customerName",

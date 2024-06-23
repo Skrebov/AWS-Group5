@@ -1,4 +1,3 @@
-import {AlertModal} from '@/components/shared/alert-modal';
 import {Button} from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -7,7 +6,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import {Edit, MoreHorizontal, Trash} from 'lucide-react';
+import {Image, MoreHorizontal} from 'lucide-react';
 import {useState} from 'react';
 import {RecentPurchase} from "../../../amplify/utils/model.ts";
 import {Modal} from "@/components/ui/modal.tsx";
@@ -46,7 +45,7 @@ export const CellAction: React.FC<CellActionProps> = ({data, completeData, setDa
                     <DropdownMenuItem
                         onClick={() => console.log('oi')}
                     >
-                        <Edit className="mr-2 h-4 w-4"/> Update
+                        <Image className="mr-2 h-4 w-4"/> Products
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

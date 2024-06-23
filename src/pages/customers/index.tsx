@@ -27,11 +27,11 @@ export default function ConsumerTable() {
 
 
     return (
-        <>
+        <main className="relative flex-1 overflow-y-auto bg-background focus:outline-none px-4">
             <CustomerTableActions customers={customers} updateCustomers={updateCustomers}/>
             {data && (
                 <DataTable columns={columns} data={customers} setData={setCustomers} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} />
             )}
-        </>
+        </main>
     );
 }

@@ -156,6 +156,7 @@ const schema = a.schema({
 
     getRecentPurchases: a
         .query()
+        .arguments({ limit: a.integer().required(), nextToken: a.string()})
         .returns(a.ref("recentPurchaseList"))
         .authorization(allow => [allow.authenticated("userPools")])
         .handler(

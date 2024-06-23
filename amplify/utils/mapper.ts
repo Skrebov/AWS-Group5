@@ -73,10 +73,6 @@ function mapInvoices(list: any): Invoice[] {
     return list.map(mapToInvoice);
 }
 
-//this is for a list of invoice products
-function mapInvoiceProducts(list: any): InvoiceProduct[] {
-    return list.map(mapToInvoiceProduct);
-}
 
 function mapDataItems(list: any): DataItem[] {
     return list.map(mapToDataItem);
@@ -86,4 +82,4 @@ function mapRecentPurchases(list: any): RecentPurchase[] {
     return list.map(mapToRecentPurchase)
 }
 
-export { mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct, mapCustomers, mapProducts, mapInvoices, mapInvoiceProducts, mapDataItems, mapRecentPurchases }
+export { mapToCustomer, mapToProduct, mapToInvoice, mapToInvoiceProduct, mapCustomers, mapProducts, mapInvoices, mapDataItems, mapRecentPurchases }

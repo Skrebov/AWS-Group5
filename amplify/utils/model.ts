@@ -29,6 +29,11 @@ export type CustomerPaginationType = {
     nextToken: string,
 }
 
+export type InvoicePaginationType = {
+    invoices: RecentPurchase[];
+    nextToken: string,
+}
+
 
 export type Invoice  =  {
     date: string;
@@ -40,14 +45,9 @@ export type InvoiceProduct = {
     pk: string;
     sk: string;
     quantity: number;
+    products?: Product[];
 };
 
-export type CompleteInvoice = {
-    invoice: Invoice;
-    customer: Customer;
-    products: Product[];
-    sum: number;
-}
 
 export type DataItem =  {
     name: string;

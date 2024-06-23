@@ -18,7 +18,8 @@ export function request(ctx) {
         },
         index: 'type-date-index',
         scanIndexForward: false,
-        limit: 5,
+        limit: ctx.args.limit,
+        nextToken: ctx.args.nextToken !== '' ? ctx.args.nextToken : undefined,
         select: 'ALL_PROJECTED_ATTRIBUTES'
     };
 }

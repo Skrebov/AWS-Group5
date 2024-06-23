@@ -159,6 +159,7 @@ const CustomerForm: FunctionComponent<Props> = ({
                             name="phone"
                             render={({field}) => (
                                 <FormItem>
+                                    <FormLabel>Phone Number</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Enter phone"
@@ -182,7 +183,7 @@ const CustomerForm: FunctionComponent<Props> = ({
                                                 <Button
                                                     variant={'outline'}
                                                     className={cn(
-                                                        'w-[240px] pl-3 text-left font-normal',
+                                                        'w-full px-4 py-6 shadow-inner drop-shadow-xl flex items-center justify-between',
                                                         !field.value && 'text-muted-foreground'
                                                     )}
                                                 >
@@ -230,11 +231,11 @@ const CustomerForm: FunctionComponent<Props> = ({
                     </div>
 
 
-                    <div className="flex items-center justify-center gap-4">
+                    <div className="flex items-center justify-center gap-5">
                         <Button
                             type="button"
                             variant="secondary"
-                            className="rounded-full "
+                            className="rounded-full bg-gray-400 hover:bg-gray-500 text-white"
                             size="lg"
                             onClick={closeModal}
                         >

@@ -23,7 +23,7 @@ export default function Header() {
     return (
         <div className="flex flex-1 items-center justify-between bg-secondary px-4">
             <Heading title={headingText} />
-            <Button onClick={signOut}>Sign Out</Button>
+            <Button className='w-20' onClick={signOut}>Sign Out</Button>
         </div>
     );
 }

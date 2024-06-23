@@ -177,11 +177,11 @@ const ProductForm: FunctionComponent<Props> = ({
                         />
                     </div>
 
-                    <div className="flex items-center justify-center gap-4">
+                    <div className="flex items-center justify-center gap-5">
                         <Button
                             type="button"
                             variant="secondary"
-                            className="rounded-full "
+                            className="rounded-full bg-gray-400 hover:bg-gray-500 text-white"
                             size="lg"
                             onClick={closeModal}
                         >

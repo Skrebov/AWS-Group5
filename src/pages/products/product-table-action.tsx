@@ -41,12 +41,11 @@ export const ProductTableActions: React.FC<Props> = ({products, updateProducts})
                     />
                 </Modal>
                 <div className='flex justify-center'>
-                    <Button
+                    <Button className='min-w-20'
                         onClick={() => {
                             setOpenCreate(true);
                         }}
                     >
-                        <Plus/>
                         Create
                     </Button>
                 </div>

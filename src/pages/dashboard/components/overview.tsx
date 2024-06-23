@@ -30,7 +30,7 @@ export default function Overview() {
                     axisLine={false}
                     tickFormatter={(value) => `$${value}`}
                 />
-                <Bar dataKey="total" fill="#adfa1d" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="total" fill="#3eaeaf" radius={[4, 4, 0, 0]} />
             </BarChart>
         </ResponsiveContainer>
     );

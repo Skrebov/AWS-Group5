@@ -110,6 +110,26 @@ export async function updateCustomer(
     return mapToCustomer(response?.data);
 }
 
+export async function updateProduct(
+    pk: string,
+    sk: string,
+    category?: string,
+    name?: string,
+    price?: string,
+    quantity?: number,
+) {
+    const response = await client.mutations.updateProduct({
+        pk: pk,
+        sk: sk,
+        type: 'product',
+        category: category,
+        name: name,
+        price: price,
+        quantity: quantity,
+    });
+    return mapToProduct(response?.data);
+}
+
 
 export async function getAggregateInformation(){
     const year = new Date().getFullYear();

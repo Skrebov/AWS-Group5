@@ -197,13 +197,16 @@ const schema = a.schema({
             })
         ),
 
-    updateInvoice: a
+    updateProduct: a
         .mutation()
         .arguments({
             pk: a.string().required(),
             sk: a.string().required(),
             type: a.string().required(),
-            date: a.string(),
+            category: a.string(),
+            name: a.string(),
+            price: a.string(),
+            quantity: a.float(),
         })
         .returns(a.ref("appdata"))
         .authorization(allow => [allow.authenticated("userPools")])

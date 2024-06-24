@@ -136,8 +136,8 @@ export async function getAggregateInformation(){
     return mapDataItems(queryResult?.data?.items);
 }
 
-export async function getRecentPurchases(limit:number, nextToken?:string) : Promise<InvoicePaginationType>{
-    const queryResult =  await client.queries.getRecentPurchases({limit:limit, nextToken:nextToken});
+export async function getRecentPurchases(limit:number, searchQuery:string, nextToken?:string) : Promise<InvoicePaginationType>{
+    const queryResult =  await client.queries.getRecentPurchases({limit:limit, nextToken:nextToken, searchQuery:searchQuery});
     const invoices = mapRecentPurchases(queryResult?.data?.items)
     return {invoices, nextToken: queryResult?.data?.nextToken ? queryResult?.data?.nextToken : '' };
 }

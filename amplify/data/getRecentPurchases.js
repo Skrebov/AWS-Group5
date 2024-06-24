@@ -20,7 +20,17 @@ export function request(ctx) {
         scanIndexForward: false,
         limit: ctx.args.limit,
         nextToken: ctx.args.nextToken !== '' ? ctx.args.nextToken : undefined,
-        select: 'ALL_PROJECTED_ATTRIBUTES'
+        select: 'ALL_PROJECTED_ATTRIBUTES',
+        filter: {
+            expression: '(contains (#customerName, :searchQuery) OR contains (#email, :searchQuery))',
+            expressionNames: {
+                '#customerName': 'customerName',
+                '#email': 'email',
+            },
+            expressionValues: {
+                ":searchQuery" : { "S" : ctx.args.searchQuery }
+            }
+        },
     };
 }
 

@@ -71,18 +71,6 @@ const schema = a.schema({
             })
         ),
 
-    getProductsByCategory: a
-        .query()
-        .arguments({ category: a.string().required()})
-        .returns(a.ref("listReturnType"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./getProductsByCategory.js",
-            })
-        ),
-
     getBySKandType: a
         .query()
         .arguments({ sk: a.string().required(), type: a.string().required() })
@@ -107,40 +95,6 @@ const schema = a.schema({
             })
         ),
 
-    getRecentInvoices: a
-        .query()
-        .arguments({ type: a.string().required() })
-        .returns(a.ref("listReturnType"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./getRecentInvoices.js",
-            })
-        ),
-
-    batchGetItem: a
-        .query()
-        .arguments({ ids: a.string().array().required()})
-        .returns(a.ref("listReturnType"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./batchGetItem.js",
-            })
-        ),
-
-    scan: a
-        .query()
-        .returns(a.ref("listReturnType"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./scan.js",
-            })
-        ),
 
     getAggregateInformation: a
         .query()
@@ -207,40 +161,6 @@ const schema = a.schema({
             })
         ),
 
-    addInvoice: a
-        .mutation()
-        .arguments({
-            pk: a.string().required(),
-            sk: a.string().required(),
-            type: a.string().required(),
-            date: a.string(),
-        })
-        .returns(a.ref("appdata"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./addItem.js",
-            })
-        ),
-
-    addInvoiceProduct: a
-        .mutation()
-        .arguments({
-            pk: a.string().required(),
-            sk: a.string().required(),
-            type: a.string().required(),
-            quantity: a.float(),
-        })
-        .returns(a.ref("appdata"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./addItem.js",
-            })
-        ),
-
     deleteByPKandSK: a
         .mutation()
         .arguments({
@@ -253,21 +173,6 @@ const schema = a.schema({
             a.handler.custom({
                 dataSource: "appDataDataSource",
                 entry: "./deleteByPKandSK.js",
-            })
-        ),
-
-    deleteBySKandType: a
-        .mutation()
-        .arguments({
-            sk: a.string().required(),
-            type: a.string().required(),
-        })
-        .returns(a.ref("appdata"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./deleteBySKandType.js",
             })
         ),
 
@@ -292,26 +197,6 @@ const schema = a.schema({
             })
         ),
 
-    updateProduct: a
-        .mutation()
-        .arguments({
-            pk: a.string().required(),
-            sk: a.string().required(),
-            type: a.string().required(),
-            category: a.string(),
-            name: a.string(),
-            price: a.string(),
-            quantity: a.float(),
-        })
-        .returns(a.ref("appdata"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./updateItem.js",
-            })
-        ),
-
     updateInvoice: a
         .mutation()
         .arguments({
@@ -319,23 +204,6 @@ const schema = a.schema({
             sk: a.string().required(),
             type: a.string().required(),
             date: a.string(),
-        })
-        .returns(a.ref("appdata"))
-        .authorization(allow => [allow.authenticated("userPools")])
-        .handler(
-            a.handler.custom({
-                dataSource: "appDataDataSource",
-                entry: "./updateItem.js",
-            })
-        ),
-
-    updateInvoiceProduct: a
-        .mutation()
-        .arguments({
-            pk: a.string().required(),
-            sk: a.string().required(),
-            type: a.string().required(),
-            quantity: a.float(),
         })
         .returns(a.ref("appdata"))
         .authorization(allow => [allow.authenticated("userPools")])

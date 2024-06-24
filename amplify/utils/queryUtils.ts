@@ -1,6 +1,6 @@
 import {generateClient} from "aws-amplify/api";
 import {Schema} from "../data/resource";
-import {Customer,InvoiceProduct, CustomerPaginationType, Invoice, Product, ProductPaginationType, InvoicePaginationType} from "./model";
+import {Customer, CustomerPaginationType, Product, ProductPaginationType, InvoicePaginationType} from "./model";
 import {
     mapCustomers,
     mapDataItems,
@@ -110,25 +110,6 @@ export async function updateCustomer(
     return mapToCustomer(response?.data);
 }
 
-export async function updateProduct(
-    pk: string,
-    sk: string,
-    category?: string,
-    name?: string,
-    price?: string,
-    quantity?: number,
-) {
-    const response = await client.mutations.updateProduct({
-        pk: pk,
-        sk: sk,
-        type: 'product',
-        category: category,
-        name: name,
-        price: price,
-        quantity: quantity,
-    });
-    return mapToProduct(response?.data);
-}
 
 export async function getAggregateInformation(){
     const year = new Date().getFullYear();

@@ -1,10 +1,10 @@
 import DataTable from '@/components/shared/data-table';
 import {columns} from './columns';
-import InvoiceTableActions from './invoice-table-action.tsx';
 import {useSearchParams} from "react-router-dom";
 import {useGetInvoiceByType} from "@/pages/hooks/getByTypeHook.ts";
 import {useState} from "react";
 import {RecentPurchase} from "../../../amplify/utils/model.ts";
+import InvoiceTableActions from "@/pages/invoices/invoice-table-action.tsx";
 
 
 export default function InvoicesTable() {
@@ -27,7 +27,7 @@ export default function InvoicesTable() {
     return (
         <>
             <main className="relative flex-1 overflow-y-auto bg-background focus:outline-none px-4">
-                <InvoiceTableActions />
+                <InvoiceTableActions/>
                 {data && (
                     <DataTable columns={columns} data={invoices} paginationKeys={paginationKeys} setPaginationKeys={setPaginationKeys} setData={setInvoices} />
                 )}

@@ -12,6 +12,10 @@ export const columns: ColumnDef<RecentPurchase>[] = [
         header: "Customer",
     },
     {
+        accessorKey: "email",
+        header: "Email",
+    },
+    {
         accessorKey: "date",
         header: "Date",
     },

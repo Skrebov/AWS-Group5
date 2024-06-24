@@ -43,7 +43,7 @@ export const useGetInvoiceByType = (paginationKeys:string[], page:number, setPag
     return useQuery({
         queryKey: ['invoices', paginationKeys[page-1], pageLimit, searchQuery],
         queryFn: async () => {
-            const res = await getRecentPurchases(pageLimit, paginationKeys[page-1]);
+            const res = await getRecentPurchases(pageLimit, searchQuery, paginationKeys[page-1]);
             if(res.nextToken !== undefined && res.nextToken !== '' && paginationKeys.length <= page){
                 paginationKeys.push(res.nextToken)
                 setPaginationKeys(paginationKeys)

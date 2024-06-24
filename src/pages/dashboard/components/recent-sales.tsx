@@ -9,7 +9,7 @@ export default function RecentSales() {
     const [recentPurchases, setRecentPurchases] = useState<RecentPurchase[]>([]);
      useEffect( () =>{
         async function fetchRecentPurchases(){
-            const purchases = await getRecentPurchases(5);
+            const purchases = await getRecentPurchases(5,'');
             setRecentPurchases(purchases.invoices);
         }
         fetchRecentPurchases();
